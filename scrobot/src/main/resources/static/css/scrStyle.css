@@ -1,0 +1,788 @@
+/* Block : skipLink
+---------------------------------------------------------*/
+#LblockSkipLink {
+	position:absolute; width:0; height:0; font-size:0; line-height:0; overflow:hidden; visibility:hidden;
+}
+/* Block : wrapper
+---------------------------------------------------------*/
+* html #LblockWrapper {	height:1px; }
+
+/* Block : header
+---------------------------------------------------------*/
+#LblockHeader {
+	background:url(../images/header_bg.jpg) repeat-x;
+}
+/* Block : headerIn
+---------------------------------------------------------*/
+#LblockHeaderIn {
+	background:url(../images/headerIn_bg.jpg) no-repeat right 60px;
+}
+/* Block : topLogo
+---------------------------------------------------------*/
+#LblockTopLogo a {
+}
+/* Block : welcome
+---------------------------------------------------------*/
+#LblockWelcome {
+	width:170px;
+	text-align:left;
+	color:#808080;
+	font-size:0.9em;
+}
+#LblockWelcome p {
+	line-height:21px;
+}
+#LblockWelcome span {
+	font-weight:bold;
+	color:#429942;
+}
+#LblockWelcome a {
+	position:absolute;
+	right:0;
+	top:0;
+	display:block;
+	background:url(../images/logout.gif) no-repeat;
+	padding-top:20px;
+	overflow:hidden;
+	height:0px;
+	width:52px;
+}
+/* Block : supportMenu
+---------------------------------------------------------*/
+#LblockSupportMenu li {
+	display:inline;
+	padding:0px 9px 0px 10px;
+	font-size:0.9em;
+	font-family: "Gulim";
+	background:url(../images/supportMenu_bar.gif) no-repeat right 40%;
+}
+#LblockSupportMenu li.Llast {
+	background:none;
+}
+#LblockSupportMenu li a {
+	color:#fff;
+	text-decoration:none;
+}
+#LblockSupportMenu li a:hover {
+	color:#fff;
+}
+
+/* Block : totalSearch
+---------------------------------------------------------*/
+#LblockTotalSearch {
+	font-size:0.9em;
+}
+#LblockTotalSearch label {
+	display:none;
+}
+#LblockTotalSearch input.Ltext {
+	color:#8f8f8f;
+	height:17px;
+	width:150px;
+	padding:5px 5px 0 5px;
+	border:none;
+	background:url(../images/totalSearch_input.gif) no-repeat left top;
+}
+#LblockTotalSearch .Limage {
+	position:relative;
+	left:-1px;
+}
+
+/* Block : topMenu
+---------------------------------------------------------*/
+#LblockTopMenu {
+	white-space:nowrap;
+}
+#LblockTopMenu ul {
+	width:570px;
+}
+#LblockTopMenu li {
+	float:left;
+	font-weight:bold;
+}
+#LblockTopMenu li span {
+	display:block;
+	padding:1px 14px 0 14px;
+}
+#LblockTopMenu li.Llast span {
+}
+#LblockTopMenu li span a {
+	display:block;
+	line-height:30px;
+	color:#8f8f8f;
+	text-decoration:none;
+}
+#LblockTopMenu li.Lcurrent {
+	background:url(../images/topMenu_tab_left.gif) no-repeat left top;
+}
+#LblockTopMenu li.Lcurrent span {
+	background:url(../images/topMenu_tab_right.gif) no-repeat scroll right top;
+}
+#LblockTopMenu li span a:hover,
+#LblockTopMenu li span a:active {
+	color:#5171ff;
+}
+/* 2 depth */  
+#LblockTopMenu ul li ul {
+	position:absolute;
+	top:39px;
+	display:none;
+	background:none;
+}
+#LblockTopMenu li li,
+#LblockTopMenu li li.Lcurrent {
+	background:none;
+}
+#LblockTopMenu li.Lcurrent li span {
+}
+#LblockTopMenu li li span {
+	padding:3px 14px 0px 12px !important;
+	background:url(../images/topMenu_divisionBar.gif) no-repeat scroll right 7px !important;
+}
+#LblockTopMenu li li.Llast span {
+	background:none !important;
+}
+#LblockTopMenu li li span a {
+	line-height:20px;
+	background:none;
+	font-weight:normal;
+}
+#LblockTopMenu li li a {
+	font-weight:normal;
+	color:#e6e6e6;
+	
+}
+#LblockTopMenu li li.Lcurrent span a,
+#LblockTopMenu li li.Lcurrent span a:hover,
+#LblockTopMenu li li.Lcurrent span a:active{
+	color:#ffffff;
+	font-weight:bold;
+}
+#LblockTopMenu li li span a:hover,
+#LblockTopMenu li li span a:active {
+	color:#b8c5ff;
+	font-weight:normal;
+}
+
+/* Block : left
+---------------------------------------------------------*/
+#LblockLeft {
+}
+body#LblockLeft {
+	width: 177px;
+	background:url(../images/header_bg.gif) repeat-x left -104px;
+}
+/* Block : leftTitle
+---------------------------------------------------------*/
+#LblockLeftTitle {
+}
+#LblockLeftTitle h1 {
+	padding:11px 50px 11px 25px;
+	line-height:18px;
+	color:#4e5ca3;
+	font-size:1.1em;
+	background:url(../images/leftMenu_blt.gif) no-repeat 10px 14px;
+}
+
+/* Block : leftMenuStyle
+---------------------------------------------------------*/
+#LblockLeftMenuStyle {
+	line-height:15px;
+}
+#LblockLeftMenuStyle img {
+	vertical-align:top;
+	cursor:pointer;
+}
+
+
+/* Block : leftMenu
+---------------------------------------------------------*/
+/* --------- slide menu --------- */
+
+#LblockLeftMenu {
+	padding-bottom:4px;
+	background:url(../images/leftSubLast.gif) no-repeat left bottom;
+}
+#LblockLeftMenu.LslideMenu ul { 
+	width:100%;
+}
+#LblockLeftMenu.LslideMenu li.Lcurrent a {
+	color:#788be7;
+	font-weight:bold;
+}
+#LblockLeftMenu.LslideMenu li.Llast {
+	background:none;
+}
+#LblockLeftMenu.LslideMenu li {
+	background:url(../images/leftSub1.gif) repeat-x left bottom;
+}
+#LblockLeftMenu.LslideMenu li span {
+	display:block;
+	font-weight:bold;
+	padding:7px 0px 7px 5px;
+	background:url(../images/leftSub1.gif) repeat-x left bottom;
+}
+* html #LblockLeftMenu.LslideMenu li span { height:1px; }
+#LblockLeftMenu.LslideMenu li span a {
+	color:#a6a6a6;
+	font-weight:bold;
+	line-height:16px;
+	padding-left:0px;
+	display:block;
+}
+.Lfirst Lopen {
+	color:#ff7bb1;
+	background:url(../images/leftMenu_blt.gif) no-repeat left 4px;
+	padding-left:10px;
+	display:block;
+}
+#LblockLeftMenu.LslideMenu li a:hover,
+#LblockLeftMenu.LslideMenu li a:active {
+	color:#788BE7 !important;
+}
+
+/* 2 depth */
+#LblockLeftMenu.LslideMenu li ul { 
+	display:none;
+}
+#LblockLeftMenu.LslideMenu li.Lopen ul { 
+	display:block;
+}
+#LblockLeftMenu.LslideMenu li.Lopen ul {
+	display:block;
+}
+#LblockLeftMenu.LslideMenu li li {
+	background:url(../images/leftSub2.gif) no-repeat left bottom;
+}
+#LblockLeftMenu.LslideMenu li li.Llast {
+	padding-bottom:0px;
+}
+#LblockLeftMenu.LslideMenu li li span {
+	display:block;
+	padding:7px 5px 7px 20px;
+	font-weight:normal;
+	border:none;
+	background:url(../images/leftSub2.gif) no-repeat left bottom;
+}
+#LblockLeftMenu.LslideMenu li li.Llast span {
+	background:none;
+}
+
+#LblockLeftMenu.LslideMenu li.Lcurrent li a,
+#LblockLeftMenu.LslideMenu li li a {
+	color:#7a7a7a;
+	padding:0 0 0 0px;
+	font-weight:normal;
+	background:url(../images/leftMenu_blt.gif) no-repeat left -45px;
+}
+
+/* 3 depth */
+#LblockLeftMenu.LslideMenu li li ul { 
+	padding:7px 0;
+}
+#LblockLeftMenu.LslideMenu li li.Llast ul { 
+	background:url(../images/leftSub2.gif) no-repeat left top;
+}
+#LblockLeftMenu.LslideMenu li.Lopen li ul { 
+	display:none;
+}
+#LblockLeftMenu.LslideMenu li li.Lopen ul { 
+	display:block;
+}
+#LblockLeftMenu.LslideMenu li li li {
+	background:none;
+}
+#LblockLeftMenu.LslideMenu li li li span {
+	display:block;
+	padding:3px 5px 3px 25px;
+	font-weight:normal;
+	background:none;
+}
+#LblockLeftMenu.LslideMenu li.Lcurrent li li a,
+#LblockLeftMenu.LslideMenu li li.Lcurrent li a,
+#LblockLeftMenu.LslideMenu li li li span a {
+	color:#aaa;
+	padding:0 0 0 0px;
+	font-weight:normal;
+}
+/* --------- tree menu --------- */
+#LblockLeftMenu.LtreeMenu {
+	*zoom:1;
+}
+#LblockLeftMenu.LtreeMenu ul {
+	display:none;
+}
+#LblockLeftMenu.LtreeMenu ul {
+	padding-top:3px;
+	padding-right:5px;
+}
+#LblockLeftMenu.LtreeMenu a:link,
+#LblockLeftMenu.LtreeMenu a:visited { text-decoration:none; color:black; }
+#LblockLeftMenu.LtreeMenu a:hover, 
+#LblockLeftMenu.LtreeMenu a:focus { text-decoration:none; color:black; }
+#LblockLeftMenu.LtreeMenu li.Lcurrent a {
+	color:#1596a2;
+	font-weight:bold;
+}
+#LblockLeftMenu.LtreeMenu li.Lcurrent li a,
+#LblockLeftMenu.LtreeMenu li.Lcurrent li li a {
+	color:#000;
+	font-weight:normal;
+}
+.LtreeDragged a:link, .LtreeDragged a:visited { text-decoration:none; color:black; }
+.LtreeDragged a:hover, .LtreeDragged a:focus { text-decoration:none; color:black; }
+span.LtreeDragItem span {
+	padding-left:2px;
+}
+.LtreeDragged {
+	border:1px dashed #bbb;
+	background:#fff;
+}
+.LtreeDragged * {
+	vertical-align:middle;
+}
+.LtreeDragged a:link, .LtreeDragged a:visited { text-decoration:none; color:black; }
+.LtreeDragged a:hover, .LtreeDragged a:focus { text-decoration:none; color:black; }
+.LtreeClone {
+	background-color:#eef;
+}
+.LtreeBoundLine {
+	height:2px;
+	background-color:#555;
+}
+
+/* Block : body
+---------------------------------------------------------*/
+div#LblockBody {
+	padding:10px 10px 10px 206px;
+}
+body#LblockBody {
+	padding:10px 10px 10px 15px;
+}
+
+/* Block : popupBody
+---------------------------------------------------------*/
+#LblockPopupBody {
+	padding:20px;
+}
+
+/* Block : footer
+---------------------------------------------------------*/
+#LblockFooter {
+	padding-top:0px;
+	color:#a0a0a0;
+	font-size:1em;
+	text-align:left;
+}
+body#LblockFooter {
+	font-size:0.7em;
+}
+
+/* Block : footerIn
+---------------------------------------------------------*/
+#LblockFooterIn {
+}
+
+/* Block : footerCopyright
+---------------------------------------------------------*/
+#LblockFooterCopyright span {
+	line-height:21px;
+}
+
+/* Block : footerLogo
+---------------------------------------------------------*/
+#LblockFooterLogo a {
+	font-size:1.2em;
+	font-weight:bold;
+	color:#999;
+	text-decoration:none;
+}
+
+/* Block : footerMenu
+---------------------------------------------------------*/
+#LblockFooterMenu li {
+	display:inline;
+	padding:0px 7px 0px 10px;
+	font-size:0.9em;
+	background:url(../images/supportMenu_bar.gif) no-repeat 0 50%;
+}
+#LblockFooterMenu li.Lfirst {
+	background:none;
+}
+#LblockFooterMenu li a {
+	color:#999;
+	line-height:21px;
+	text-decoration:none;
+}
+#LblockFooterMenu li a:hover {
+	color:#4CC2CD;
+}
+
+
+/* Block : pageTitle
+---------------------------------------------------------*/
+.LblockPageTitle {
+	background:url(../images/leftTitle_bg.gif) repeat-x left bottom;
+}
+.LblockPageTitle h1 {
+	font-size:1.1em;
+	padding:1px 0 0 5px;
+	color:#4e5ca3;
+}
+
+/* Block : pageSubtitle
+---------------------------------------------------------*/
+.LblockPageSubtitle h2 {
+	color:#788be7;
+	font-size:1em;
+	font-weight:bold;
+	padding:1px 0px 0px 10px;
+	background:url(../images/leftMenu_blt.gif) no-repeat 7px 50%;
+}
+
+/* Block : pageLocation
+---------------------------------------------------------*/
+#LblockPageLocation {
+	font-size:0.9em;
+	padding-top:2px;
+	color:#939393;
+}
+#LblockPageLocation li {
+	display:inline;
+	margin-left:4px;
+}
+#LblockPageLocation li span {
+	color:#e3a600;
+	padding-left:11px;
+	background:url(../images/pageLocation_separater.gif) no-repeat left top;
+}
+#LblockPageLocation li.Lfirst span {
+	background:none;
+}
+#LblockPageLocation li span a {
+	color:#727271;
+}
+
+/* Block : bodyMain
+---------------------------------------------------------*/
+
+/* Block : search
+---------------------------------------------------------*/
+#LblockSearch {
+	background-color:#ffffff;
+}
+#LblockSearch div {
+	position:relative;
+	width:100%;
+}
+#LblockSearch div div div {
+	padding-bottom:29px;
+}
+#LblockSearch table caption {
+	display:none;
+}
+#LblockSearch table {
+	border-collapse:collapse;
+	width:100%;
+	border:solid 1px #a6a6a6;
+}
+#LblockSearch table th {
+	color:#3c477e;
+	text-align:center;
+	white-space:nowrap; 
+	font-weight:normal;
+	padding: 5px 25px;
+	background-color:#ededed;
+	border:solid 1px #a6a6a6;
+}
+#LblockSearch table td {
+	padding:0px 10px 0px 5px;
+	border-bottom:solid 1px #a6a6a6;
+}
+#LblockSearch input.Limage {
+	position:absolute;
+	right:0px;
+	bottom:0;
+}
+
+/* Block : listTable
+---------------------------------------------------------*/
+.LblockListTable .Lwrapper {
+	position:relative;
+	width:100%;
+}
+.LblockListTable .LblockListInfo {
+	position:relative;
+	height:26px;
+	border:solid 1px #a6a6a6;
+	border-bottom:solid 1px #a6a6a6;
+	*border-bottom:none;
+	background:url(../images/LblockListInfoBg.gif) repeat-x left top;
+}
+.LblockListTable .LblockListInfo span.Ltotal {
+	position:absolute;
+	left:2px;
+	bottom:2px;
+}
+.LblockListTable .LblockListInfo span.Lsearch {
+	position:absolute;
+	right:2px;
+	bottom:2px;
+}
+.LblockListTable table {
+	border-collapse:collapse;
+	border-top:solid 1px #a6a6a6;
+	border-bottom:solid 1px #a6a6a6;
+	width:100%;
+}
+.LblockListTable table caption {
+	display:none;
+}
+.LblockListTable table th,
+.LblockListTable table td {
+	height:28px;
+	padding:0px 5px;
+	white-space:nowrap; 
+	border:1px solid #a6a6a6;
+	border-top:none;
+	text-align:center;
+}
+.LblockListTable table th {
+	background-color:#ededed;
+	font-weight:bold;
+	border-bottom:1px solid #a6a6a6;
+}
+.LblockListTable table tbody tr.Lhover {
+	background:#eed;
+}
+.LblockListTable ul {
+	text-align:center;
+	font-family:Tahoma;
+	font-size:0.9em;
+	margin:7px 0px 15px;
+	padding-bottom:7px;
+	border-bottom:solid 1px #a6a6a6;
+}
+.LblockListTable li {
+	display:inline;
+	margin-left:5px;
+}
+.LblockListTable li span {
+	font-weight:bold;
+	color:#e3a600;
+}
+.LblockListTable li a {
+	font-weight:normal;
+	color:#666;
+}
+.LblockListTable li a:hover,
+.LblockListTable li a:active {
+	color:#E17A0D;
+}
+.LblockListTable li.Lbegin a,
+.LblockListTable li.Lend a {
+	font-weight:bold;
+}
+.LblockListTable a.Lbtn3 { margin-right:2px; }
+a.Lbtn3,
+a.Lbtn3 * { height:17px; line-height:18px; position:relative; margin:0; padding:0; display:inline-block; text-decoration:none !important; border:0; font-family:Gulim; font-size:12px; white-space:nowrap; background:url(../images/btn_bg3.gif) no-repeat; vertical-align:top; overflow:visible; color:#333; }
+a.Lbtn3 * { padding:0 5px 0 1px; background-position:right top; left:4px; cursor:pointer; }
+
+/* Block : detail
+---------------------------------------------------------*/
+.LblockDetail table {
+	width:100%;
+	border-collapse:collapse;
+}
+.LblockDetail table caption {
+	display:none;
+}
+.LblockDetail th,
+.LblockDetail td {
+	border:solid 1px #a6a6a6;
+	height:28px;
+	padding:0 10px 0 5px;
+}
+.LblockDetail th {
+	background-color:#ededed;
+	font-weight:bold;
+	text-align:center;
+	white-space:nowrap; 
+}
+.LblockDetail td textarea {
+	margin:2px;
+}
+
+/* Block : tab
+---------------------------------------------------------*/
+.LblockTab {
+	background:url(../images/tab_bg.gif) repeat-x left bottom;
+	margin-bottom:7px; 
+}
+.LblockTab li {
+	float:left;
+	margin-right:5px;
+	background:url(../images/tab_l.gif) no-repeat;
+}
+.LblockTab li.Lcurrent {
+	background-position:left -33px;
+}
+.LblockTab li span {
+	display:block;
+	background:url(../images/tab_r.gif) no-repeat right top;
+}
+.LblockTab li.Lcurrent span {
+	background-position:right -33px;
+}
+.LblockTab li span a {
+	display:block;
+	line-height:20px;
+	color:#7f7f7f;
+	text-decoration:none;
+	padding:8px 25px 4px 25px;
+}
+.LblockTab li.Lcurrent span a {
+	font-weight:bold;
+	color:#f5f5f5;
+}
+.LblockTab li span a:hover,
+.LblockTab li span a:active {
+	color:#3af500;
+}
+.LblockTab li.Lcurrent span a:hover,
+.LblockTab li.Lcurrent span a:active {
+	color:#3af500;
+}
+
+/* Block : tabArea
+---------------------------------------------------------*/
+/* Block : tree
+---------------------------------------------------------*/
+.LblockTree {
+	border:1px solid #a6a6a6;
+	padding:5px;
+}
+.LblockTree a {
+	text-decoration:none;
+}
+.LblockTree a:link, .LblockTree a:visited {
+	color:#7F7F7F;
+}
+
+/* Block : content
+---------------------------------------------------------*/
+.LblockContent {
+	padding-left:5px;
+}
+.LblockContent ul {
+	margin:5px 0;
+}
+.LblockContent li {
+	padding-left:10px;
+	background:url(../images/content_blt.gif) no-repeat left 5px;
+}
+
+/* Block : content2
+---------------------------------------------------------*/
+.LblockContent2 {
+	padding-left:10px;
+}
+.LblockContent2 ul {
+	margin:5px 0;
+}
+.LblockContent2 li {
+	padding-left:7px;
+	background:url(../images/content2_blt.gif) no-repeat left 7px;
+}
+
+/* Block : comment
+---------------------------------------------------------*/
+.LblockComment {
+	color:#e00;
+}
+
+/* Block : button
+---------------------------------------------------------*/
+#LblockButton {
+	position:relative;
+	_height:1%;
+	background:url(../images/button_bg.gif) repeat-x left top;
+	padding-top:10px;
+	text-align:right;
+}
+#LblockButton span.Lleft {
+	position:absolute;
+	left:0;
+}
+#LblockButton a.Lbtn {
+	margin-right:8px;
+}
+a.Lbtn,
+a.Lbtn * { height:22px; line-height:23px; position:relative; margin:0; padding:0; display:inline-block; text-decoration:none !important; border:0; font-family:Gulim; font-size:12px; white-space:nowrap; background:url(../images/btn_bg1.gif) no-repeat; vertical-align:top; overflow:visible; color:#111f59; }
+a.Lbtn * { padding:0 14px 0 11px; background-position:right top; left:4px; cursor:pointer; }
+
+/* Block : subbutton
+---------------------------------------------------------*/
+.LblockSubbutton {
+	text-align:right;
+}
+.LblockSubbutton a.Lbtn2  {
+	margin-right:8px;
+}
+a.Lbtn2,
+a.Lbtn2 * { height:22px; line-height:23px; position:relative; margin:0; padding:0; display:inline-block; text-decoration:none !important; border:0; font-family:Gulim; font-size:12px; white-space:nowrap; background:url(../images/btn_bg2.gif) no-repeat; vertical-align:top; overflow:visible; color:#111f59; }
+a.Lbtn2 * { padding:0 14px 0 11px; background-position:right top; left:4px; cursor:pointer; }
+
+/* Block : shuttleButton
+---------------------------------------------------------*/
+.LblockShuttleButton p {
+	margin-bottom:6px;
+}
+.LblockShuttleButton img {
+	cursor:pointer;
+}
+
+/* Block : error
+---------------------------------------------------------*/
+#LblockError {
+	padding:28px 20px 28px 115px;
+	border:5px solid #E0E0E0;
+	background:url(../images/error.gif) no-repeat 25px 32px;
+}
+#LblockError div {
+	padding:4px 20px;
+	border-left:1px solid #E0E0E0;
+}
+#LblockError h1 {
+	width:100%;
+	overflow:hidden;
+	height:0;padding-top:21px;
+	margin-bottom:15px;
+	background:url(../images/error_text.gif) no-repeat;
+}
+#LblockError p {
+	line-height:20px;
+}
+
+/* Block : inform
+---------------------------------------------------------*/
+#LblockInform {
+	padding:28px 20px 28px 115px;
+	border:5px solid #E0E0E0;
+	background:url(../images/inform.gif) no-repeat 25px 32px;
+}
+#LblockInform div {
+	padding:4px 20px;
+	border-left:1px solid #E0E0E0;
+}
+#LblockInform h1 {
+	width:100%;
+	overflow:hidden;
+	height:0;padding-top:21px;
+	margin-bottom:15px;
+	background:url(../images/inform_text.gif) no-repeat;
+}
+#LblockInform p {
+	line-height:20px;
+}
+

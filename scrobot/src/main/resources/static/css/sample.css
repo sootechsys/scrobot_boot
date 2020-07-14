@@ -1,0 +1,405 @@
+/********************************************************************************/
+/*								                                                */
+/*  Design RIAN     			                                                */
+/*  Date : 2007-03-21		                                                  	*/
+/*      				         			                                    */
+/**									                                            */
+/********************************************************************************/
+
+body {
+	padding:0;
+	font-family:"굴림";
+	font-size:12px;
+	color:#666;
+	scroll:auto;
+	text-align: center;
+	margin: 0 auto;
+	display: inline;
+	margin-top: 400px;
+	overflow: auto;
+	width:100%;
+	height:100%;}
+	
+table, tr, td, th {font-family:"돋움"; font-size:11px; color:#333333;}
+.listtd {padding:10px 5px 8px 5px; border-bottom:1px solid #e5e5e5;}
+img {border:0; vertical-align:middle;}
+p { height:20px; margin:0; padding:5 0 0 0;}
+.check ul {margin:0; padding:0; float:left;}
+.check li {list-style-type:none; float:left; margin:0 0 0 0; padding:0 0 0 3px;}
+.top {vertical-align:top;}
+
+a:link { font-size:11px; font-family:"돋움"; color:#3A5870; text-decoration:none; line-height:100%;}
+a:visited { font-size:11px; font-family:"돋움"; color:#3A5870; text-decoration:none}
+a:active { font-size:11px; font-family:"돋움"; color:#339999; text-decoration:none;}
+a:hover { font-size:11px; font-family:"돋움"; color:#339999; text-decoration:none;}
+
+.login {position:relative; margin:0; padding:0 0 0 0px; text-align:left; vertical-align:top; padding:52px 0px 0px 270px; /*overflow:hidden;*/ width:330px; height:260px;background:url(../../images/egovframework/example/login_bg.jpg) 0 0 no-repeat; }
+.login_en {position:relative; margin:0; padding:0 0 0 0px; text-align:left; vertical-align:top; padding:52px 0px 0px 270px; /*overflow:hidden;*/ width:330px; height:260px;background:url(../../images/egovframework/example/login_bg_en.jpg) 0 0 no-repeat; }
+.error {position:relative; margin:0; padding:0 0 0 0px; text-align:left; vertical-align:top; padding:120px 0px 0px 80px; /*overflow:hidden;*/ width:520px; height:260px;background:url(../../images/egovframework/example/error_bg.jpg) 0 0 no-repeat; }
+.error_en {position:relative; margin:0; padding:0 0 0 0px; text-align:left; vertical-align:top; padding:120px 0px 0px 80px; /*overflow:hidden;*/ width:520px; height:260px;background:url(../../images/egovframework/example/error_bg_en.jpg) 0 0 no-repeat; }
+#logo {margin:0; padding:0; text-align:left; /*overflow:hidden;*/ width:910px;}
+#header {height:74px; background:url(../../images/egovframework/example/civilappeal_topmn_bg.jpg) repeat-x;}
+#top {width:910px;}
+.menu { text-align:center; height:38px; margin:0; padding:13px 0 0 0;}
+.menu ul {display:inline; width:910px;}
+.menu li {display:inline; list-style-type:none; margin:0; padding:14px 28px 0 28px; background:url(../../images/egovframework/example/civilappeal_topmn_bar.jpg) 0 15px no-repeat;}
+.menu li.last {width:1px; padding:15px 0 0 0; background:url(../../images/egovframework/example/civilappeal_topmn_bar.jpg) 0 0 no-repeat;}
+.menu a.top:link {font-family:"굴림"; font-weight:bold; color:#FFFFFF; text-decoration:none; font-size:12px;}
+.menu a.top:visited {font-family:"굴림"; font-weight:bold; color:#FFFFFF; text-decoration:none; font-size:12px;}
+.menu a.top:hover {font-family:"굴림"; font-weight:bold; color: #00CCFF; text-decoration:none; font-size:12px;}	
+.menu a.top:active {font-family:"굴림"; font-weight:bold; color:#FFFFFF; text-decoration:none; font-size:12px;}	
+
+.menu .on a.top:link {font-family:"굴림"; font-weight:bold; color:#00CCFF; text-decoration:none; font-size:12px;}
+.menu .on a.top:visited {font-family:"굴림"; font-weight:bold; color:#00CCFF; text-decoration:none; font-size:12px;}
+.menu .on a.top:hover {font-family:"굴림"; font-weight:bold; color: #00CCFF; text-decoration:none; font-size:12px;}	
+.menu .on a.top:active {font-family:"굴림"; font-weight:bold; color:#00CCFF; text-decoration:none; font-size:12px;}	
+		
+.right_area {float:right; height:38px; margin:0; padding:0 8px 0 0; background:url(../../images/egovframework/example/civilappeal_topmn_bg11.jpg) right no-repeat;}
+#sub {float:left; padding:10px 10px 10px 10px; /*overflow:hidden;*/width:180px; margin-right:30px;}
+#sub .login {width:180px; height:70px; text-align:left; vertical-align:top; padding:5px 0 0 0; background:url(../../images/egovframework/example/civilappeal_login_bg.jpg) right no-repeat; margin-bottom:10px;}
+#sub .login_en {width:180px; height:70px; text-align:left; vertical-align:top; padding:5px 0 0 0; background:url(../../images/egovframework/example/civilappeal_login_bg_en.jpg) right no-repeat; margin-bottom:10px;}
+#sub .sub_menu {width:150px; height:300px; text-align:left; vertical-align:top; background:url(../../images/egovframework/example/civilappeal_leftmenu_bg.jpg) 0 0 no-repeat; padding-top:40px; padding-left:15px; padding-right:15px; padding-bottom:0px;}
+#sub .sub_menu dl {width:150px;}
+#sub .sub_menu dd {font-weight:bold; padding-left:0px; padding-right:0px; padding-bottom:0px; padding-top:10px; margin:0;}
+#sub .sub_menu dt {list-style:none;  padding-left:0px; padding-right:0px; padding-bottom:0px; padding-top:8px; margin:0px;}
+#sub .sub_menu_en {width:150px; height:300px; text-align:left; vertical-align:top; background:url(../../images/egovframework/example/civilappeal_leftmenu_bg_en.jpg) 0 0 no-repeat; padding-top:40px; padding-left:15px; padding-right:15px; padding-bottom:0px;}
+#sub .sub_menu_en dl {width:150px;}
+#sub .sub_menu_en dd {font-weight:bold; padding-left:0px; padding-right:0px; padding-bottom:0px; padding-top:10px; margin:0;}
+#sub .sub_menu_en dt {list-style:none;  padding-left:0px; padding-right:0px; padding-bottom:0px; padding-top:8px; margin:0px;}
+#content {float:left; text-align:left; /*overflow:hidden;*/width:680px; background-color:#FFFFFF; padding:10px 0px 10px 0px;}
+#content_pop {float:left; text-align:left; /*overflow:hidden;*/width:680px; background-color:#FFFFFF; padding:10px 10px 10px 10px;}
+#title {float:left; text-align:left; margin:0 0 10 0; padding:0; height:30px; border-bottom:1px solid #e5e5e5; width:680px;}
+#title ul {float:left; margin:0; padding:0;}
+#title li {list-style-type:none; width:200px; padding:3px 0px 2px 0px; float:left; font-family:"돋움"; font-size:16px; font-weight:bold; color:#000000;}
+#title .location {float:right; height:20px; margin:0; padding:5 0 0 0; font-family:"돋움"; font-size:11px;}
+#foot {margin:0; padding:0 0 0 0; text-align:left; /*overflow:hidden;*/ height:40px; clear:both; background-color:#F7F7F7; border-top:1px solid #e5e5e5; font-family:Tahoma; font-size:11px; color:#999999;}
+#search {float:right; margin:0; padding:10px 0 10px 0; width:680px;}
+#search ul {margin:0; float:right;}
+#search li {list-style-type:none; float:left; margin:0 0 0 0; padding:0 0 0 3px;}
+#table {float:left; margin:0 0 10px 0; padding:0 0 0 0; width:680px;}
+#paging {padding:0 0 0 0; text-align:center; width:680px;}
+#paging ul {display:inline;}
+#paging li {display:inline; list-style-type:none; padding:0 10px 0 10px; font-family: Tahoma; font-size:11px; color: #333333;}
+#paging li.pre10 {padding:0 2px 0 2px;}
+#paging li.pre1 {padding:0 2px 0 2px;}
+#paging li.next10 {padding:0 2px 0 2px;}
+#paging li.next1 {padding:0 2px 0 2px;}
+#paging li.line {background:url(../../images/egovframework/example/paging_line.gif) 0 2px no-repeat;}
+#paging li.first {padding:0 5px 0 0;}
+#paging li.last {background:url(../../images/egovframework/example/paging_line.gif) 0 2px no-repeat; padding:0 5px 0 0;}
+#sysbtn {float:right; text-align:right; padding:0; margin:0; display:inline;}
+#sysbtn ul {margin:0; padding:0; float:left; display:inline;}
+#sysbtn li {list-style-type:none; margin:0 auto; padding:0 0 0 3px; float:left; display:inline;}
+
+#sysbtn1 {text-align:left; padding-top:10px; padding-bottom:0px; margin-bottom:0px; width:680px;}
+#sysbtn1 ul {margin:0; padding:0; float:left; display:inline;}
+#sysbtn1 li {list-style-type:none; margin:0 0 0 0; padding:0 0 0 3px; float:left; display:inline;}
+#idwrap {float:left; padding-top:0px; padding-bottom:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:0px; padding-left:0px; padding-right:0px; }
+#idwrap ul {float:left; padding:0; margin:0;}
+#idwrap li {list-style-type:none; float:left; margin:0; padding-right:3px;}
+button {cursor:hand; border:0px solid #FFFFFF; padding:0px 0px 0px 0px; background-color:#FFFFFF; white-space:nowrap;}
+.btn_blue_l {float:left; background:url(../../images/egovframework/example/btn_bg_l.gif) 0 0 no-repeat; height:20px; padding:0px 0px 0px 10px; margin:0px 0px 0px 0px;}
+.btn_blue_r {float:left; background:url(../../images/egovframework/example/btn_bg_r.gif) 0 0 no-repeat; background-position:right; height:20px; font-family:"돋움"; font-size:11px; color:#000000; margin:0px 0px 0px 0px; padding-top:0px; _padding-top:0px; padding-left:10px; padding-right:10px; padding-bottom:0px; text-align:center;}
+select {font-family:'돋움'; font-size:12px; margin-top:0px; height:20px; padding-top:0px;}
+.tbtd_caption {font-weight:bold; color:#003366; background-color:#E5EDF3; text-align:right; padding:10px 10px 9px 5px; margin:0;}
+.tbtd_caption_re {font-weight:bold; color:#666633; background-color:#F6F5E5; text-align:right; padding:10px 10px 9px 5px; margin:0;}
+.tbtd_content_re {background-color:#F9F9F2; padding:7px 10px 5px 10px; margin:0;}
+
+
+
+html{
+	width:100%;
+	height:100%;
+}
+body{
+	
+}
+
+#creationForm {
+  width:92.5%;
+  height:120%;
+  left:146px;
+  top:-70px;
+  position:absolute;
+  background-color: #f6f6f6;
+  background-image:
+    linear-gradient(90deg, #cdcccc 0px, #cdcccc 1px, transparent 1px, transparent 99px,  transparent 100px),
+    linear-gradient(#cdcccc 0px, #cdcccc 1px, transparent 1px, transparent 99px,  transparent 100px),
+    linear-gradient(#e0e0e0 0px, #e0e0e0 1px, transparent 1px, transparent 99px,  transparent 100px),
+    linear-gradient(90deg, #e0e0e0 0px, #e0e0e0 1px, transparent 1px, transparent 99px,  transparent 100px),
+    linear-gradient(transparent 0px, transparent 5px, #f6f6f6 5px, #f6f6f6 95px, transparent 95px, transparent 100px),
+    linear-gradient(90deg, #e0e0e0 0px, #e0e0e0 1px, transparent 1px, transparent 99px, #e0e0e0 99px, #e0e0e0 100px),
+    linear-gradient(90deg, transparent 0px, transparent 5px, #f6f6f6 5px, #f6f6f6 95px, transparent 95px, transparent 100px),
+    linear-gradient(transparent 0px, transparent 1px, #f6f6f6 1px, #f6f6f6 99px, transparent 99px, transparent 100px),
+    linear-gradient(#cdcccc, #cdcccc);
+  background-size:100px 100%, 100% 100px, 100% 10px, 10px 100%, 100% 100px, 100px 100%, 100px 100%, 100px 100px, 100px 100px;
+}
+
+#div_creationForm{
+  left:80px;
+  top:170px;
+  position:relative;
+  width:96%;
+  height:83%;
+}
+
+#creationTable{
+	position:absolute;
+	width:100%;
+	height:100%;
+	text-align:left;
+}
+
+[compoDvs="div_content"]{
+	position:absolute !important;
+	margin:30px 0px 0px 20px;
+	width:700px;
+	height:400px;
+	border: 1px solid;
+	background-color:white;
+}
+
+/* ------------------table */
+
+[compoDvs="div_table"]{
+	position:absolute !important;
+	margin:10px 0px 0px 10px; 
+}
+[compoDvs="div_table"]:hover{
+	cursor:move;
+}
+
+[compoDvs="table"]{
+	margin:10px 10px 10px 10px; 
+}
+
+[compoDvs="table"] td{
+	padding:0px 0px 0px 0px; 
+}
+
+[compoDvs="table"] td:hover{
+	cursor:pointer;
+}
+
+
+td[tableFocus="true"]{
+	background-color: #d5d3f7 !important;
+}
+
+
+
+/* ------------------title */
+
+[compoDvs="div_title"]{
+	position:absolute;
+	text-align:left;
+	margin:10px 0px 0px 10px;
+}
+
+[compoDvs="div_title"]:hover{
+	cursor:move;
+}
+
+
+[compoDvs="span_title"] {
+	margin:10px 10px 10px 10px;
+	font-weight: bold;
+	font-size: 15pt;
+	display:inline-block
+}
+
+[compoDvs="span_title"]:hover {
+	cursor: pointer;
+	
+}
+
+/* ------------------label */
+
+[compoDvs="div_label"]{
+	width:60px;
+	position:absolute;
+	text-align:left;
+}
+
+[compoDvs="div_label"]:hover{
+	cursor:move;
+}
+
+
+[compoDvs="span_label"] {
+	margin:10px 10px 10px 10px;
+	font-weight: bold;
+	font-size: 12pt;
+	display:inline-block
+}
+
+[compoDvs="span_label"]:hover {
+	cursor: pointer;
+	
+}
+
+/* ------------------button */
+
+
+[compoDvs="div_button"]{
+	width:80px;
+	position:absolute;
+}
+
+[compoDvs="div_button"]:hover{
+	cursor:move;
+}
+
+[compoDvs="button"]{
+	margin:10px 10px 10px 10px;
+	width:60px;
+	height:30px;
+}
+
+/* ------------------input */
+
+[compoDvs="div_inputBox"]{
+	width:150px;
+	position:absolute;
+}
+
+[compoDvs="div_inputBox"]:hover{
+	cursor:move;
+}
+
+[compoDvs="inputBox"]{
+	text-align:left;
+	margin: 10px 10px 10px 10px;
+	width:120px;
+}
+
+/* ------------------select */
+
+
+[compoDvs="div_selectBox"]{
+	width:150px;
+	position:absolute;
+}
+
+[compoDvs="div_selectBox"]:hover{
+	cursor:move;
+}
+
+[compoDvs="selectBox"]{
+	text-align:left;
+	margin: 10px 10px 10px 10px;
+	width:130px;
+}
+
+
+[focus="true"]{
+	border: 3px solid grey;
+}
+
+
+
+
+
+
+.ui-resizable-helper { border: 2px dotted #00F; }
+
+
+
+
+/* The Modal (background) */
+.div_pop {
+	position: fixed; /* Stay in place */
+	z-index: 98; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.div_pop_content {
+	background-color: #fefefe;
+	margin: 5% auto; /* 15% from the top and centered */
+	padding: 0px 0px 20px 0px;
+	border: 1px solid #888;
+	z-index: 99; /* Sit on top */
+	overflow:auto;
+}
+
+/* Modal Content/Box */
+.pop_content {
+	margin-top:20px;
+}
+
+.div_retrieve_result{
+	margin-left:50px;
+	margin-top:50px;
+	width:600px;
+	height:300px;
+}
+
+.div_grid{
+	float:left;
+	width:200px;
+	height:300px;
+	text-align: left;
+}
+
+
+.div_detailGrid{
+	margin-left:100px !important;
+	float:left;
+	width:300px;
+	height:300px;
+	text-align: left;
+}
+
+.div_btnArea{
+	margin-top: 10px;
+}
+
+tr[focus=true]{
+	border: 2px solid black !important;
+	background: skyblue;
+}
+
+
+.btn_retrieve{
+	height:30px;
+	width:40px;
+	background: linear-gradient( to bottom, #dce1e7, #c7cad1 );
+}
+
+.btn_retrieve:hover{
+	cursor:pointer;
+}
+
+
+.div_retrieve_result table tr{
+	height:20px;
+}
+
+
+
+/* sortable css **/
+#sortable { list-style-type: none; margin: 0; padding: 0; }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.0em; height: 10px; }
+#sortable li span { position: absolute; margin-left: -1.3em; }
+.ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+.ui-sortable{background: #eee;}
+[level="1"] { margin-top: 30px !important; }
+[level="2"] { margin-left: 20px !important; }
+
+
+.mgt100{
+	margin-top:100px; 
+}
+
+.span_content{
+	color:black;
+	font-size:1.5em;
+	font-weight:bold;
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="view010101">
+
+	<insert id="insertViewDrawWrk" parameterType="hashmap">
+
+			INSERT INTO ROBOT01
+				  ( USER_ID
+				  , WRK_NM
+				  , SOURCE)
+			VALUES (
+					#{userId}
+				  , #{wrkNm}
+				  , #{source})
+		    ON DUPLICATE KEY UPDATE
+		       SOURCE = #{source}
+
+	</insert>
+	
+	
+	<insert id="insertViewDrawWrkHistry" parameterType="hashmap">
+
+			INSERT INTO ROBOT02
+				  ( USER_ID
+				  , WRK_NM
+				  , CHNG_HISTRY_DTTM
+				  , SOURCE)
+			VALUES (
+					#{userId}
+				  , #{wrkNm}
+				  , SYSDATE()
+				  , #{source})
+
+	</insert>
+
+</mapper>
