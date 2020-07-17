@@ -145,7 +145,8 @@
 </style>
 <script type="text/javaScript">
 
-
+	// 업무 및 쿼리 맵
+	vjQuery = [];
 
 
   
@@ -733,6 +734,7 @@
 		robot.prompt("테이블생성", "행과 열의 갯수를 지정하십시오.", ["행","열"],"생성","취소","fn_tableCreationCallBack");
 	}
 	
+	
 	/* 테이블그리기 CallBack */
 	fn_tableCreationCallBack = function(param) {
 		onclick.draw("table",param);
@@ -746,6 +748,44 @@
 	/* select박스 그리기 */
 	function selectCreation() {
 		onclick.draw("select");
+	}
+	
+	
+	
+	queryCreation = function(){
+		$.ajax({
+			url : "/userIdSessionYn.do",
+			type : "POST",
+			success : function(data) {
+				
+				// 세션에 id 없을경우
+				if(data == ""){
+					robot.alert("세션이 만료되었습니다. 다시 로그인 해주시기 바랍니다.","","","fn_saveListCallAlert");
+					
+				// 세션에 id가 있다면
+				} else{
+					var param = {
+						"mapInfo"	: vjQuery
+				    }
+					var info = {"header" : "쿼리생성",
+							    "width"  : "800px",
+							    "height" : "500px",
+							    "callBack" : "fn_queryCreationCallBack",
+							    "param" : param}
+					robot.openPop(info, "view010101P02.jsp");
+				}
+
+			},
+			error : function() {
+			}
+		})
+	}
+	
+	fn_queryCreationCallBack = function(param){
+		if(param == ""){
+			return false;
+		}
+		vjQuery = param;
 	}
 	
 	/* ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ 그리기 이벤트 ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ */
@@ -1313,6 +1353,9 @@
 	
 				<tr>
 					<td class="" onclick="tableCreation();">
+						<img src="<c:url value='/images/object/icon_table.png'/>" title="테이블생성"/>
+					</td>
+					<td class="" onclick="queryCreation();">
 						<img src="<c:url value='/images/object/icon_table.png'/>" title="테이블생성"/>
 					</td>
 				</tr>

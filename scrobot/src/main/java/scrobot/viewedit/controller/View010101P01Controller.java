@@ -58,11 +58,13 @@ public class View010101P01Controller {
 		
 		List<Map<String,Object>> wrkList = view010101P01service.retrieveWrkList(paramMap);
 		List<Map<String,Object>> wrkHistryList = view010101P01service.retrieveWrkHistryList(paramMap);
+		List<Map<String,Object>> devSourceList = view010101P01service.retrieveDevSourceList(paramMap);
 		
 		Map<String, Object> resultMap = new HashMap();
 		
 		resultMap.put("wrkList", wrkList);
 		resultMap.put("wrkHistryList", wrkHistryList);
+		resultMap.put("devSourceList", devSourceList);
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		

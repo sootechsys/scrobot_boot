@@ -192,13 +192,13 @@ public class Application {
 	@SuppressWarnings("unchecked")
 	private static Map<String,Object> loadConfigJsonHTML(Map<String,Object> paramMap) throws JsonSyntaxException, JsonIOException, IOException {
 		URL url = Application.class.getProtectionDomain().getCodeSource().getLocation();
-		Path path = Paths.get(url.toString().replaceAll("classes", "").replaceAll("file:/", ""));
+		Path path = Paths.get(url.toString().replaceAll("file:/", "").replaceAll("classes", "classes/static/json"));
 		String filename = "app2.json";
 
 		Map<String,Object> map = new Gson().fromJson(new FileReader(path.resolve(filename).toFile()), Map.class);
 		
 		
-		Path cssPath = Paths.get(url.toString().replaceAll("classes", "").replaceAll("file:/", "").replaceAll("WEB-INF", "css/egovframework"));
+		Path cssPath = Paths.get(url.toString().replaceAll("file:/", "").replaceAll("classes", "classes/static/css"));
 		String cssFileName = "sample.css";
 		
 		BufferedReader reader = new BufferedReader(new FileReader(cssPath.resolve(cssFileName).toFile()));
@@ -220,12 +220,12 @@ public class Application {
 	    stringBuilder.append(style);
 	    
 	    map.put("style", stringBuilder.toString());
-		map.put("templatePath", path.toString().replaceAll("WEB-INF", "template"));
-		map.put("businessNm", paramMap.get("businessNm"));
-		map.put("html", paramMap.get("html"));
+		map.put("templatePath", path.toString().replaceAll("json", "templates"));
 		
-		Utils.log(Thread.currentThread().getStackTrace(), "<<", map);
-		return map;
+		paramMap.putAll(map);;
+
+		
+		return paramMap;
 	}
 	
 

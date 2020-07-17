@@ -4,11 +4,21 @@
 
 	<insert id="insertViewDrawWrk" parameterType="hashmap">
 
-			MERGE INTO ROBOT01 
-			KEY (USER_ID, WRK_NM)
-			VALUES (
+			/* view010101lite.insertViewDrawWrk */
+
+			MERGE INTO ROBOT01
+				USING DUAL
+				ON USER_ID = #{userId}
+				AND VIEW_ID = #{viewId}
+			WHEN MATCHED THEN
+				UPDATE SET CHNG_HISTRY_DTTM = SYSDATE
+				         , SOURCE = #{source}
+		    WHEN NOT MATCHED THEN
+		    	INSERT VALUES (
 					#{userId}
-				  , #{wrkNm}
+				  , #{viewId}
+				  , SYSDATE
+				  , NULL
 				  , #{source})
 
 	</insert>
@@ -16,18 +26,67 @@
 	
 	<insert id="insertViewDrawWrkHistry" parameterType="hashmap">
 
+			/* view010101lite.insertViewDrawWrkHistry */
+
 			INSERT INTO ROBOT02
 				  ( USER_ID
-				  , WRK_NM
-				  , CHNG_HISTRY_DTTM
+				  , VIEW_ID
+				  , MAKE_DTTM
 				  , SOURCE)
 			VALUES (
 					#{userId}
-				  , #{wrkNm}
+				  , #{viewId}
 				  , SYSDATE
 				  , #{source})
 
 	</insert>
+	
+	<insert id="insertDevSource" parameterType="hashmap">
+
+			/* view010101lite.insertDevSource*/
+			
+			MERGE INTO ROBOT03
+				USING DUAL
+				ON USER_ID = #{userId}
+			    AND VIEW_ID = #{viewId}
+			    AND WRK_ID = #{WRK_ID} 
+			    
+			WHEN MATCHED THEN
+			
+				UPDATE SET QUERY = #{QUERY}
+				     , TO_MAP = #{TO_MAP}
+				     , FROM_MAP = #{FROM_MAP}
+				     
+			WHEN NOT MATCHED THEN
+			
+				INSERT VALUES (
+					#{userId}
+				  , #{viewId}
+				  , #{WRK_ID}
+				  , #{QUERY}
+				  , #{FROM_MAP}
+				  , #{TO_MAP}
+				  , SYSDATE)
+
+	</insert>
+	
+	
+	<delete id="deleteDevSource" parameterType="hashmap">
+
+			/* view010101lite.deleteDevSource*/
+			
+			DELETE FROM ROBOT03
+			WHERE USER_ID = #{userId}
+			AND VIEW_ID = #{viewId}
+			AND WRK_ID NOT IN
+			
+			<foreach collection="deleteKey" item="item"  open="(" close=")" separator=",">
+            #{item}
+       		</foreach>
+
+
+
+	</delete>
 	
 
 </mapper>

@@ -17,6 +17,7 @@
 
 voViewList = {};
 voViewHistryList = {};
+voDevSourceList = {};
 
 
 /****************************************
@@ -24,11 +25,11 @@ voViewHistryList = {};
  * desc : 화면목록을 조회한다.
  **************************************/
 fn_retrieveWrk = function(){
-	var vsWrkNm = $("#ibx_retrieveWrktype").val();
+	var vsViewId = $("#ibx_retrieveWrktype").val();
 
 
 	var vjRetrieveInfo = {
-			"wrkNm" : vsWrkNm
+			"viewId" : vsViewId
 	}
 	
 	$.ajax({
@@ -44,10 +45,11 @@ fn_retrieveWrk = function(){
 			voViewHistryList = {};
 			voViewList = data.resultMap.wrkList;
 			voViewHistryList = data.resultMap.wrkHistryList;
+			voDevSourceList = data.resultMap.devSourceList;
 			var buffer = "";	
 			for(var i=0; i<voViewList.length; i++){
 				buffer += "<tr style=\"cursor:pointer;\" onclick =\"fn_wrkListOnclick(this)\" focus=\"false\" >"
-				buffer += "<td>"+voViewList[i].WRK_NM+"</td>"
+				buffer += "<td>"+voViewList[i].VIEW_ID+"</td>"
 				buffer += "</tr>"
 			}
 			
@@ -81,12 +83,12 @@ fn_wrkListOnclick = function(param){
 		
 	var buffer2 ="";
 	for(var i=0; i<voViewHistryList.length; i++){
-		if(param.textContent != voViewHistryList[i].WRK_NM){
+		if(param.textContent != voViewHistryList[i].VIEW_ID){
 			continue;
 		}
 		buffer2 +="<tr style=\"cursor:pointer;\" onclick =\"fn_wrkHistryStyle(this)\" focus=\"false\" >"
-		buffer2 +="<td ondblclick=\"fn_wrkHistryDbClick(this)\">"+voViewHistryList[i].WRK_NM+"</td>"
-		buffer2 +="<td ondblclick=\"fn_wrkHistryDbClick(this)\">"+voViewHistryList[i].CHNG_HISTRY_DTTM+"</td>"
+		buffer2 +="<td ondblclick=\"fn_wrkHistryDbClick(this)\">"+voViewHistryList[i].VIEW_ID+"</td>"
+		buffer2 +="<td ondblclick=\"fn_wrkHistryDbClick(this)\">"+voViewHistryList[i].MAKE_DTTM+"</td>"
 			
 		buffer2 += "</tr>"
 	}
@@ -125,13 +127,13 @@ fn_wrkHistryDbClick = function(param){
 }
 
 
-fn_wrkHistryDbClickCallBack = function(param){debugger;
+fn_wrkHistryDbClickCallBack = function(param){
 	
 	if(param != ""){
 		var vnCount = -1;
 		var vnFocusRow = 0;
 		for(var i=0; i<voViewHistryList.length; i++){
-			if(voViewHistryList[i].WRK_NM == param.textContent){
+			if(voViewHistryList[i].VIEW_ID == param.textContent){
 				vnCount++;
 			}
 		
@@ -148,9 +150,22 @@ fn_wrkHistryDbClickCallBack = function(param){debugger;
 		
 		fn_saveClone();
 		
-		var param = voViewHistryList[vnFocusRow].WRK_NM;
+		var vsViewId = voViewHistryList[vnFocusRow].VIEW_ID;
+		var vnSourceLen = voDevSourceList.length;
+		
+		for(var i=0; i<vnSourceLen; i++){
+			if(vsViewId != voDevSourceList[i].VIEW_ID){
+				voDevSourceList.splice(i,1);
+				i--;
+				vnSourceLen--;
+			}
+		}
+		if(vnSourceLen == 0){
+			voDevSourceList = vsViewId;
+		}
+		
 		var vsCallback = $("#callBack").val();
-		robot.closePop(param, vsCallback);
+		robot.closePop(voDevSourceList, vsCallback);
 	}
 
 }

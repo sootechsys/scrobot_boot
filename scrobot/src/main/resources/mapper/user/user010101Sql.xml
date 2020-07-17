@@ -4,7 +4,7 @@
 	
 	<select id="selectLogin" parameterType="hashmap" resultType ="HashMap">
 
-	    	/* retrieveLogin */
+	    	/* user010101.selectLogin */
 			SELECT IF(COUNT(*)=0,'N','Y') AS loginSuccessYn
 			FROM USER01
 			WHERE ID = #{id}

@@ -32,9 +32,10 @@ public class User010101Service extends EgovAbstractMapper {
 	}
 	
 	public void registTableCreate() {
-		insert("user010101lite.insertTableCreate");
-		insert("user010101lite.insertTableCreate2");
-		insert("user010101lite.insertTableCreate3");
+		insert("user010101lite.insertTableUSER01");
+		insert("user010101lite.insertTableROBOT01");
+		insert("user010101lite.insertTableROBOT02");
+		insert("user010101lite.insertTableROBOT03");
 	}
 	
 	public Map<String, Object> retrieveLogin(Map<String, Object> paramMap) {

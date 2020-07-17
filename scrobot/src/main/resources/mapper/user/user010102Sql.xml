@@ -4,9 +4,11 @@
 
 
 	<insert id="insertJoin" parameterType="hashmap">
+	
+			/* user010102.insertJoin*/
 
 			INSERT INTO USER01
-				( ID
+				( USER_ID
 				  , PASS
 				  , NAME)
 			VALUES ( #{id}

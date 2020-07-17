@@ -47,7 +47,7 @@ public class FileGenerator {
 		
 		//vo
 		if(Utils.contains(targets, "vo")) {
-			genVo(cfg, metaMap);
+			//genVo(cfg, metaMap);
 		}
 		
 		//TODO dao
@@ -56,9 +56,9 @@ public class FileGenerator {
 		
 		//TODO jsp
 		if(Utils.contains(targets, "jsp")) {
-			genListJsp(cfg, metaMap);
-			genRegistFormJsp(cfg, metaMap);
-			genUpdtFormJsp(cfg, metaMap);
+			//genListJsp(cfg, metaMap);
+			//genRegistFormJsp(cfg, metaMap);
+			//genUpdtFormJsp(cfg, metaMap);
 			genDetailJsp(cfg, metaMap);
 		}
 		//vo
@@ -234,7 +234,7 @@ public class FileGenerator {
 		Template temp = cfg.getTemplate("controller.ftl");
 		
 		//파일 생성 경로
-		Path path = Paths.get(dataMap.get("outputPath").toString(), dataMap.get("businessNm").toString(), "web");
+		Path path = Paths.get(dataMap.get("outputPath").toString(), dataMap.get("businessNm").toString(), "controller");
 		
 		//파일명
 		String filename = dataMap.get("businessNm") + "Controller.java";

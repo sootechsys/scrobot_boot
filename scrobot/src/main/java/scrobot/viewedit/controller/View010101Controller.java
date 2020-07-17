@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import scrobot.sourceFileGenerator.Application;
 import scrobot.viewedit.service.View010101Service;
@@ -86,24 +88,33 @@ public class View010101Controller {
 	 */
 	@RequestMapping(value = "/creationHTML.do", produces = "application/text; charset=utf8" )
 	@ResponseBody
-	public String creationHTML(@RequestParam Map<String, Object> paramMap, SessionStatus status, HttpServletRequest request) throws Exception {
-	//	paramMap = Application.creationHTML(paramMap);
-		
+	public ModelAndView creationHTML(@RequestBody Map<String, Object> paramMap, SessionStatus status, HttpServletRequest request) throws Exception {
 		
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
-		
-		paramMap.put("userId", userId);
-		paramMap.put("wrkNm", paramMap.get("businessNm"));
-		paramMap.put("source", paramMap.get("html"));
-		
 		String urlDvs = (String) session.getAttribute("urlDvs");
+		paramMap.put("userId", userId);
 		paramMap.put("urlDvs", urlDvs);
 		
-		view010101service.registViewDrawWrk(paramMap);
-		view010101service.registViewDrawWrkHistry(paramMap);
+		paramMap.put("viewId", paramMap.get("businessNm"));
+		paramMap.put("source", paramMap.get("html"));
 		
-		return "Y";
+		paramMap = Application.creationHTML(paramMap);
+		
+		
+		
+		// ROBOT01 INSERT
+		view010101service.registViewDrawWrk(paramMap);
+		// ROBOT02 INSERT
+		view010101service.registViewDrawWrkHistry(paramMap);
+		// ROBOT03 INSERT
+		view010101service.registDevSource(paramMap);
+		
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		mav.addObject("success","Y");
+		
+		return mav;
 	}
 	
 

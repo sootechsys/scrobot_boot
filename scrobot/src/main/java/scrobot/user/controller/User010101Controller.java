@@ -105,6 +105,19 @@ public class User010101Controller {
 	
 	
 	/**
+	 * 메인 화면을 조회한다.
+	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
+	 * @param model
+	 * @return "egovSampleRegister"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/test.do", method = RequestMethod.GET, produces = "application/text; charset=utf8" )
+	public String mainTest(HttpServletRequest request) throws Exception {
+		  return "user/testDetail";
+	}
+	
+	
+	/**
 	 * 회원가입 화면을 조회한다.
 	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
 	 * @param model

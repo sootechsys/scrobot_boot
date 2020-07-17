@@ -4,32 +4,70 @@
 
 	<insert id="insertViewDrawWrk" parameterType="hashmap">
 
+			/* view010101.insertViewDrawWrk*/
+			
 			INSERT INTO ROBOT01
 				  ( USER_ID
-				  , WRK_NM
+				  , VIEW_ID
+				  , MAKE_DTTM 
 				  , SOURCE)
 			VALUES (
 					#{userId}
-				  , #{wrkNm}
+				  , #{viewId}
+				  , SYSDATE
+				  , SYSDATE
 				  , #{source})
 		    ON DUPLICATE KEY UPDATE
 		       SOURCE = #{source}
+		    AND CHNG_HISTRY_DTTM = SYSDATE
 
 	</insert>
 	
 	
 	<insert id="insertViewDrawWrkHistry" parameterType="hashmap">
 
+			/* view010101.insertViewDrawWrkHistry*/
+			
 			INSERT INTO ROBOT02
 				  ( USER_ID
-				  , WRK_NM
-				  , CHNG_HISTRY_DTTM
+				  , VIEW_ID
+				  , MAKE_DTTM
 				  , SOURCE)
 			VALUES (
 					#{userId}
-				  , #{wrkNm}
+				  , #{viewId}
 				  , SYSDATE()
 				  , #{source})
+
+	</insert>
+	
+	
+	
+	<insert id="insertDevSource" parameterType="hashmap">
+
+			/* view010101.insertDevSource*/
+			
+			INSERT INTO ROBOT03
+				  ( USER_ID
+				  , VIEW_ID
+				  , WRK_ID
+				  , QUERY
+				  , FROM_MAP
+				  , TO_MAP
+				  , MAKE_DTTM)
+			VALUES (
+					#{userId}
+				  , #{viewId}
+				  , #{WRK_ID}
+				  , #{QUERY}
+				  , #{FROM_MAP}
+				  , #{TO_MAP}
+				  , SYSDATE())
+		    ON DUPLICATE KEY UPDATE
+		       QUERY = #{QUERY}
+		    AND TO_MAP = #{TO_MAP}
+		    AND FROM_MAP = #{FROM_MAP}
+					
 
 	</insert>
 

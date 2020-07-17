@@ -69,6 +69,17 @@ public class View010101P01Service extends EgovAbstractMapper {
 		}
 		
 	}
+	
+	
+	/**
+	 * 
+	 * @param vo - 등록할 정보가 담긴 SampleVO
+	 * @return 등록 결과
+	 * @exception Exception
+	 */
+	public List<Map<String, Object>> retrieveDevSourceList(Map<String, Object> param) throws Exception {
+	    return selectList("view010101P01.retrieveDevSourceList", param);
+	}
 
 	
 

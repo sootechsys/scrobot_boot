@@ -15,11 +15,10 @@
  */
 package scrobot.viewedit.service;
 
+import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import scrobot.EgovAbstractMapper;
 
@@ -70,6 +69,46 @@ public class View010101Service extends EgovAbstractMapper {
 		} else {
 			insert("view010101.insertViewDrawWrkHistry", param);
 		}
+	    
+	}
+	
+	/**
+	 * 
+	 * @param vo - 등록할 정보가 담긴 SampleVO
+	 * @return 등록 결과
+	 * @exception Exception
+	 */
+	public void registDevSource(Map<String, Object> param) throws Exception {
+		
+		List<Map<String, Object>> devSourceList = (List<Map<String, Object>>) param.get("devSource");
+		
+		if(devSourceList.size() == 0) {
+			return;
+		}
+		
+		String key [] = new String[devSourceList.size()];
+		
+		for(int i=0; i<devSourceList.size(); i++) {
+			
+			
+			Map<String, Object> map = devSourceList.get(i);
+			
+			map.put("userId",param.get("userId"));
+			map.put("viewId",param.get("viewId"));
+			
+			if(param.get("urlDvs").equals("JAR")) {
+				insert("view010101lite.insertDevSource", map);
+			} else {
+				insert("view010101.insertDevSource", map);
+			}
+			
+			key[i] = map.get("WRK_ID").toString();
+			
+		}
+		
+		param.put("deleteKey", key);
+		
+		insert("view010101lite.deleteDevSource", param);
 	    
 	}
 
