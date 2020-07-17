@@ -52,7 +52,7 @@ onclick.focus = function(param,e){
 
 			}
 			
-		} else if(vsCompoDvs == "selectBox"){
+		} else if(vsCompoDvs == "select"){
 			
 			if($(e.target).attr("focus") == "true"){
 				$(e.target).attr("focus","false"); 
@@ -313,7 +313,7 @@ onclick.draw = function(tagName, param){
 		// 타이틀 span
 		vsSource += "\n    <span id=\"span" + vnTitleCount +"_title\" focus=false";
 		vsSource += "  class=\"span_title\" compoDvs=\"span_title\" value=\"title\" "
-		vsSource += "  ondblclick=\"fn_titleOnDblClick(this);\">title"
+		vsSource += "  ondblclick=\"dblclick.fn_titleOnDblClick(this);\">title"
 		vsSource += "  </span>";
 		vsSource += "\n  </div>";
 		
@@ -369,7 +369,7 @@ onclick.draw = function(tagName, param){
 	// 타이틀 span
 	vsSource += "\n    <span id=\"span" + vnLabelCount +"_label\" focus=false";
 	vsSource += "  class=\"span_label\" compoDvs=\"span_label\" value=\"label\" "
-	vsSource += "  ondblclick=\"fn_labelOnDblClick(this);\"> label"
+	vsSource += "  ondblclick=\"dblclick.fn_labelOnDblClick(this);\"> label"
 	vsSource += "  </span>";
 	vsSource += "\n  </div>";
 	
@@ -496,7 +496,7 @@ onclick.draw = function(tagName, param){
 		}
 		
 		vsSource += "<select id=\"select"+vnSelectCount+"\" class=\"select\" name=\"value"+vnSelectCount+"\" ";
-		vsSource += "focus=false  ondblclick=\"fn_updateSelectPopOpen(this);\" compoDvs=\"select\" >";
+		vsSource += "focus=false  ondblclick=\"dblclick.fn_SelectBoxOnDblClick(this);\" compoDvs=\"select\" >";
 		
 		for(var i=0; i<totalArray.length; i++){
 			if(i==0){
@@ -555,7 +555,7 @@ onclick.draw = function(tagName, param){
 		vsSource += "  value=\"button\" "
 		vsSource += "  focus=false compoDvs=\"button\" "
 		
-		vsSource += "  ondblclick=\"fn_buttonOnDblClick(this);\">";
+		vsSource += "  ondblclick=\"dblclick.fn_buttonOnDblClick(this);\">";
 		vsSource += "  </input>";
 		vsSource += "\n  </div>";
 		
@@ -630,7 +630,7 @@ onclick.draw = function(tagName, param){
 				vsSource += "onmouseover=\"fn_tdMouseOver(this)\" ";
 				vsSource += "onmouseup=\"fn_tdMouseUp(this)\" ";
 					
-				vsSource += "ondblclick=\"fn_tdDbClick(this)\"> "
+				vsSource += "ondblclick=\"dblclick.fn_tdDbClick(this)\"> "
 				vsSource += "</td>";
 			}
 			vsSource += "\n      </tr>";
@@ -748,7 +748,7 @@ onclick.draw = function(tagName, param){
 		}
 		
 		
-		vsSource += "ondblclick=\"fn_updateBoxPopOpen(this)\">";
+		vsSource += "ondblclick=\"dblclick.fn_BoxOnDblClick(this)\">";
 		
 		for(var i=0; i<totalArray.length; i++){
 			
@@ -791,7 +791,7 @@ onclick.draw = function(tagName, param){
 	}
 	
 	fn_saveClone();
-	fn_draggable();
+	accordian.fn_draggable();
 }
 
 

@@ -31,7 +31,6 @@
 <script type="text/javaScript" language="javascript" defer="defer">
 
 
-
 </script>
 </head>
 
@@ -43,7 +42,7 @@
 
 	<form:form id="creationForm" name="creationForm" onsubmit ="return false;">
 		<div id="div_creationForm">
-			<div id="creationTable" onclick="fn_creationClick()">
+			<div id="creationTable" > <!-- onclick="fn_creationClick()" -->
 			</div>
 			
 		</div>

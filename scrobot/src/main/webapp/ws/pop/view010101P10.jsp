@@ -15,7 +15,7 @@
 <script type="text/javaScript" language="javascript" defer="defer">
 
 fn_makeCheckBox = function(){
-	boxCreationCallBack("checkbox");
+	callBack.boxCreationCallBack("checkbox");
 }
 
 fn_updateBox = function(){
@@ -24,18 +24,18 @@ fn_updateBox = function(){
 	
 	$("#"+node).remove();
 	
-	boxUpdateCallBack("checkbox");
+	callBack.boxUpdateCallBack("checkbox");
 } 
 
 $(document).ready(function(){
 	
 	var callBack = $("#callBack").val();
 	
-	if(callBack == "boxCreationCallBack"){
+	if(callBack == "callBack.boxCreationCallBack"){
 		$("#btn_promptUpdate").hide();
 		$("#btn_promptSave").show();
 	}
-	else if(callBack == "boxUpdateCallBack"){
+	else if(callBack == "callBack.boxUpdateCallBack"){
 		$("#btn_promptUpdate").show();
 		$("#btn_promptSave").hide();
 		
@@ -52,7 +52,7 @@ $(document).ready(function(){
 				vsSource += "<tr style=\"width:200px; height:30px; border:1px solid black\"> ";
 				vsSource += "<td style=\"width:200px; height:30px; border:1px solid black\"><input type=\"text\" name=\"value\" value="+voData[i].value+"></input></td> ";
 				vsSource += "<td style=\"width:200px; height:30px; border:1px solid black\"><input type=\"text\" name=\"label\" value="+voData[i].label+"></input></td> ";
-				vsSource += "<td style=\"width:200px; height:30px; border:1px solid black\"><input type=\"button\" class=\"del\" onclick=\"fn_delLine(this);\"  value=\"삭제\"></input></td> ";
+				vsSource += "<td style=\"width:200px; height:30px; border:1px solid black\"><input type=\"button\" class=\"del\" onclick=\"boxEdit.fn_delLine(this);\"  value=\"삭제\"></input></td> ";
 				vsSource += "</tr> ";
 			}
 			$("#propertyTablePop > tbody ").append(vsSource);
@@ -74,7 +74,7 @@ $(document).ready(function(){
 			<span style="float:left;">가로배열</span>
 			<input class="prompt_input" type="radio" name="check" choice="height" value="height" style="float:left;"></input>
 			<span style="float:left;">세로배열</span>
-			<input type="button" class="add" onclick="fn_addLine();" value="추가" style="float:right;"></input>
+			<input type="button" class="add" onclick="boxEdit.fn_addLine();" value="추가" style="float:right;"></input>
 		</td>
 	</tr>
 	<tr>
@@ -87,14 +87,14 @@ $(document).ready(function(){
 	<tr style="width:200px; height:30px; border:1px solid black">
 		<td style="width:200px; height:30px; border:1px solid black;"><input type="text" name="value"></input></td>
 		<td style="width:200px; height:30px; border:1px solid black;"><input type="text" name="label"></input></td> 
-		<td style="width:200px; height:30px; border:1px solid black;"><input type="button" onclick="fn_delLine(this);" value="삭제"></input></td>
+		<td style="width:200px; height:30px; border:1px solid black;"><input type="button" onclick="boxEdit.fn_delLine(this);" value="삭제"></input></td>
 	</tr>	
 	</tbody>
 </table>
 
 <input type="button" class="btn_retrieve" id="btn_promptSave" value="생성" onclick="fn_makeCheckBox();"></input>
 <input type="button" class="btn_retrieve" id="btn_promptUpdate" value="수정" onclick="fn_updateBox();"></input>
-<input type="button" class="btn_retrieve" value="취소" onclick="robot.closePop('',robot.boxCreationCallBack);"></input>
+<input type="button" class="btn_retrieve" value="취소" onclick="robot.closePop('',callBack.boxCreationCallBack);"></input>
 
  
 </body>
