@@ -505,6 +505,118 @@ $(document).ready(function(){
 		}
 	}
 
+	fn_addLine = function(){
+
+		var vsSource = "";
+		vsSource += "<tr style=\"width:200px; height:30px; border:1px solid black\"> ";
+		vsSource += "<td style=\"width:200px; height:30px; border:1px solid black\"><input type=\"text\" name=\"value\"></input></td> ";
+		vsSource += "<td style=\"width:200px; height:30px; border:1px solid black\"><input type=\"text\" name=\"label\"></input></td> ";
+		vsSource += "<td style=\"width:200px; height:30px; border:1px solid black\"><input type=\"button\" class=\"del\" onclick=\"fn_delLine(this);\"  value=\"삭제\"></input></td> ";
+		vsSource += "</tr> ";
+		$("#propertyTablePop > tbody > tr:last").after(vsSource);
+	}
+	
+	
+	fn_delLine = function(param){
+		debugger;
+		
+		if(param.parentElement.parentElement.parentElement.parentElement.childElementCount <= 2){
+			alert("1개 이상 생성해야합니다.");
+		}
+		else{
+			param.parentElement.parentElement.remove();		
+		}
+ 	
+	}
+	
+	fn_updateBoxPopOpen = function(param){
+		debugger;
+		var vnBoxLength = param.childElementCount-3;
+
+		var vsBoxDivId = param.id;
+		
+		var vnBoxCount;
+		
+		var header = "";
+		
+		if(vsBoxDivId.indexOf("checkbox") != -1){
+			var vsBoxCount = vsBoxDivId.replace("div_checkbox","");
+			
+			vnBoxCount = parseInt(vsBoxCount);
+			
+			header = "checkbox";
+		}
+		else if(vsBoxDivId.indexOf("radio") != -1){
+			var vsBoxCount = vsBoxDivId.replace("div_radio","");
+			
+			vnBoxCount = parseInt(vsBoxCount);
+			
+			header = "radiobox";
+		}
+	
+		var totalArray = new Array();	
+		
+		for(var i=1; i<=vnBoxLength; i++){
+			var total = new Object();
+			var value = $("#"+vsBoxDivId+" > input[name=name"+vnBoxCount+"]:nth-child("+i+")").val();
+			var label = $("#"+vsBoxDivId+" > input[name=name"+vnBoxCount+"]:nth-child("+i+")").attr("label");
+			
+			total.value = value;
+			total.label = label;
+			
+			totalArray.push(total);
+		}
+		
+		
+		var info = {"header" : header,
+				    "width"  : "700px",
+				    "height" : "500px",
+				    "callBack" : "boxUpdateCallBack",
+				    "param" : totalArray,
+				    "node" : vsBoxDivId
+			  		}
+		
+		if(header == "checkbox"){
+			robot.openPop(info, "view010101P10.jsp");
+		}
+		else if(header == "radiobox"){
+			robot.openPop(info, "view010101P11.jsp");
+		}
+	}
+	
+	
+	fn_updateSelectPopOpen = function(param){
+		debugger;
+		var vnBoxLength = param.childElementCount;
+
+		var vsBoxDivId = param.id;
+		
+		var vnBoxCount;
+		
+		var totalArray = new Array();	
+		
+		for(var i=0; i<vnBoxLength; i++){
+			var total = new Object();
+			
+			var label = $("#"+vsBoxDivId+" option:eq("+i+")").attr("label");
+			var value = $("#"+vsBoxDivId+" option:eq("+i+")").val();
+			
+			total.label = label;
+			total.value = value;
+			
+			totalArray.push(total);
+		}
+		
+		var info = {"header" : "selectBox",
+			    "width"  : "700px",
+			    "height" : "500px",
+			    "callBack" : "selectUpdateCallBack",
+			    "param" : totalArray,
+			    "node" : vsBoxDivId
+		  		}
+	
+		robot.openPop(info, "view010101P12.jsp");
+	}
 
 </script>
 </head>

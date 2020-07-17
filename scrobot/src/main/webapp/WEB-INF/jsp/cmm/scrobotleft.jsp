@@ -159,7 +159,8 @@
   vbTitleDragCheck = false;
   vbButtonDragCheck = false;
   vbInputBoxDragCheck = false;
-  
+  vbCheckBoxDragCheck = false;
+  vbRadioBoxDragCheck = false;
   // 마우스다운 여부
   vsMouseDownYn = "N";
   
@@ -377,6 +378,81 @@
 			 
 		 }
 	 
+	 
+	 if($(".div_checkbox").length != 0){
+		 $(".div_checkbox").draggable({
+			cursor:"move",
+			  grid: [ 10, 10 ],
+			   start:function(event,ui){
+			    	vsMouseDownYn = "N";
+			    },
+             stop: function( event, ui ){
+	               vbCheckBoxDragCheck = true;
+	              fn_creationTableResize(ui);
+             }
+		 });
+		 
+		 $( "[compoDvs=div_checkbox]" ).resizable(
+	    			{helper: "ui-resizable-helper",
+	    			start: function(event,ui){
+	    				vsMouseDownYn = "N";
+		    			
+	    				var vnLeft = Number($(ui.helper).css("left").replace("px",""));
+	    				var vnTop = Number($(ui.helper).css("top").replace("px",""));
+	    				
+	    				$(ui.helper).css("left",(vnLeft+10)+"px");
+	    				$(ui.helper).css("top",(vnTop+10)+"px");
+	    			},
+	    			stop: function( event, ui ) {
+	    				ui.element.width(ui.element.width()+20)
+	    				ui.element.height(ui.element.height()+20)
+	    			
+	    				//ui.element.children().eq(0).width(ui.helper.width()-3);
+	    				//ui.element.children().eq(0).height(ui.helper.height()-2);
+	    				fn_saveClone();
+	    				}
+	    			}
+	    	
+	    );
+	 }
+	 
+	 if($(".div_radio").length != 0){
+		 $(".div_radio").draggable({
+			cursor:"move",
+			  grid: [ 10, 10 ],
+			   start:function(event,ui){
+			    	vsMouseDownYn = "N";
+			    },
+             stop: function( event, ui ){
+	               vbRadioBoxDragCheck = true;
+	              fn_creationTableResize(ui);
+             }
+		 });
+		 
+		 $( "[compoDvs=div_radio]" ).resizable(
+	    			{helper: "ui-resizable-helper",
+	    			start: function(event,ui){
+	    				vsMouseDownYn = "N";
+		    			
+	    				var vnLeft = Number($(ui.helper).css("left").replace("px",""));
+	    				var vnTop = Number($(ui.helper).css("top").replace("px",""));
+	    				
+	    				$(ui.helper).css("left",(vnLeft+10)+"px");
+	    				$(ui.helper).css("top",(vnTop+10)+"px");
+	    			},
+	    			stop: function( event, ui ) {
+	    				ui.element.width(ui.element.width()+20)
+	    				ui.element.height(ui.element.height()+20)
+	    			
+	    				//ui.element.children().eq(0).width(ui.helper.width()-3);
+	    				//ui.element.children().eq(0).height(ui.helper.height()-2);
+	    				fn_saveClone();
+	    				}
+	    			}
+	    	
+	    );
+	 }
+	 
 	 if($( ".div_button" ).length != 0){
 		 $(".div_button").draggable({cursor: "move",
 			   grid: [ 10, 10 ],
@@ -457,8 +533,8 @@
 		 
 	 }
 	 
-	if($( "[compoDvs=div_selectBox]" ).length != 0){
-		$("[compoDvs=div_selectBox]").draggable({cursor: "move",
+	if($( "[compoDvs=div_select]" ).length != 0){
+		$("[compoDvs=div_select]").draggable({cursor: "move",
 				grid: [ 10, 10 ],
 				start:function(event,ui){
 			    	vsMouseDownYn = "N";
@@ -469,7 +545,7 @@
 		});
 		
 		
-		$( "[compoDvs=div_selectBox]" ).resizable(
+		$( "[compoDvs=div_select]" ).resizable(
     			{helper: "ui-resizable-helper",
     			start: function(event,ui){
     				vsMouseDownYn = "N";
@@ -593,8 +669,7 @@
 	                		var width = Number(voContent.eq(i).css("width").replace("px",""));
 	                		
 	                		// 도착한 곳이 div 안이라면(밖->안)
-	    	                if(vnCurrTop <= top+height && vnCurrTop >= top &&
-	    	                   vnCurrLeft <= left+width && vnCurrLeft >= left){
+	    	                if(vnCurrTop <= top+height && vnCurrTop >= top && vnCurrLeft <= left+width && vnCurrLeft >= left){
 	    	                	
 	    	                	vsDivYn = "Y";
 	    	                }
@@ -607,10 +682,9 @@
 	            		
 	            	}
 	            	
-	            	
-	            	
-	            	
 	            }
+	            	
+	            	
 
 	         	
 	         	ui.draggable.css("position","absolute");
@@ -671,7 +745,7 @@
 	    $( "td" ).droppable({
 	        drop: function( event, ui ) {
 	        	var vsCompoDvs = ui.draggable.attr("compoDvs");
-	        	if(["div_inputBox","div_selectBox","div_button","div_label"].indexOf(vsCompoDvs) != -1){
+	        	if(["div_inputBox","div_select","div_button","div_label","div_checkbox","div_radio"].indexOf(vsCompoDvs) != -1){
 	        		ui.draggable.css("top","");
 	        		ui.draggable.css("left","");
 	        		ui.draggable.css("position","relative");
@@ -704,9 +778,58 @@
 	
 	
 	/* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 그리기 이벤트 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+	
+	/* checkBox 만들기 */
+	function checkboxCreation(){
+		var info = {"header" : "checkBox",
+			    "width"  : "700px",
+			    "height" : "500px",
+			    "callBack" : "boxCreationCallBack"
+			   }
 		
+		robot.openPop(info, "view010101P10.jsp");		
+	}
+		
+	/* radioBox 만들기 */
+	function radioboxCreation(){
+		var info = {"header" : "radioBox",
+			    "width"  : "700px",
+			    "height" : "500px",
+			    "callBack" : "boxCreationCallBack"
+			   }
+		
+		robot.openPop(info, "view010101P11.jsp");	
+	}
 	
+	/* select박스 그리기 */
+	function selectCreation() {
+		var info = {"header" : "selectBox",
+			    "width"  : "700px",
+			    "height" : "500px",
+			    "callBack" : "selectboxCreationCallBack"
+			   }
+		
+		robot.openPop(info, "view010101P12.jsp");
+	}
 	
+	/* select박스 그리기 CallBack */
+	selectboxCreationCallBack = function(param){
+		onclick.draw("select");
+	}
+	
+	selectUpdateCallBack = function(param){
+		onclick.draw(param);
+	}
+	
+	/* box그리기 CallBack */
+	boxCreationCallBack = function(param){
+		onclick.draw(param);
+	}
+	
+	/* box수정 CallBack */
+	boxUpdateCallBack = function(param){
+		onclick.draw(param);
+	}
 	
 	/* DIV 만들기 */
 	function divCreation() {
@@ -745,10 +868,6 @@
 		onclick.draw("input");
 	}
 	
-	/* select박스 그리기 */
-	function selectCreation() {
-		onclick.draw("select");
-	}
 	
 	
 	
@@ -984,6 +1103,66 @@
 		vsLabelYn = "Y";
 			
 	}
+	
+	fn_radioBoxOnDblClick = function(param){
+		$(param).attr("focus","true");
+		robot.getAttr(param);
+		robot.prompt("라벨입력","라벨을 입력하시오",["라벨"],"","","fn_radioBoxOnDblClickCallBack");
+	
+		voPromptObject = param;
+		
+		vsLabelYn = "Y";
+	}
+
+	fn_radioBoxOnDblClickCallBack = function(param){
+		
+		if(param == ""){
+			voPromptObject = "";
+			return false;
+		}
+		
+		$(voPromptObject).parent().css("width","1000px");
+		voPromptObject.textContent = param[0];
+		$(voPromptObject).attr("value",param[0]);
+		
+		var vnWidth = Number($(voPromptObject).css("width").replace("px",""));
+		var vnHeight = Number($(voPromptObject).css("height").replace("px",""));
+		$(voPromptObject).parent().css("width",(vnWidth+30)+"px");
+		$(voPromptObject).parent().css("height",(vnHeight+20)+"px");
+		
+		robot.getAttr(voPromptObject);
+		voPromptObject = "";
+		
+	}
+	
+	fn_checkBoxOnDblClick = function(param){
+		$(param).attr("focus","true");
+		robot.getAttr(param);
+		robot.prompt("라벨입력","라벨을 입력하시오",["라벨"],"","","fn_checkBoxOnDblClickCallBack");
+		
+		voPromptObject = param;
+	}
+	
+	fn_checkBoxOnDblClickCallBack = function(param){
+		
+		if(param == ""){
+			voPromptObject = "";
+			return false;
+		}
+		
+		$(voPromptObject).parent().css("width","1000px");
+		voPromptObject.textContent = param[0];
+		$(voPromptObject).attr("value",param[0]);
+		
+		var vnWidth = Number($(voPromptObject).css("width").replace("px",""));
+		var vnHeight = Number($(voPromptObject).css("height").replace("px",""));
+		$(voPromptObject).parent().css("width",(vnWidth+30)+"px");
+		$(voPromptObject).parent().css("height",(vnHeight+20)+"px");
+		
+		robot.getAttr(voPromptObject);
+		voPromptObject = "";
+	}
+
 	
 	fn_titleOnDblClickCallBack = function(param){
 		
@@ -1352,6 +1531,8 @@
 				</tr>
 	
 				<tr>
+					<td class="" onclick="checkboxCreation();">checkBox</td>
+					<td class="" onclick="radioboxCreation();">radioBox</td>
 					<td class="" onclick="tableCreation();">
 						<img src="<c:url value='/images/object/icon_table.png'/>" title="테이블생성"/>
 					</td>

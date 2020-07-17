@@ -205,6 +205,7 @@ robot.openPop = function(info, url, urlDvs,tagDvs){
 	var height = info.height;
 	var vsCallBack = info.callBack;
 	var vjParam = info.param;
+	var node = info.node;
 	
 	if(typeof(header) == "undefined"){
 		header = "popUp";
@@ -226,13 +227,16 @@ robot.openPop = function(info, url, urlDvs,tagDvs){
 		vsCallBack = "''";
 	}
 
-	
+	if(typeof(node) == "undefined"){
+		node = "";
+	}
 	
 	var div_popCount = $(".div_pop").length;
 
 	var info= "<div id=\"div_pop"+div_popCount+"\" class=\"div_pop\" style=>";
 	
 	info += " <input id=\"param\" type=\"hidden\" value=";
+
 	
 	var vsRecursion = robot.objectForRecursion("",vjParam);
 	vsRecursion = vsRecursion.replace(/,\s*$/, "");
@@ -241,6 +245,8 @@ robot.openPop = function(info, url, urlDvs,tagDvs){
 	info += vsRecursion;
 	
 	info += "></input>";
+	
+	info += " <input id=\"node\" type=\"hidden\" value=\""+node+"\" >"; 
 	
 	info += " <input id=\"callBack\" type=\"hidden\" value=\""+vsCallBack+"\"></input>";
 	
