@@ -302,7 +302,7 @@ onclick.draw = function(tagName, param){
 	else if(tagName == "title"){
 
 		// 타이틀 div 시작
-		var vsSource = "  <div id=\"div" + vnTitleCount + "_title\"";
+		var vsSource = "\n  <div id=\"div" + vnTitleCount + "_title\"";
 		vsSource += "   class=\"div_title\" compoDvs=\"div_title\" ";
 		
 		vsSource += "   style=\"top:"+onclick.fn_creationPosition()+"px;\"";
@@ -311,11 +311,11 @@ onclick.draw = function(tagName, param){
 		vsSource += ">";
 	
 		// 타이틀 span
-		vsSource += "  <span id=\"span" + vnTitleCount +"_title\" focus=false";
+		vsSource += "\n    <span id=\"span" + vnTitleCount +"_title\" focus=false";
 		vsSource += "  class=\"span_title\" compoDvs=\"span_title\" value=\"title\" "
 		vsSource += "  ondblclick=\"fn_titleOnDblClick(this);\">title"
 		vsSource += "  </span>";
-		vsSource += "  </div>";
+		vsSource += "\n  </div>";
 		
 		
 		
@@ -357,7 +357,7 @@ onclick.draw = function(tagName, param){
 	} else if(tagName == "label"){
 
 	// 타이틀 div 시작
-	var vsSource = "  <div id=\"div" + vnLabelCount + "_label\"";
+	var vsSource = "\n  <div id=\"div" + vnLabelCount + "_label\"";
 	vsSource += "   class=\"div_label\" compoDvs=\"div_label\" ";
 	
 	if(!focusOut.tableYn()){
@@ -367,11 +367,11 @@ onclick.draw = function(tagName, param){
 	}
 	
 	// 타이틀 span
-	vsSource += "  <span id=\"span" + vnLabelCount +"_label\" focus=false";
+	vsSource += "\n    <span id=\"span" + vnLabelCount +"_label\" focus=false";
 	vsSource += "  class=\"span_label\" compoDvs=\"span_label\" value=\"label\" "
 	vsSource += "  ondblclick=\"fn_labelOnDblClick(this);\"> label"
 	vsSource += "  </span>";
-	vsSource += "  </div>";
+	vsSource += "\n  </div>";
 	
 	
 	
@@ -407,7 +407,7 @@ onclick.draw = function(tagName, param){
 			vsSource += "<br/>"
 		}
 		
-		vsSource += "<div id=\"div_inputBox"+vnInputCount+"\" compoDvs=\"div_inputBox\" class=\"div_inputBox\" ";
+		vsSource += "\n  <div id=\"div_inputBox"+vnInputCount+"\" compoDvs=\"div_inputBox\" class=\"div_inputBox\" ";
 		
 			
 		if(!focusOut.tableYn()){
@@ -417,10 +417,10 @@ onclick.draw = function(tagName, param){
 		}
 		
 		
-		vsSource += "<input id=\"inputBox"+vnInputCount+"\" type=\"text\" class=\"inputBox Ltext\" name=\"value"+vnInputCount+"\" ";
+		vsSource += "\n   <input id=\"inputBox"+vnInputCount+"\" type=\"text\" class=\"inputBox Ltext\" name=\"value"+vnInputCount+"\" ";
 		vsSource += " focus=false compoDvs=\"inputBox\" "
-		vsSource += "</input>";
-		vsSource += "</div>";
+		vsSource += "> </input>";
+		vsSource += "\n  </div>";
 
 		// input박스 왼쪽정렬
 		$("td[tableFocus=true]").css("text-align","left");
@@ -540,7 +540,7 @@ onclick.draw = function(tagName, param){
 	
 
 		
-		var vsSource = "<div id=\"div_button"+vnButtonCount+"\" compoDvs=\"div_button\" class=\"div_button\" ";
+		var vsSource = "\n  <div id=\"div_button"+vnButtonCount+"\" compoDvs=\"div_button\" class=\"div_button\" ";
 		
 		
 		if(!focusOut.tableYn()){
@@ -550,14 +550,14 @@ onclick.draw = function(tagName, param){
 		}
 		
 		// 타이틀 span
-		vsSource += "  <input type=\"button\" id=\"button" + vnButtonCount+"\"";
+		vsSource += "\n    <input type=\"button\" id=\"button" + vnButtonCount+"\"";
 		vsSource += "  class=\"button\" "
 		vsSource += "  value=\"button\" "
 		vsSource += "  focus=false compoDvs=\"button\" "
 		
 		vsSource += "  ondblclick=\"fn_buttonOnDblClick(this);\">";
 		vsSource += "  </input>";
-		vsSource += "  </div>";
+		vsSource += "\n  </div>";
 		
 		// table focus 여부
 		// 포커스가 없다면 body에 생성
@@ -588,29 +588,29 @@ onclick.draw = function(tagName, param){
 		//var width = $(voFocusDivInfo).css("width");
 
 		// table 시작
-		var vsSource = "<div id=\"div_table"+vnTableCount+"\"";
+		var vsSource = "\n  <div id=\"div_table"+vnTableCount+"\"";
 		vsSource += " class=\"div_table\" focus=false";
 		vsSource += " style=\"top:"+onclick.fn_creationPosition()+"px;\" compoDvs=\"div_table\" ";
 		vsSource += ">";
-		vsSource += "<table id=\"table" + vnTableCount + "\"";;
-		vsSource += " class=\"table\" border=\"1\" cellpadding=\"0\" cellspacing=\"0\" ";
-		vsSource += " compoDvs=\"table\" ";
-		vsSource += "\n <colgroup>";
+		vsSource += "\n    <table id=\"table" + vnTableCount + "\"";;
+		vsSource += " class=\"table\" border=\"1\" cellspacing=\"0\" ";
+		vsSource += " compoDvs=\"table\"> ";
+		vsSource += "\n     <colgroup>";
 
 		for (var i = 0; i < param[0]; i++) {
 			//짝수 셀
 			if(i % 2 == 0){
-				vsSource += "\n  <col/>";
+				vsSource += "\n      <col/>";
 			// 홀수 셀
 			} else{
-				vsSource += "\n  <col/>";
+				vsSource += "\n      <col/>";
 			}
 			
 		}
-		vsSource += "\n </colgroup>";
+		vsSource += "\n     </colgroup>";
 		
 		//tbody 추가
-		vsSource += "\n <tbody>"
+		vsSource += "\n     <tbody>"
 
 		for (var i = 0; i < param[1]; i++) {
 			vsSource += "\n <tr name=\"tr\" row=\""+i+"\" compoDvs=\"tr\" height=\"40\">";
@@ -633,14 +633,14 @@ onclick.draw = function(tagName, param){
 				vsSource += "ondblclick=\"fn_tdDbClick(this)\"> "
 				vsSource += "</td>";
 			}
-			vsSource += "\n </tr>";
+			vsSource += "\n      </tr>";
 		}
 		
 		//tbody 추가
-		vsSource += "\n </tbody>"
+		vsSource += "\n     </tbody>"
 
-		vsSource += "</table>";
-		vsSource += "</div>";
+		vsSource += "\n    </table>";
+		vsSource += "\n  </div>";
 		
 		// div focus 여부
 		// 포커스가 없다면 body에 생성
@@ -789,7 +789,6 @@ onclick.draw = function(tagName, param){
 
 		
 	}
-	
 	
 	fn_saveClone();
 	fn_draggable();

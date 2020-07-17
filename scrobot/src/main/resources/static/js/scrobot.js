@@ -403,74 +403,74 @@ robot.getAttr = function(param, i){
 
 
 
-robot.objectForRecursion = function(info,vjParam){debugger;
-
-
-if(typeof(vjParam) == "object"){
+robot.objectForRecursion = function(info,vjParam){
 	
-	if(vjParam.forEach == null){
+	
+	if(typeof(vjParam) == "object"){
 		
-		info += "{";
-		
-		for(var i=0; i<Object.keys(vjParam).length; i++){
+		if(vjParam.forEach == null){
 			
-			info += "\"";
-			info += Object.keys(vjParam)[i];
+			info += "{";
 			
-			info += "\":";
-			var vjParam2 = vjParam[Object.keys(vjParam)[i]];
-			if(typeof(vjParam2) == "object"){
-				
-				info = robot.objectForRecursion(info, vjParam2);
-				
-			} else{
+			for(var i=0; i<Object.keys(vjParam).length; i++){
 				
 				info += "\"";
-				info += vjParam[Object.keys(vjParam)[i]];
-				info += "\"";
+				info += Object.keys(vjParam)[i];
 				
-				if(Object.keys(vjParam).length-1 != i){
+				info += "\":";
+				var vjParam2 = vjParam[Object.keys(vjParam)[i]];
+				if(typeof(vjParam2) == "object"){
 					
-					info += ",";
+					info = robot.objectForRecursion(info, vjParam2);
+					
+				} else{
+					
+					info += "\"";
+					info += vjParam[Object.keys(vjParam)[i]];
+					info += "\"";
+					
+					if(Object.keys(vjParam).length-1 != i){
+						
+						info += ",";
+					}
 				}
+				
 			}
+			info = info.replace(/,\s*$/, "");
+			info += "}";
 			
-		}
-		info = info.replace(/,\s*$/, "");
-		info += "}";
-		
-	} else{
-		
-		info += "[";
-		
-		for(var i=0; i<vjParam.length; i++){
+		} else{
 			
+			info += "[";
 			
-			var vjParam2 = vjParam[i];
-			if(typeof(vjParam2) == "object"){
+			for(var i=0; i<vjParam.length; i++){
 				
-				info = robot.objectForRecursion(info, vjParam2);
 				
-			} else{
-				info += "\"";
-				info += vjParam[i];
-				info += "\"";
-				if(vjParam.length-1 != i){
-					info += ",";
+				var vjParam2 = vjParam[i];
+				if(typeof(vjParam2) == "object"){
+					
+					info = robot.objectForRecursion(info, vjParam2);
+					
+				} else{
+					info += "\"";
+					info += vjParam[i];
+					info += "\"";
+					if(vjParam.length-1 != i){
+						info += ",";
+					}
 				}
+				
 			}
-			
+			info = info.replace(/,\s*$/, "");
+			info += "]";
 		}
-		info = info.replace(/,\s*$/, "");
-		info += "]";
+		
+		info += ",";
+		
 	}
 	
-	info += ",";
 	
-}
-
-
-return info;
+	return info;
 }
 
 

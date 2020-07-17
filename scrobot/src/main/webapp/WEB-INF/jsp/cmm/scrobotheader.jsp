@@ -140,16 +140,14 @@ $(document).ready(function(){
 	});
 });
 	
-	// 현재 화면 업무명
-	vsWrkNm = "";
+	// 현재 화면 ID
+	vsViewId = "";
 	
 	//Clone
 	voClone = [""];
 	
 	//clone index
 	vnCloneIndex = 0;
-	
-	
 	
 	
 	/* 2020.05.04
@@ -172,7 +170,7 @@ $(document).ready(function(){
 
 			$("#creationTable").empty();
 			fn_saveClone();
-			vsWrkNm = "";
+			vsViewId = "";
 		}
 		
 	}
@@ -320,6 +318,42 @@ $(document).ready(function(){
 			return false;
 		}
 		
+		//////////////////////전체젲거
+		// compodvs attr 제거
+		$("#creationTable [compodvs]").removeAttr("compodvs");
+		$("#creationTable [focus]").removeAttr("focus");
+		$("#creationTable [mainfocus]").removeAttr("mainfocus");
+		$("#creationTable [tablefocus]").removeAttr("tablefocus");
+		
+		$("#creationTable [onclick]").removeAttr("onclick");
+		$("#creationTable [ondblclick]").removeAttr("ondblclick");
+		$("#creationTable [onmousedown]").removeAttr("onmousedown");
+		$("#creationTable [onmouseover]").removeAttr("onmouseover");
+		$("#creationTable [onmouseup]").removeAttr("onmouseup");
+		
+		
+		// resize 모양 제거
+		$("#creationTable .ui-resizable-handle").remove();
+		
+		// class 제거
+		$("#creationTable .ui-draggable").removeClass("ui-draggable ui-draggable-handle ui-resizable");
+		
+		// resize 모양 제거
+		$("#creationTable .ui-droppable").removeClass("ui-droppable");
+		
+		
+		
+		////////////////////////////////////////////////////////table
+		$("#creationTable [row]").removeAttr("row")
+		$("#creationTable [shell]").removeAttr("shell")
+		
+		
+		var vsJsp = $("#creationTable").html();
+		
+		// 지우기전 클론으로 되돌리기
+		$("#creationTable").empty();
+		$("#creationTable").append(voClone[vnCloneIndex]);
+		
 		var vsHtml = $("#creationTable").html();
 		var vsStyle = $("style").html();
 		
@@ -327,28 +361,34 @@ $(document).ready(function(){
 
 		var vjCreationInfo = {
 				"html" : vsHtml,
+				"jsp" : vsJsp,
 				"businessNm" : vsbusinessNm,
-				"style" : vsStyle
+				"style" : vsStyle,
+				"devSource" : vjQuery
 		}
 		
 		$.ajax({
 			url : "/creationHTML.do",
 			type : "POST",
-			data : vjCreationInfo,
+			data : JSON.stringify(vjCreationInfo),
+			dataType: "json",
+			contentType: "application/json",
 			success : function(data) {
 				robot.alert("저장되었습니다.");
-				vsWrkNm = vsbusinessNm;
+				vsViewId = vsbusinessNm;
 
 			},
-			error : function() {
-			}
+			error:function(request,status,error){
+		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		       }
+
 		})
 	}
 	
 	
 	
 	/* 저장 function */
-	fn_createSource = function() {debugger;
+	fn_createSource = function() {
 		
 		$.ajax({
 			url : "/userIdSessionYn.do",
@@ -361,10 +401,10 @@ $(document).ready(function(){
 					
 				// 세션에 id가 있다면
 				} else{
-					if(vsWrkNm == ""){
+					if(vsViewId == ""){
 						robot.prompt("저장","업무명을 입력하시오",["업무명"],"","","fn_diffrentNmSaveCallBack");
 					} else{
-						fn_diffrentNmSaveCallBack([vsWrkNm]);
+						fn_diffrentNmSaveCallBack([vsViewId]);
 					}
 				}
 
@@ -415,7 +455,7 @@ $(document).ready(function(){
 					// 세션에 id가 있다면
 					} else{
 						var param = {
-					    		"wrkNm" : "hi"
+					    		"viewId" : "hi"
 					    }
 						var info = {"header" : "불러오기",
 								    "width"  : "700px",
@@ -440,7 +480,18 @@ $(document).ready(function(){
 	}
 		
 	fn_saveListCallCallBack = function(param){
-		vsWrkNm = param;
+		if(param != ""){
+			if(typeof(param) == "string"){
+				vsViewId = param;
+				vjQuery = "";
+			} else{
+				vsViewId = param[0].VIEW_ID;
+				vjQuery = param;
+			}
+			
+		}
+		
+		
 	}
 	
 	fn_logout = function(){
