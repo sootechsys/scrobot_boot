@@ -276,16 +276,16 @@ td[tableFocus="true"]{
 /* ------------------select */
 
 
-[compoDvs="div_selectBox"]{
+[compoDvs="div_select"]{
 	width:150px;
 	position:absolute;
 }
 
-[compoDvs="div_selectBox"]:hover{
+[compoDvs="div_select"]:hover{
 	cursor:move;
 }
 
-[compoDvs="selectBox"]{
+[compoDvs="select"]{
 	text-align:left;
 	margin: 10px 10px 10px 10px;
 	width:130px;

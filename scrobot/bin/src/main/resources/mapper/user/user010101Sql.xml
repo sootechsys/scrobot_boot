@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user010101">
+	
+	<select id="selectLogin" parameterType="hashmap" resultType ="HashMap">
+
+	    	/* retrieveLogin */
+			SELECT IF(COUNT(*)=0,'N','Y') AS loginSuccessYn
+			FROM USER01
+			WHERE ID = #{id}
+			<if test='dvsNm == "login"'>
+			AND PASS = #{pass}    
+			</if>
+	</select>
+	
+</mapper>

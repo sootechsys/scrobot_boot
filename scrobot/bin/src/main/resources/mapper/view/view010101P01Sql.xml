@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="view010101P01">
+
+	<select id="retrieveWrkList" parameterType="hashmap" resultType ="HashMap">
+
+	    	/** retrieveWrkList */
+	    	
+			SELECT WRK_NM
+			     , SOURCE
+			FROM ROBOT01
+			WHERE USER_ID = #{userId}
+			<if test='wrkNm != "" and wrkNm != null'>
+			AND WRK_NM LIKE CONCAT('%', #{wrkNm}, '%')
+			</if>
+			ORDER BY WRK_NM
+	</select>
+			
+
+	
+	
+	<select id="retrieveWrkHistryList" parameterType="hashmap" resultType ="HashMap">
+
+	    	/* retrieveWrkList */
+	    	
+			SELECT WRK_NM
+				 , SOURCE
+			     , DATE_FORMAT(CHNG_HISTRY_DTTM,'%Y-%m-%d %H:%i:%s') AS	CHNG_HISTRY_DTTM
+			FROM ROBOT02
+			WHERE USER_ID = #{userId}
+			<if test='wrkNm != "" and wrkNm != null'>
+			AND WRK_NM LIKE CONCAT('%', #{wrkNm}, '%')    
+			</if>
+			ORDER BY CHNG_HISTRY_DTTM DESC
+	</select>
+
+
+</mapper>

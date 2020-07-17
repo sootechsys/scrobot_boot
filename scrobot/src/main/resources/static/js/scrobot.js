@@ -191,7 +191,6 @@ robot.confirm = function(msg, btn1, btn2, param, callBack){
 }
 
 
-
 /* openPop - 팝업을 오픈한다.
  * info : header헤더에 표시될 내용(string)
  * url : 팝업에 표시될 url내용(String)
@@ -205,6 +204,7 @@ robot.openPop = function(info, url, urlDvs,tagDvs){
 	var height = info.height;
 	var vsCallBack = info.callBack;
 	var vjParam = info.param;
+	var node = info.node;
 	
 	if(typeof(header) == "undefined"){
 		header = "popUp";
@@ -226,31 +226,26 @@ robot.openPop = function(info, url, urlDvs,tagDvs){
 		vsCallBack = "''";
 	}
 
-	
+	if(typeof(node) == "undefined"){
+		node = "";
+	}
 	
 	var div_popCount = $(".div_pop").length;
 
 	var info= "<div id=\"div_pop"+div_popCount+"\" class=\"div_pop\" style=>";
 	
 	info += " <input id=\"param\" type=\"hidden\" value=";
+
 	
-	if(typeof(vjParam) == "object"){
-		info += "{";
-		for(var i=0; i<Object.keys(vjParam).length; i++){
-			info += "\"";
-			info += Object.keys(vjParam)[i];
-			
-			info += "\":\"";
-			info += vjParam[Object.keys(vjParam)[i]];
-			info += "\"";
-			if(Object.keys(vjParam).length-1 != i){
-				info += ",";
-			}
-		}
-		info += "}";
-	}
+	var vsRecursion = robot.objectForRecursion("",vjParam);
+	vsRecursion = vsRecursion.replace(/,\s*$/, "");
+	vsRecursion = vsRecursion.split(" ").join("&nbsp;");
+	
+	info += vsRecursion;
 	
 	info += "></input>";
+	
+	info += " <input id=\"node\" type=\"hidden\" value=\""+node+"\" >"; 
 	
 	info += " <input id=\"callBack\" type=\"hidden\" value=\""+vsCallBack+"\"></input>";
 	
@@ -280,6 +275,7 @@ robot.openPop = function(info, url, urlDvs,tagDvs){
 	}
 	
 }
+
 
 /* closePop - 팝업을 닫는다.
  * param : 콜백함수로 보내질 param값(Object)
@@ -399,13 +395,107 @@ robot.getAttr = function(param, i){
 	
 	
 }
+
+
+
+
+
+
+
+
+robot.objectForRecursion = function(info,vjParam){debugger;
+
+
+if(typeof(vjParam) == "object"){
 	
+	if(vjParam.forEach == null){
+		
+		info += "{";
+		
+		for(var i=0; i<Object.keys(vjParam).length; i++){
+			
+			info += "\"";
+			info += Object.keys(vjParam)[i];
+			
+			info += "\":";
+			var vjParam2 = vjParam[Object.keys(vjParam)[i]];
+			if(typeof(vjParam2) == "object"){
+				
+				info = robot.objectForRecursion(info, vjParam2);
+				
+			} else{
+				
+				info += "\"";
+				info += vjParam[Object.keys(vjParam)[i]];
+				info += "\"";
+				
+				if(Object.keys(vjParam).length-1 != i){
+					
+					info += ",";
+				}
+			}
+			
+		}
+		info = info.replace(/,\s*$/, "");
+		info += "}";
+		
+	} else{
+		
+		info += "[";
+		
+		for(var i=0; i<vjParam.length; i++){
+			
+			
+			var vjParam2 = vjParam[i];
+			if(typeof(vjParam2) == "object"){
+				
+				info = robot.objectForRecursion(info, vjParam2);
+				
+			} else{
+				info += "\"";
+				info += vjParam[i];
+				info += "\"";
+				if(vjParam.length-1 != i){
+					info += ",";
+				}
+			}
+			
+		}
+		info = info.replace(/,\s*$/, "");
+		info += "]";
+	}
 	
+	info += ",";
 	
+}
+
+
+return info;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
-
-
-
-
-
-
