@@ -28,7 +28,23 @@ onclick.focus = function(param,e){
 			}
 				
 			
-		} else if(vsCompoDvs == "div_content"){
+		}
+		else if(vsCompoDvs == "portlet-header"){
+			
+			if($(e.target).attr("focus") == "true"){
+				
+				$(e.target).attr("focus","false"); 
+				$(e.target).attr("mainFocus","false"); 
+				
+			} else if($(e.target).attr("focus") == "false"){
+				focusOut.All();
+				$(e.target).attr("focus","true"); 
+				$(e.target).attr("mainFocus","true");
+				
+			}
+		}
+		else if(vsCompoDvs == "div_content"){
+		
 			if($(e.target).attr("focus") == "true"){
 				
 				$(e.target).attr("focus","false"); 
@@ -91,6 +107,26 @@ onclick.focus = function(param,e){
 			
 		}
 		else if(vsCompoDvs == "div_checkbox"){
+			if($(e.target).attr("focus") == "true"){
+				$(e.target).attr("focus","false"); 
+				
+			} else if($(e.target).attr("focus") == "false"){
+				focusOut.All();
+				$(e.target).attr("focus","true"); 
+
+				
+			}
+		}else if(vsCompoDvs == "div_checkbox_sub"){
+			if($(e.target).attr("focus") == "true"){
+				$(e.target).attr("focus","false"); 
+				
+			} else if($(e.target).attr("focus") == "false"){
+				focusOut.All();
+				$(e.target).attr("focus","true"); 
+
+				
+			}
+		}else if(vsCompoDvs == "div_checkbox_content"){
 			if($(e.target).attr("focus") == "true"){
 				$(e.target).attr("focus","false"); 
 				
@@ -659,7 +695,13 @@ onclick.draw = function(tagName, param){
 	}
 	else if(tagName == "checkbox" || tagName =="radio"){
 		
+		debugger;
+		
+		var vsSource = "";
+		
 		var vnGroupCount = 0;
+		
+		//var stubCount = 0;
 		
 		if(tagName == "checkbox"){
 			vnGroupCount  = vnCheckGroupCount;
@@ -681,12 +723,12 @@ onclick.draw = function(tagName, param){
 		else if(typeof height == "undefined"){
 			direction = width;
 		}
-		
-		var value;
-		var label;
-		
+	
 		var totalArray = new Array();	
 		var tableLength = $("#propertyTablePop > tbody > tr").length;
+	
+		var maxNum = 0;
+		var totalLength = 0;
 		
 		for(var i=0; i<=tableLength; i++){
 			var total = new Object();
@@ -697,74 +739,72 @@ onclick.draw = function(tagName, param){
 			else{
 				value = $("#propertyTablePop > tbody > tr:nth-child("+i+") > td:nth-child(1) > input").val();
 				label = $("#propertyTablePop > tbody > tr:nth-child("+i+") > td:nth-child(2) > input").val();
+				labelLength = label.length;
 				total.value = value;
 				total.label = label;
+				total.labelLength = 40 + labelLength*10; // 각각 labelLength의 크기를 width 형식에 맞게 만든것.
+				
+				if(maxNum < labelLength){
+					maxNum = labelLength;
+				}
+				
+				totalLength += 40+labelLength*10;
+				//totalWidth += labelLength*10;
 			}
 			totalArray.push(total);
 		}
 		
 		var vsSource = "";
 		
-		if(!focusOut.tableYn()){
-			vsSource += "<br/>"
-		}
-		
 		vsSource += " <div id=\"div_"+tagName+""+vnGroupCount+"\" compoDvs=\"div_"+tagName+"\" class=\"div_"+tagName+"\" focus=false ";
-
-		var maxNum = 0;
-		
-		for(var i=1; i<=tableLength; i++){
-			var checker = totalArray[i].label;
-			
-			var checkerLength = checker.length;
-			
-			if(maxNum <= checkerLength){
-				maxNum = checkerLength;
-			}
-			else{
-				continue;
-			}
-			
-		}
-		
-		var widthCheck = "";
-		var heightCheck = "";
 		
 		if(!focusOut.tableYn()){
-			
-			if(totalArray[0].direction == "width"){
-				widthCheck = "width:"+((30+maxNum*10)*tableLength)+"px;";
-				heightCheck = "";
-			}
-			else if(totalArray[0].direction == "height"){
-				widthCheck = "width:"+(30+maxNum*10)+"px;";
-				heightCheck = "height:"+(30*tableLength)+"px;";
-			}
-			
-			vsSource += "style=\"top:"+onclick.fn_creationPosition()+"px; margin: 10px 0px 0px 10px; "+widthCheck+"  "+heightCheck+" \" ";
+			vsSource += " style=\" top:"+onclick.fn_creationPosition()+"px; margin: 10px 0px 0px 10px; background-color:transparent; width:"+totalLength+"px; \"";
 		}
 		else{
-			vsSource += "style=\"position:relative;\" ";
+			vsSource += " style=\"position:relative; background-color:transparent; width:"+totalLength+"px; \"";
 		}
 		
+		vsSource += " ondblclick=\"dblclick.fn_BoxOnDblClick(this)\" >";
 		
-		vsSource += "ondblclick=\"dblclick.fn_BoxOnDblClick(this)\">";
-		
-		for(var i=0; i<totalArray.length; i++){
-			
-			if(i==0){
-				continue;
-			}
-			else{
-				vsSource += "<input type=\""+tagName+"\" compoDvs=\""+tagName+"\" name=\"name"+vnGroupCount+"\" value=\""+totalArray[i].value+"\"/ label=\""+totalArray[i].label+"\" >"+totalArray[i].label;
-				if(totalArray[0].direction == "height"){
-					vsSource += "<br>";
+		if(direction == width){ // 한칸당 div1개
+			for(var i=0; i<=tableLength; i++){
+				if(i == 0){
+					continue;
 				}
-			}
+				else{
+					vsSource += "<div class=\"div_"+tagName+"_sub\" focus=false  style=\"width:"+totalArray[i].labelLength+"px; float:left;\" focus=false compoDvs=\"portlet-header\">";
+					vsSource += "<div class=\"portlet-header\">";
+					vsSource += "<input type=\""+tagName+"\" compoDvs=\""+tagName+"\"";
+					vsSource += " name=\"name"+vnGroupCount+"\" value=\""+totalArray[i].value+"\" label=\""+totalArray[i].label+"\" >"+totalArray[i].label+"</input>";
+					vsSource += "</div>";
+					vsSource += "</div>";
+				}
 			
-		}	
-		vsSource += " </div>";
-		
+			}
+		}
+		else if(direction == height){ // div 첫칸에 몰빵  . 나머지div는 생성
+			for(var i=0; i<=tableLength; i++){
+				vsSource += "<div class=\"div_"+tagName+"_sub\">";
+				
+				if(i == 0){
+					for(var j=0; j<=tableLength; j++){
+						if(j == 0){ continue; }
+						else{
+							vsSource += "<div class=\"portlet-header\" style=\"\" focus=false  compoDvs=\"portlet-header\" >";
+							vsSource += "<input type=\""+tagName+"\" compoDvs=\""+tagName+"\"";
+							vsSource += " name=\"name"+vnGroupCount+"\" value=\""+totalArray[j].value+"\" label=\""+totalArray[j].label+"\" >"+totalArray[j].label+"</input>";	
+							vsSource += "</div>";
+						} 
+					}
+				}
+				
+				vsSource += "</div>";
+			}
+		}
+	
+		vsSource += "</div>";
+	
 		$("td[tableFocus=true]").css("text-align","left");
 		
 		if(!focusOut.tableYn()){
@@ -786,8 +826,7 @@ onclick.draw = function(tagName, param){
 		
 		var div_popCount = ($(".div_pop").length)-1;
 		$("#div_pop"+div_popCount).remove();
-
-		
+	
 	}
 	
 	fn_saveClone();

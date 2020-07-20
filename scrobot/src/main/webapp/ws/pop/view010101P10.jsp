@@ -96,7 +96,6 @@ $(document).ready(function(){
 <input type="button" class="btn_retrieve" id="btn_promptUpdate" value="수정" onclick="fn_updateBox();"></input>
 <input type="button" class="btn_retrieve" value="취소" onclick="robot.closePop('',callBack.boxCreationCallBack);"></input>
 
- 
 </body>
 </html>
 

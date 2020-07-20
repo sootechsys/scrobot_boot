@@ -182,6 +182,43 @@ accordian.fn_draggable = function(){
 		    );
 		 }
 		 
+		 if($(".div_checkbox_sub").length != 0){
+			 $(".div_checkbox_sub").draggable({
+				cursor:"move",
+				  grid: [ 10, 10 ],
+				   start:function(event,ui){
+				    	vsMouseDownYn = "N";
+				    },
+	             stop: function( event, ui ){
+		               vbCheckBoxDragCheck = true;
+		              fn_creationTableResize(ui);
+	             }
+			 });
+			 
+			 $( "[compoDvs=portlet-header]" ).resizable(
+		    			{helper: "ui-resizable-helper",
+		    			start: function(event,ui){
+		    				vsMouseDownYn = "N";
+			    			
+		    				var vnLeft = Number($(ui.helper).css("left").replace("px",""));
+		    				var vnTop = Number($(ui.helper).css("top").replace("px",""));
+		    				
+		    				$(ui.helper).css("left",(vnLeft+10)+"px");
+		    				$(ui.helper).css("top",(vnTop+10)+"px");
+		    			},
+		    			stop: function( event, ui ) {
+		    				ui.element.width(ui.element.width()+20)
+		    				ui.element.height(ui.element.height()+20)
+		    			
+		    				ui.element.children().eq(0).width(ui.helper.width()-3);
+		    				ui.element.children().eq(0).height(ui.helper.height()-2);
+		    				fn_saveClone();
+		    				}
+		    			}
+		    	
+		    );
+		 }
+		 
 		 if($(".div_radio").length != 0){
 			 $(".div_radio").draggable({
 				cursor:"move",
@@ -195,7 +232,7 @@ accordian.fn_draggable = function(){
 	             }
 			 });
 			 
-			 $( "[compoDvs=div_radio]" ).resizable(
+			 $( "[compoDvs=portlet-header]" ).resizable(
 		    			{helper: "ui-resizable-helper",
 		    			start: function(event,ui){
 		    				vsMouseDownYn = "N";
@@ -212,6 +249,42 @@ accordian.fn_draggable = function(){
 		    			
 		    				//ui.element.children().eq(0).width(ui.helper.width()-3);
 		    				//ui.element.children().eq(0).height(ui.helper.height()-2);
+		    				fn_saveClone();
+		    				}
+		    			}
+		    	
+		    );
+		 }
+		 if($(".div_radio_sub").length != 0){
+			 $(".div_radio_sub").draggable({
+				cursor:"move",
+				  grid: [ 10, 10 ],
+				   start:function(event,ui){
+				    	vsMouseDownYn = "N";
+				    },
+	             stop: function( event, ui ){
+		               vbRadioBoxDragCheck = true;
+		              fn_creationTableResize(ui);
+	             }
+			 });
+			 
+			 $( "[compoDvs=div_radio_sub]" ).resizable(
+		    			{helper: "ui-resizable-helper",
+		    			start: function(event,ui){
+		    				vsMouseDownYn = "N";
+			    			
+		    				var vnLeft = Number($(ui.helper).css("left").replace("px",""));
+		    				var vnTop = Number($(ui.helper).css("top").replace("px",""));
+		    				
+		    				$(ui.helper).css("left",(vnLeft+10)+"px");
+		    				$(ui.helper).css("top",(vnTop+10)+"px");
+		    			},
+		    			stop: function( event, ui ) {
+		    				ui.element.width(ui.element.width()+20)
+		    				ui.element.height(ui.element.height()+20)
+		    			
+		    				ui.element.children().eq(0).width(ui.helper.width()-3);
+		    				ui.element.children().eq(0).height(ui.helper.height()-2);
 		    				fn_saveClone();
 		    				}
 		    			}
@@ -521,9 +594,28 @@ accordian.fn_draggable = function(){
 		    		}
 		    	}
 		    }
-		    
-		    
 }
+
+$( function() {
+    $( ".div_checkbox" ).sortable({
+      connectWith: ".div_checkbox",
+      handle: ".portlet-header",
+      cancel: ".portlet-toggle",
+      placeholder: "portlet-placeholder ui-corner-all"
+    });
+ 
+    $( ".div_checkbox_sub" )
+      .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" ) 
+      .find( ".portlet-header" )
+        .addClass( "ui-widget-header ui-corner-all" )
+       .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+ 
+    $( ".portlet-toggle" ).on( "click", function() {
+      var icon = $( this );
+   //   icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
+   //   icon.closest( ".div_checkbox_sub" ).find( ".portlet-content" ).toggle();
+    });
+  } );
 
 
 accordian.fn_colResize = function(){
