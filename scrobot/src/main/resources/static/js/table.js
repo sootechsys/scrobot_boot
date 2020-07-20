@@ -29,12 +29,13 @@ tableEdit.tdReset = function(vsTableId, vnCurrentTrNum){
 	}
 }
 
-
 /*
  * startInfo : focus table 정보를 가져온다
  * 
  * @parameter
  * 	- param : tableId
+ * 
+ *  - 파라메터 입력 시 focus 된 셀 위치는 빼고 반환
  * 
  * @return
  * 	- voTableArray(Array) : voTableArray = [tableId, vnCurrentTrNum, vnCurrentTdNum, vnFocusTrRow, vnFocusTdShell]
@@ -69,20 +70,16 @@ tableEdit.startInfo = function(param){
 		var vnCurrentTrNum = $("#"+vsTableId+" > tbody > tr").length; // table tr길이
 		var vnCurrentTdNum = $("#"+vsTableId+" > tbody > tr > td").length; 
 		vnCurrentTdNum = vnCurrentTdNum / vnCurrentTrNum; // table td길이
-		//var vnFocusTrRow = parseInt($("td[tableFocus=true]").parent().attr("row")); //focus row
-		//var vnFocusTdShell = parseInt($("td[tableFocus=true]").attr("shell")); //focs td shell
-		
-		
-		
+	
 		voTableArray[0] = vsTableId;
 		voTableArray[1] = vnCurrentTrNum;
 		voTableArray[2] = vnCurrentTdNum;
-		//voTableArray[3] = vnFocusTrRow;
-		//voTableArray[4] = vnFocusTdShell;
 		
 		return voTableArray;
 	}
 }
+
+
 
 
 /*
@@ -292,25 +289,30 @@ tableEdit.Vector = function(vsTableId, voTotal){
 				var viCNum = vsCNum.replace("c",""); //c 값
 				
 				if(viRNum == "0" && viCNum != "0"){
+					$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").show();
 					$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").attr("colspan",viCNum);
 					$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").removeAttr("rowspan");
 				}
 				else if(viCNum == "0" && viRNum != "0"){
+					$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").show();
 					$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").attr("rowspan",viRNum);
 					$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").removeAttr("colspan");
 				}
 				else if(viCNum != "0" && viRNum != "0"){
+					$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").show();
 					$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").attr("colspan",viCNum);
 					$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").attr("rowspan",viRNum);
 				}
 			}
 			else if(InputSpan.indexOf("c") != -1){ // col
 				var viStup2 = parseInt(InputSpan.replace("c",""));
+				$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").show();
 				$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").attr("colspan",viStup2);
 				$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").removeAttr("rowspan");
 			}
 			else if(InputSpan.indexOf("r") != -1){ // row
 				var viStup1 = parseInt(InputSpan.replace("r",""));
+				$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").show();
 				$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").attr("rowspan",viStup1);
 				$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").removeAttr("colspan");
 			}
@@ -336,7 +338,7 @@ tableEdit.Vector = function(vsTableId, voTotal){
 tableEdit.addUp = function(){
 	
 	
-	
+	debugger;
 	
 	var voTableArray = tableEdit.startInfo();
 	
@@ -348,8 +350,7 @@ tableEdit.addUp = function(){
 		tableEdit.trReset(voTableArray[0]);
 	}
 	else{
-
-		//원래 가지고 있는 테이블 양상
+		
 		var voTotal = new Array();
 		for(var i=0; i<voTableArray[1]; i++){
 			voTotal[i] = new Array();
@@ -361,105 +362,140 @@ tableEdit.addUp = function(){
 		
 		var adderArray = [];
 		
-	
-	for(var i=0; i<voTableArray[2]; i++){ // i for start
-		
-		var cell = voTotal[voTableArray[3]-1][i]; // focus 이전 tr
-		
-		if(cell.indexOf(":") != -1){
-			var check = cell.split(":");
-			var vsRNum = check[0];
-			var vsCNum = check[1];
-				vsRNum = vsRNum.replace("r","");
-				vsCNum = vsRNum.replace("c","");
-			var	vnCNum = parseInt(vsCNum);
-			var vnRNum = parseInt(vsRNum);
-				vnRNum += 1;
-				voTotal[voTableArray[3]-1][i] = "r"+vnRNum+":"+check[1];
-				for(var k=i; k<i+vnCNum; k++){
-					adderArray[k] = "r0";
-				}
-				i = i+vnCNum - 1 ;
-		}
-		else if(cell.indexOf("r0") != -1){
-			for(var j=0; j<voTableArray[1]; j++){
-				var vsRowChecker = voTotal[j][i];
+		for(var a=0; a<voTableArray[2]; a++){ // td 전체 검색
+			
+			var vsCheck = voTotal[voTableArray[3]][a]; // focus 된 라인을 검색
+			
+			if(vsCheck.indexOf(":") != -1){
+				adderArray[a] = "1";
+			}
+			else if(vsCheck.indexOf("r0") != -1){
 				
-				if(vsRowChecker.indexOf(":") != -1){ // 해당 열에 : 있을떄
-					var check = vsRowChecker.split(":");
-					var vsRNum = check[0];
-					var vsCNum = check[1];
-					vsRNum = vsRNum.replace("r","");
-					vsCNum = vsRNum.replace("c","");
-					var vnRNum = parseInt(vsRNum);
-					var vnCNum = parseInt(vsCNum);
-					if(vnRNum+j-1 >=voTableArray[3]){
-						vnRNum += 1;
-						voTotal[j][i] = "r"+vnRNum+":"+check[1];
-						for(var k=i; k<i+vnCNum; k++){
-							adderArray[k] = "r0";
-						}
-						break;
-					}
-				}else if(vsRowChecker.indexOf("r") != -1){
-					if(vsRowChecker.indexOf("r0") != -1){
-						continue; 
-					}
-					else{
-						var vsRNum = vsRowChecker.replace("r","");
+				for(var b=0; b<voTableArray[1]; b++){ // tr 전체
+						
+					var vsRowCheck = voTotal[b][a];
+					
+					if(vsRowCheck.indexOf(":") != -1){
+						var voInCheck = vsRowCheck.split(":");
+						var vsRNum = voInCheck[0];
+						var vsCNum = voInCheck[1];
+						vsRNum = vsRNum.replace("r","");
+						vsCNum = vsCNum.replace("c","");
 						var vnRNum = parseInt(vsRNum);
-						if(vnRNum+j-1 >= voTableArray[3]){
-							if(j == voTableArray[3]){
-								adderArray[k] = "r0";
+						var vnCNum = parseInt(vsCNum);
+						
+						if(voTableArray[3] == 0){
+							if(vnRNum+b >= voTableArray[3]){
+								var vnPlusVnRNum = vnRNum + 1;
+								voTotal[b][a]="r"+vnPlusVnRNum+":"+"c"+vnCNum;
+								for(var c=a; c<a+vnCNum; c++){
+									adderArray[c]="r0";
+								}
+								break;
+							}
+							else if(vnRNum+b < voTableArray[3]){
+								continue;
+							}
+						}
+						else{
+							if(vnRNum+b-1 >= voTableArray[3]){
+								var vnPlusVnRNum = vnRNum + 1;
+								voTotal[b][a]="r"+vnPlusVnRNum+":"+"c"+vnCNum;
+								for(var c=a; c<a+vnCNum; c++){
+									adderArray[c]="r0";
+								}
+								break;
+							}
+							else if(vnRNum+b-1 < voTableArray[3]){
+								continue;
+							}
+						}
+						
+						
+					}
+					else if(vsRowCheck.indexOf("c0") != -1){
+						continue;
+					}
+					else if(vsRowCheck.indexOf("r0") != -1){
+						continue;
+					}
+					else if(vsRowCheck.indexOf("r") != -1){
+						var vsInRowCheck = vsRowCheck.replace("r","");
+						var vnRNum = parseInt(vsInRowCheck);
+						
+						if(b == 0){
+							if(vnRNum+b >= voTableArray[3]){
+								var vnPlusVnRNum = vnRNum + 1;
+								voTotal[b][a] = "r"+vnPlusVnRNum;
+								adderArray[a] = "r0";
 							}
 							else{
-								vnRNum += 1;
-								voTotal[j][i] = "r"+vnRNum;
-								adderArray[i] = "r0";
-							}
-							break;
+								continue;
+								}
 						}
-					} 
+						else if(b != 0){
+							if(vnRNum+b-1 >= voTableArray[3]){
+								var vnPlusVnRNum = vnRNum + 1;
+								voTotal[b][a] = "r"+vnPlusVnRNum;
+								adderArray[a] = "r0";
+							}
+							else{
+								continue;
+								}
+						}
+						
+					}
+					else if(vsRowCheck.indexOf("c") != -1){
+						continue;
+					}
+					else if(vsRowCheck.indexOf("1") != -1){
+						continue;
+					}
+				} // 
+			}
+			else if(vsCheck.indexOf("c0") != -1){
+				continue;		
+			}
+			else if(vsCheck.indexOf("r") != -1){
+				adderArray[a] = "1";				
+			}
+			else if(vsCheck.indexOf("c") != -1){
+				var vsCNum = vsCheck.replace("c","");
+				var vnCNum = parseInt(vsCNum);
+				
+				for(var k=a; k<a+vnCNum; k++){
+					if(k == a){
+						adderArray[k] = "c"+vnCNum;
+					}
+					else{
+						adderArray[k] = "c0";
+					}
+					
 				}
+				
 			}
-		}
-		else if(cell.indexOf("r") != -1){
-			var vsRNum = cell.replace("r","");
-			var vnRNum = parseInt(vsRNum);
-			if(vnRNum == 0){
-				continue;
+			else if(vsCheck.indexOf("1") != -1){
+				adderArray[a] = "1";
 			}
-			else if(vnRNum > 0){
-				vnRNum += 1;
-				voTotal[voTableArray[3]-1][i] = "r"+vnRNum;
-				adderArray[i] = "r0";
-			}
-		}
-		else if(cell.indexOf("c0") != -1){
-			
-		}
-		else if(cell.indexOf("1") != -1){
-			adderArray[i] = "1";
 		}
 		
-	}// i for end
+		voTotal.splice(voTableArray[3],0,adderArray);
+		
+		//테이블 리셋
+		$("#"+voTableArray[0]+"> tbody > tr[row="+voTableArray[3]+"]").before(vsBuffer);
+		
+		tableEdit.trReset(voTableArray[0]);
+		
+		var voTableArray2 = tableEdit.startInfo();
+		
+		tableEdit.Vector(voTableArray2[0],voTotal);
+		
+	}
 	
-	
-	
-	voTotal.splice(voTableArray[3],0,adderArray);
-	
-	//테이블 리셋
-	$("#"+voTableArray[0]+"> tbody > tr[row="+voTableArray[3]+"]").before(vsBuffer);
-	
-	tableEdit.trReset(voTableArray[0]);
-	
-	var voTableArray2 = tableEdit.startInfo();
-	
-	tableEdit.Vector(voTableArray2[0],voTotal);
-	
-}
 fn_saveClone();
-}
+
+} // addUp end
+
 
 
 /*
@@ -467,7 +503,7 @@ fn_saveClone();
  * */
 tableEdit.addDown = function(){
 	
-	
+	debugger;
 	
 	var voTableArray = tableEdit.startInfo();
 	
@@ -491,102 +527,151 @@ tableEdit.addDown = function(){
 		
 		var adderArray = [];
 		
-		for(var i=0; i<voTableArray[2]; i++){
+		for(var a=0; a<voTableArray[2]; a++){
 			
-			var cell = voTotal[voTableArray[3]][i];
+			var vsCheck = voTotal[voTableArray[3]][a]; 
 			
-			if(cell.indexOf(":") != -1){
-				var check = cell.split(":");
-				var vsRNum = check[0];
-				var vsCNum = check[1];
+			if(vsCheck.indexOf(":") != -1){
+					var voInCheck = vsCheck.split(":");
+					var vsRNum = voInCheck[0];
+					var vsCNum = voInCheck[1];
 					vsRNum = vsRNum.replace("r","");
-					vsCNum = vsRNum.replace("c","");
-				var	vnCNum = parseInt(vsCNum);
-				var vnRNum = parseInt(vsRNum);
-					vnRNum += 1;
-					voTotal[voTableArray[3]][i] = "r"+vnRNum+":"+check[1];
-					for(var k=i; k<i+vnCNum; k++){
-						adderArray[k] = "r0";
-					}
-					i = i+vnCNum - 1 ;
-			}
-			else if(cell.indexOf("r0") != -1){
-				for(var j=0; j<voTableArray[1]; j++){
-					var vsRowChecker = voTotal[j][i];
+					vsCNum = vsCNum.replace("c","");
+					var vnRNum = parseInt(vsRNum);
+					var vnCNum = parseInt(vsCNum);
 					
-					if(vsRowChecker.indexOf(":") != -1){
-						var check = vsRowChecker.split(":");
-						var vsRNum = check[0];
-						var vsCNum = check[1];
+					var vnPlusVnRNum = vnRNum + 1;
+					
+					voTotal[voTableArray[3]][a] = "r"+vnPlusVnRNum+":"+"c"+vnCNum;
+					
+					for(var c=a; c<a+vnCNum; c++){
+						adderArray[c] = "r0";							
+					}
+			}
+			else if(vsCheck.indexOf("r0") != -1){
+				for(var b=0; b<voTableArray[1]; b++){
+					var vsInCheck = voTotal[b][a];
+					
+					if(vsInCheck.indexOf(":") != -1){
+						var voInCheck = vsInCheck.split(":");
+						var vsRNum = voInCheck[0];
+						var vsCNum = voInCheck[1];
 						vsRNum = vsRNum.replace("r","");
-						vsCNum = vsRNum.replace("c","");
+						vsCNum = vsCNum.replace("c","");
 						var vnRNum = parseInt(vsRNum);
 						var vnCNum = parseInt(vsCNum);
-						if(vnRNum+j-1 >=voTableArray[3]){
-							vnRNum += 1;
-							voTotal[j][i] = "r"+vnRNum+":"+check[1];
-							for(var k=i; k<i+vnCNum; k++){
-								adderArray[k] = "r0";
+						
+						if(b == 0){
+							if(b+vnRNum >= voTableArray[3]){
+								var vnPlusVnRNum = vnRNum + 1;
+								voTotal[b][a] = "r"+vnPlusVnRNum+":"+"c"+vnCNum;
+								for(var c=a; c<a+vnCNum; c++){
+									adderArray[c] = "r0";							
+								}
 							}
-							break;
-						}
-					}
-					else if(vsRowChecker.indexOf("r") != -1){
-						if(vsRowChecker.indexOf("r0") != -1){
-							continue;
+							else{
+								continue;
+							}
 						}
 						else{
-							var vsRNum = vsRowChecker.replace("r","");
-							var vnRNum = parseInt(vsRNum);
-							if(vnRNum+j-1 >= voTableArray[3]){
-								vnRNum += 1;
-								voTotal[j][i] = "r"+vnRNum;
-								adderArray[i] = "r0"; 
+							if(b+vnRNum-1 >= voTableArray[3]){
+								var vnPlusVnRNum = vnRNum + 1;
+								voTotal[b][a] = "r"+vnPlusVnRNum+":"+"c"+vnCNum;
+								for(var c=a; c<a+vnCNum; c++){
+									adderArray[c] = "r0";							
+								}
 							}
-							else if(vnRNum+j-1 < voTableArray[3]){
+							else{
 								continue;
 							}
 						}
 					}
+					else if(vsInCheck.indexOf("r0") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("c0") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("r") != -1){
+						var vsInRowCheck = vsInCheck.replace("r","");
+						var vnRNum = parseInt(vsInRowCheck);
+						if(b == 0){
+							if(vnRNum+b >= voTableArray[3]){
+								var vnPlusVnRNum = vnRNum + 1;
+								voTotal[b][a] = "r"+vnPlusVnRNum;
+								adderArray[a] = "r0";
+							}
+							else{
+								continue;
+								}
+						}
+						else if(b != 0){
+							if(vnRNum+b-1 >= voTableArray[3]){
+								var vnPlusVnRNum = vnRNum + 1;
+								voTotal[b][a] = "r"+vnPlusVnRNum;
+								adderArray[a] = "r0";
+							}
+							else{
+								continue;
+								}
+						}
+					}
+					else if(vsInCheck.indexOf("c") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("1") != -1){
+						continue;
+					}
 					
 				}
 			}
-			else if(cell.indexOf("r") != -1){
-				var vsRNum = cell.replace("r","");
-				var vnRNum = parseInt(vsRNum);
-				if(vnRNum == 0){
-					continue;
-				}
-				else if(vnRNum > 0){
-					vnRNum += 1;
-					voTotal[voTableArray[3]][i] = "r"+vnRNum;
-					adderArray[i] = "r0";
-				}
-			}
-			else if(cell.indexOf("c0") != -1){
+			else if(vsCheck.indexOf("c0") != -1){
 				continue;
 			}
-			else if(cell.indexOf("1") != -1){
-				adderArray[i] = "1";
+			else if(vsCheck.indexOf("r") != -1){
+				var vsInRowCheck = vsCheck.replace("r","");
+				var vnRNum = parseInt(vsInRowCheck);
+				
+				var vnPlusVnRnum = vnRNum + 1;
+				
+				voTotal[voTableArray[3]][a] = "r"+vnPlusVnRnum;
+				adderArray[a]="r0";
 			}
+			else if(vsCheck.indexOf("c") != -1){
+				var vsCNum = vsCheck.replace("c","");
+				var vnCNum = parseInt(vsCNum);
+				
+				for(var k=a; k<a+vnCNum; k++){
+					if(k == a){
+						adderArray[k] = "c"+vnCNum;
+					}
+					else{
+						adderArray[k] = "c0";
+					}
+					
+				}
+			}
+			else if(vsCheck.indexOf("1") != -1){
+				adderArray[a] = "1";
+			}
+			
 		}
-	
-	voTotal.splice(voTableArray[3]+1,0,adderArray);
-	
-	console.log(voTotal);
-	
-	//테이블 리셋
-	$("#"+voTableArray[0]+"> tbody > tr[row="+voTableArray[3]+"]").after(vsBuffer);
-	
-	
-	tableEdit.trReset(voTableArray[0]);
-	
-	var voTableArray2 = tableEdit.startInfo(voTableArray[0]);
-	
-	tableEdit.Vector(voTableArray2[0],voTotal);
-
+		
+		voTotal.splice(voTableArray[3]+1,0,adderArray);
+		
+		//테이블 리셋
+		$("#"+voTableArray[0]+"> tbody > tr[row="+voTableArray[3]+"]").before(vsBuffer);
+		
+		tableEdit.trReset(voTableArray[0]);
+		
+		var voTableArray2 = tableEdit.startInfo();
+		
+		tableEdit.Vector(voTableArray2[0],voTotal);
+		
+		
 	}
-		fn_saveClone();
+		
+	fn_saveClone();
 }
 
 
@@ -596,7 +681,7 @@ tableEdit.addDown = function(){
  * */
 tableEdit.addLeft = function(){
 	
-	
+	debugger;
 	
 	var voTableArray = tableEdit.startInfo();
 	
@@ -620,124 +705,177 @@ tableEdit.addLeft = function(){
 		tableEdit.trReset(voTableArray[0]);
 	}
 	else if(voTableArray[4] != 0){
-		for(var i=0; i<voTableArray[1]; i++){
-			var cell = voTotal[i][voTableArray[4]-1];
 		
-		if(cell.indexOf(":") != -1){
-			var check = cell.split(":");
-			var vsRNum = check[0];
-			var vsCNum = check[1];
-				vsRNum = vsRNum.replace("r","");
-				vsCNum = vsRNum.replace("c","");
-			var	vnCNum = parseInt(vsCNum);
-			var vnRNum = parseInt(vsRNum);
-				vnCNum += 1;
-				voTotal[i][voTableArray[4]-1] = vsRNum + ":" + "c" + vnCNum;
-				for(var k=i; k<i+vnRNum; k++){
-					if(k == i){
-						adderArray[k] = "c0";
+		for(var i=0; i<voTableArray[1]; i++){ //tr 열 스캔
+			
+			var vsCheck = voTotal[i][voTableArray[4]];
+			
+			if(vsCheck.indexOf(":") != -1){
+				var vsInCheck = vsCheck.split(":");
+				var vsRNum = vsInCheck[0];
+				var vsCNum = vsInCheck[1];
+					vsRNum = vsRNum.replace("r","");
+					vsCNum = vsCNum.replace("c","");
+				var	vnCNum = parseInt(vsCNum);
+				var vnRNum = parseInt(vsRNum);
+				var vnPlusVnCNum = vnCNum + 1;
+				
+				voTotal[i][voTableArray[4]] = "r"+vnPlusVnCNum+":"+"c"+vnCNum;
+				
+				for(var m=i; m<i+vnRNum; m++){
+					if(m == i){
+						adderArray[m]="r"+vnRNum;
 					}
 					else{
-						adderArray[k] = "r0";
+						adderArray[m]="r0";
 					}
-					
 				}
-				i = i+vnRNum -1;
-		}
-		else if(cell.indexOf("r0") != -1){
-			continue;
-		}
-		else if(cell.indexOf("r") != -1){
-			adderArray[k]= "1";
-		}
-		else if(cell.indexOf("c0") != -1){
-			for(var j=0; j<voTableArray[2]; j++){
-				var vsColChecker = voTotal[i][j];
-				if(vsColChecker.indexOf(":") != -1){
-					var check = vsColChecker.split(":");
-					var vsRNum = check[0];
-					var vsCNum = check[1];
-					vsRNum = vsRNum.replace("r","");
-					vsCNum = vsRNum.replace("c","");
-					var vnRNum = parseInt(vsRNum);
-					var vnCNum = parseInt(vsCNum);
+			}
+			else if(vsCheck.indexOf("r0") != -1){
+				continue;
+			}
+			else if(vsCheck.indexOf("c0") != -1){
+				for(var m=0; m<voTableArray[2]; m++){
+					var vsInCheck = voTotal[i][m];
 					
-					if(vnCNum+j-1 >= voTableArray[4]){
-						vnCNum += 1;
-						voTotal[i][j] = vsRNum+":"+"c"+vnCNum;
-						for(var k=i; k<i+vnRNum; k++){
-							if(k == i){
-								adderArray[k] = "c0";
+					if(vsInCheck.indexOf(":") != -1){
+						var vsInInCheck = vsInCheck.split(":");
+						var vsRNum = vsInInCheck[0];
+						var vsCNum = vsInInCheck[1];
+						vsRNum = vsRNum.replace("r","");
+						vsCNum = vsCNum.replace("c","");
+						var vnRNum = parseInt(vsRNum);
+						var vnCNum = parseInt(vsCNum);
+						
+						if(m == 0){
+							if(vnCNum+m >= voTableArray[4]){
+								var vnPlusVnCNum = vnCNum + 1;
+								voTotal[i][m] = "r"+vnRNum+":"+"c"+vnPlusVnCNum;
+								
+								for(var k=i; k<i+vnRNum; k++){
+									if(k == i){
+										adderArray[k] = "c0";
+									}
+									else{
+										adderArray[k] = "r0";
+									}
+								}
+								break;
 							}
 							else{
-								adderArray[k] = "r0";
+								continue;
+							}
+							
+						}
+						else if(m != 0){
+							if(vnCNum+m-1 >= voTableArray[4]){
+								var vnPlusVnCNum = vnCNum + 1;
+								voTotal[i][m] = "r"+vnRNum+":"+"c"+vnPlusVnCNum;
+								
+								for(var k=i; k<i+vnRNum; k++){
+									if(k == i){
+										adderArray[k] = "c0";
+									}
+									else{
+										adderArray[k] = "r0";
+									}
+								}
+								break;
+							}
+							else{
+								continue;
+							}
+							
+						}
+						
+					}
+					else if(vsInCheck.indexOf("r0") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("c0") != -1){
+						continue;			
+					}
+					else if(vsInCheck.indexOf("r") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("c") != -1){
+						var vsCNum = vsInCheck.replace("c","");
+						var vnCNum = parseInt(vsCNum);
+						
+						if(m == 0){
+							if(vnCNum+m >= voTableArray[4]){
+								var vnPlusVnCNum = vnCNum + 1;
+								voTotal[i][m] = "c"+vnPlusVnCNum;
+								adderArray[i] = "c0";
+							}
+							else{
+								continue;
 							}
 						}
-						break;
-					}
-					else if(vnCNum +j -1 < voTableArray[4]){
-						if(j+1 == voTableArray[4]){
-							adderArray[i]="1";
+						else{
+							if(vnCNum+m-1 >= voTableArray[4]){
+								var vnPlusVnCNum = vnCNum + 1;
+								voTotal[i][m] = "c"+vnPlusVnCNum;
+								adderArray[i] = "c0";
+							}
+							else{
+								continue;
+							}
 						}
 					}
-					
-				}
-				else if(vsColChecker.indexOf("c") != -1){
-					if(vsColChecker.indexOf("c0") != -1){
+					else if(vsInCheck.indexOf("1") != -1){
 						continue;
 					}
 				}
 			}
+			else if(vsCheck.indexOf("r") != -1){
+				var vsRNum = vsCheck.replace("r","");
+				var vnRNum = parseInt(vsRNum);
+				
+				for(var m=i; m<i+vnRNum; m++){
+					if(m == i){
+						adderArray[m] = "r"+vnRNum;
+					}
+					else{
+						adderArray[m] = "r0";
+					}
+				}
+			}
+			else if(vsCheck.indexOf("c") != -1){
+				adderArray[i] = "1";
+			}
+			else if(vsCheck.indexOf("1") != -1){
+				adderArray[i] = "1";
+			}
 			
 		}
-		else if(cell.indexOf("c") != -1){
-			var vsCNum = cell.replace("c","");
-			var vnCNum = parseInt(vsCNum);
-			if(vnCNum == 0){
-				continue;
-			}
-			else if(vnCNum > 0){
-				vnCNum += 1;
-				voTotal[i][voTableArray[4]-1] = "c"+vnCNum;
-				adderArray[i] = "c0";
-			}
-		}
-		else if(cell.indexOf("1") != -1){
-			adderArray[i] = "1";
+		
+		for(var i=0; i<voTableArray[1]; i++){
+			$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+voTableArray[4]+"]").before(vsBuffer);
+			voTotal[i].splice(voTableArray[4],0,adderArray[i]);
 		}
 		
-		}
-	
-	
-	for(var i=0; i<voTableArray[1]; i++){
-		$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+voTableArray[4]+"]").before(vsBuffer);
-		voTotal[i].splice(voTableArray[4],0,adderArray[i]);
+		
+		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
+		
+		var voTableArray2 = tableEdit.startInfo(voTableArray[0]);
+		
+		tableEdit.Vector(voTableArray2[0],voTotal);
+		
+		tableEdit.tdReset(voTableArray2[0],voTableArray2[1]);	
 	}
 	
-	
-	tableEdit.tdReset(voTableArray[0],voTableArray[1]);
-	
-	var voTableArray2 = tableEdit.startInfo(voTableArray[0]);
-	
-	tableEdit.Vector(voTableArray2[0],voTotal);
-	
-	}
-	
-	tableEdit.tdReset(voTableArrayEnd[0],voTableArrayEnd[1]);
-	fn_saveClone();
+fn_saveClone();
+
 }
-
-
-
-
-
+	
 
 /*
  * addRight = 포커스된 행의 우측으로 열을 추가한다.
  * */
 tableEdit.addRight = function(){
 	
-	
+	debugger;
 	
 	var voTableArray = tableEdit.startInfo();
 	
@@ -750,8 +888,6 @@ tableEdit.addRight = function(){
 		
 	voTotal = tableEdit.SpanInfo(voTableArray);
 	
-	console.log(voTotal);
-	
 	var adderArray = [];
 	
 	if(voTableArray[4] == voTableArray[2]-1){
@@ -763,96 +899,159 @@ tableEdit.addRight = function(){
 	else if(voTableArray[4] != voTableArray[2]-1){
 		
 		for(var i=0; i<voTableArray[1]; i++){
-			var cell = voTotal[i][voTableArray[4]];
+			var vsCheck = voTotal[i][voTableArray[4]];
 			
-			if(cell.indexOf(":") != -1){
-				var check = cell.split(":");
-				var vsRNum = check[0];
-				var vsCNum = check[1];
+			if(vsCheck.indexOf(":") != -1){
+				var vsInCheck = vsCheck.split(":");
+				var vsRNum = vsInCheck[0];
+				var vsCNum = vsInCheck[1];
 					vsRNum = vsRNum.replace("r","");
-					vsCNum = vsRNum.replace("c","");
+					vsCNum = vsCNum.replace("c","");
 				var	vnCNum = parseInt(vsCNum);
 				var vnRNum = parseInt(vsRNum);
-					vnCNum += 1;
-					voTotal[i][voTableArray[4]] = vsRNum + ":" + "c" + vnCNum;
-					for(var k=i; k<i+vnRNum; k++){
-						if(k == i){
-							adderArray[k] = "c0";
-						}
-						else{
-							adderArray[k] = "r0";
-						}
-						
+				var vnPlusVnCNum = vnCNum + 1;
+				
+				voTotal[i][voTableArray[4]] = "r"+vnRNum+":"+"c"+vnPlusVnCNum;
+				
+				for(var m=i; m<i+vnRNum; m++){
+					if(m == i){
+						adderArray[m]="c0";
 					}
-					i = i+vnRNum -1;
+					else{
+						adderArray[m]="r0";
+					}
+				}
 			}
-			else if(cell.indexOf("r0") != -1){
+			else if(vsCheck.indexOf("r0") != -1){
 				continue;
 			}
-			else if(cell.indexOf("r") != -1){
-				adderArray[k]= "1";
-			}
-			else if(cell.indexOf("c0") != -1){
-				for(var j=0; j<voTableArray[2]; j++){
-					var vsColChecker = voTotal[i][j];
-					if(vsColChecker.indexOf(":") != -1){
-						var check = vsColChecker.split(":");
-						var vsRNum = check[0];
-						var vsCNum = check[1];
+			else if(vsCheck.indexOf("c0") != -1){
+				for(var m=0; m<voTableArray[2]; m++){
+					var vsInCheck = voTotal[i][m];
+					
+					if(vsInCheck.indexOf(":") != -1){
+						var vsInInCheck = vsInCheck.split(":");
+						var vsRNum = vsInInCheck[0];
+						var vsCNum = vsInInCheck[1];
 						vsRNum = vsRNum.replace("r","");
-						vsCNum = vsRNum.replace("c","");
+						vsCNum = vsCNum.replace("c","");
 						var vnRNum = parseInt(vsRNum);
 						var vnCNum = parseInt(vsCNum);
 						
-						if(vnCNum+j-1 >= voTableArray[4]){
-							vnCNum += 1;
-							voTotal[i][j] = vsRNum+":"+"c"+vnCNum;
-							for(var k=i; k<i+vnRNum; k++){
-								if(k == i){
-									adderArray[k] = "c0";
+						if(m == 0){
+							if(vnCNum+m >= voTableArray[4]){
+								var vnPlusVnCNum = vnCNum + 1;
+								voTotal[i][m] = "r"+vnRNum+":"+"c"+vnPlusVnCNum;
+								
+								for(var k=i; k<i+vnRNum; k++){
+									if(k == i){
+										adderArray[k] = "c0";
+									}
+									else{
+										adderArray[k] = "r0";
+									}
 								}
-								else{
-									adderArray[k] = "r0";
+								break;
+							}
+							else{
+								continue;
+							}
+							
+						}
+						else if(m != 0){
+							if(vnCNum+m-1 >= voTableArray[4]){
+								var vnPlusVnCNum = vnCNum + 1;
+								voTotal[i][m] = "r"+vnRNum+":"+"c"+vnPlusVnCNum;
+								
+								for(var k=i; k<i+vnRNum; k++){
+									if(k == i){
+										adderArray[k] = "c0";
+									}
+									else{
+										adderArray[k] = "r0";
+									}
 								}
+								break;
 							}
-							break;
-						}
-						else if(vnCNum +j -1 < voTableArray[4]){
-							if(j+1 == voTableArray[4]){
-								adderArray[i]="1";
+							else{
+								continue;
 							}
+							
 						}
+					}
+					else if(vsInCheck.indexOf("r0") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("c0") != -1){
+						continue;	
+					}
+					else if(vsInCheck.indexOf("c") != -1){
+						var vsCNum = vsInCheck.replace("c","");
+						var vnCNum = parseInt(vsCNum);
 						
-					}
-					else if(vsColChecker.indexOf("c") != -1){
-						if(vsColChecker.indexOf("c0") != -1){
-							continue;
+						if(m == 0){
+							if(vnCNum+m >= voTableArray[4]){
+								var vnPlusVnCNum = vnCNum + 1;
+								voTotal[i][m] = "c"+vnPlusVnCNum;
+								adderArray[i] = "c0";
+							}
+							else{
+								continue;
+							}
+						}
+						else{
+							if(vnCNum+m-1 >= voTableArray[4]){
+								var vnPlusVnCNum = vnCNum + 1;
+								voTotal[i][m] = "c"+vnPlusVnCNum;
+								adderArray[i] = "c0";
+							}
+							else{
+								continue;
+							}
 						}
 					}
+					else if(vsInCheck.indexOf("r") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("1") != -1){
+						continue;
+					}
 				}
 			}
-			else if(cell.indexOf("c") != -1){
-				var vsCNum = cell.replace("c","");
+			else if(vsCheck.indexOf("r") != -1){
+				var vsRNum = vsCheck.replace("r","");
+				var vnRNum = parseInt(vsRNum);
+				
+				for(var m=i; m<i+vnRNum; m++){
+					if(m == i){
+						adderArray[m] = "r"+vnRNum;
+					}
+					else{
+						adderArray[m] = "r0";
+					}
+				}
+			}
+			else if(vsCheck.indexOf("c") != -1){
+				var vsCNum = vsCheck.replace("c","");
 				var vnCNum = parseInt(vsCNum);
-				if(vnCNum == 0){
-					continue;
-				}
-				else if(vnCNum > 0){
-					vnCNum += 1;
-					voTotal[i][voTableArray[4]] = "c"+vnCNum;
-					adderArray[i] = "c0";
-				}
+				
+				var vnPlusVnCNum = vnCNum + 1;
+				
+				voTotal[i][voTableArray[4]] = "c"+vnPlusVnCNum;
+				adderArray[i]="c0";
+				
+				
 			}
-			else if(cell.indexOf("1") != -1){
+			else if(vsCheck.indexOf("1") != -1){
 				adderArray[i] = "1";
 			}
+			
 		}
-	
+		
 		for(var i=0; i<voTableArray[1]; i++){
 			$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+voTableArray[4]+"]").after(vsBuffer);
 			voTotal[i].splice(voTableArray[4]+1,0,adderArray[i]);
 		}
-		
 		
 		
 		
@@ -862,10 +1061,10 @@ tableEdit.addRight = function(){
 		
 		tableEdit.Vector(voTableArray2[0],voTotal);
 		
-		}
-		
-		tableEdit.tdReset(voTableArrayEnd[0],voTableArrayEnd[1]);
-		fn_saveClone();
+		tableEdit.tdReset(voTableArray2[0],voTableArray2[1]);
+	}
+	fn_saveClone();
+	
 }
 
 
@@ -876,7 +1075,7 @@ tableEdit.addRight = function(){
 
 tableEdit.deleteNode = function(param){
 	
-	
+	debugger;
 	
 	var voTableArray = tableEdit.startInfo();
 		
@@ -905,22 +1104,16 @@ tableEdit.deleteNode = function(param){
 	}
 	else if(focusLength > 1){ // 다중 선택 2차.
 		
+		if(check == 1){
+			tableEdit.dragColDelete();
+		}
+		else if(check == 2){
+			tableEdit.dragRowDelete();
+		}
+		
+		
 	}
 }
-
-
-
-
-/*
- * oneDelete = col x / row x
- * 
- * colSpanDelete = col o / row x
- * 
- * rowSpanDelete = col x / row o
- * 
- * SpanDelete = col o / row o  
- * 
- * */
 
 
 /*
@@ -931,7 +1124,8 @@ tableEdit.deleteNode = function(param){
  * 
  * */
 tableEdit.oneDelete = function(check){
-var voTableArray = tableEdit.startInfo();
+	
+	var voTableArray = tableEdit.startInfo();
 	
 	var voTotal = new Array();
 	for(var i=0; i<voTableArray[1]; i++){
@@ -940,110 +1134,137 @@ var voTableArray = tableEdit.startInfo();
 	
 	voTotal = tableEdit.SpanInfo(voTableArray);	
 	
-	if(check == 1){ // 행삭제
+	
+	if(check == 1){ // 행
 		
-		for(var i=0; i<voTableArray[2]; i++){ // 모든 td
+		for(var i=0; i<voTableArray[2]; i++){
 			
-			var vsChecker = voTotal[voTableArray[3]][i]; // focus tr Line td
+			var vsCheck = voTotal[voTableArray[3]][i];
 			
-			if(vsChecker.indexOf(":") != -1){ //
-				
-				var checker = vsChecker.split(":");
-				var vsRNum = checker[0];
-				var vsCNum = checker[1];
+			if(vsCheck.indexOf(":") != -1){
+				var vsInCheck = vsCheck.split(":");
+				var vsRNum = vsInCheck[0];
+				var vsCNum = vsInCheck[1];
 					vsRNum = vsRNum.replace("r","");
-					vsCNum = vsRNum.replace("c","");
+					vsCNum = vsCNum.replace("c","");
 				var	vnCNum = parseInt(vsCNum);
 				var vnRNum = parseInt(vsRNum);
-				for(var j=voTableArray[3]; j<voTableArray[3]+vnRNum; j++){
-					for(var n=i; n<i+vnCNum; n++){
-						voTotal[j][n] = "1";
-					}
+				
+				var minusVnRNum = vnRNum - 1;
+				
+				for(var a=voTableArray[3]; a<voTableArray[3]+vnRNum; a++){
+					for(var b=i; b<i+vnCNum; b++){
+						if(a == voTableArray[3]){
+							voTotal[a][b]="d";
+						}
+						else if(a == voTableArray[3]+1 && b==i){
+							voTotal[a][b] = "r"+minusVnRNum+":"+"c"+vnCNum;
+						}
+						else if(a == voTableArray[3]+1){
+							voTotal[a][b] = "c0";
+						}
+						else{
+							voTotal[a][b] = "r0";
+						}
+					}					
 				}
 				
 			}
-			else if(vsChecker.indexOf("c0") != -1){ //
-				continue;
-			}
-			else if(vsChecker.indexOf("r0") != -1){ //
-				
-				for(var k=0; k<voTableArray[1]; k++){
+			else if(vsCheck.indexOf("r0") != -1){
+				for(var a=0; a<voTableArray[1]; a++){
+					var vsInCheck = voTotal[a][i];
 					
-					var vsRowChecker = voTotal[k][i];
-					
-					if(vsRowChecker.indexOf("r0") != -1){
-						continue;
-					}
-					else if(vsRowChecker.indexOf(":") != -1){
-						var checker = vsChecker.split(":");
-						var vsRNum = checker[0];
-						var vsCNum = checker[1];
+					if(vsInCheck.indexOf(":") != -1){
+						var vsInInCheck = vsInCheck.split(":");
+						var vsRNum = vsInInCheck[0];
+						var vsCNum = vsInInCheck[1];
 							vsRNum = vsRNum.replace("r","");
-							vsCNum = vsRNum.replace("c","");
+							vsCNum = vsCNum.replace("c","");
 						var	vnCNum = parseInt(vsCNum);
 						var vnRNum = parseInt(vsRNum);
+						var minusVnRNum = vnRNum -1;
 						
-						if(vnRNum + k -1 >= voTableArray[3]){
-							
-							if(vnRNum == 2){
-								voTotal[k][i] = vsRNum;
+					
+							if(vnRNum+a-1 >= voTableArray[3]){
+								voTotal[a][i] = "r"+minusVnRNum+":"+"c"+vnCNum;
+								
+								for(var b=i; b<i+vnCNum; b++){
+									voTotal[voTableArray[3]][b] = "d";
+								}
+								
 								break;
 							}
 							else{
-								vnRNum = vnRNum-1;
-								
-								voTotal[k][i] = "r"+vnRNum+":"+"c"+vnCNum;
+								continue;
+							}
+						
+					
+					}
+					else if(vsInCheck.indexOf("c0") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("r") != -1){
+						var vsRNum = vsInCheck.replace("r","");
+						var vnRNum = parseInt(vsRNum);
+						var minusVnRNum = vnRNum - 1;
+						
+						
+							if(vnRNum+a-1 >= voTableArray[3]){
+								voTotal[a][i] = "r"+minusVnRNum;
+								voTotal[voTableArray[3]][i] = "d";
 								break;
 							}
-							
-						}
+							else{
+								continue;
+							}
 						
 					}
-					else if(vsRowChecker.indexOf("r") != -1){
-						var vsRNum = vsRowChecker.replace("r","");
-						var vnRNum = parseInt(vsRNum);
-						// 값이 focus tr 넘어가지 않도록
-						if(vnRNum + k -1 >= voTableArray[3]){
-							if(vnRNum == 2){
-								voTotal[k][i] = "1";
-								voTotal[k+1][i] = "1";
-								break;
-							}
-							else{
-								vnRNum = vnRNum-1;
-								voTotal[k][i] = "r"+vnRNum;
-								break;
-							}
-						}
+					else if(vsInCheck.indexOf("c") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("1") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("d") != -1){
+						continue;
 					}
 				}
 				
 			}
-			else if(vsChecker.indexOf("c") != -1){ //
+			else if(vsCheck.indexOf("c0") != -1){
 				continue;
 			}
-			else if(vsChecker.indexOf("r") != -1){ //
-				var vsRNum = vsChecker.replace("r","");
+			else if(vsCheck.indexOf("r") != -1){
+				var vsRNum = vsCheck.replace("r","");
 				var vnRNum = parseInt(vsRNum);
-				if(vnRNum == 2){
-					voTotal[voTableArray[3]][i] = "1";
-					voTotal[voTableArray[3]+1][i] = "1";
-				}
-				else if(vnRNum >= 2){
-					var minusRNum = vnRNum-1;
-					voTotal[voTableArray[3]][i] = "r"+minusRNum;
-					for(var k=voTableArray[3]+1; k<voTableArray[3]+vnRNum; k++){
-						if( k == voTableArray[3]){ continue; }
-						else{
-							voTotal[k][voTableArray[4]]="1";
-						}
-						
+				var minusVnRNum = vnRNum - 1;
+				
+				for(var a=voTableArray[3]; a<voTableArray[3]+vnRNum; a++){
+					if(a == voTableArray[3]){
+						voTotal[a][i] = "d";
+					}
+					else if(a == voTableArray[3]+1){
+						voTotal[a][i]="r"+minusVnRNum;
+					}
+					else{
+						voTotal[a][i]="r0";
 					}
 				}
 			}
-			else if(vsChecker.indexOf("1") != -1){ //
+			else if(vsCheck.indexOf("c") != -1){
+				var vsCNum = vsCheck.replace("c","");
+				var vnCNum = parseInt(vsCNum);
+				for(var a=i; a<i+vnCNum; a++){
+					voTotal[voTableArray[3]][a] = "d";
+				}
+			}
+			else if(vsCheck.indexOf("1") != -1){
+				voTotal[voTableArray[3]][i] = "d";
+			}
+			else if(vsCheck.indexOf("d") != -1){
 				continue;
 			}
+			
 		}
 		
 		tableEdit.Vector(voTableArray[0], voTotal);
@@ -1052,134 +1273,136 @@ var voTableArray = tableEdit.startInfo();
 		
 		tableEdit.trReset(voTableArray[0]);
 		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
+		
 	}
-	else if(check == 2){ // 열삭제 
+	else if(check == 2){ // 열 
 		
 		for(var i=0; i<voTableArray[1]; i++){
 			
-			var vsChecker = voTotal[i][voTableArray[4]];
+			var vsCheck = voTotal[i][voTableArray[4]];
 			
-			if(vsChecker.indexOf(":") != -1){//
-				// 열 삭제 중 :가 껴있을떄 .....
+			if(vsCheck.indexOf(":") != -1){
+				var vsInCheck = vsCheck.split(":");
+				var vsRNum = vsInCheck[0];
+				var vsCNum = vsInCheck[1];
+					vsRNum = vsRNum.replace("r","");
+					vsCNum = vsCNum.replace("c","");
+				var	vnCNum = parseInt(vsCNum);
+				var vnRNum = parseInt(vsRNum);
+				
+				var minusVnCNum = vnCNum - 1;
+				
+				for(var a=i; a<i+vnRNum; a++){
+					voTotal[a][voTableArray[4]] = "d";
+				}
+				
+				if(minusVnCNum > 1){
+					voTotal[i][voTableArray[4]+1] = "r"+vnRNum+":"+"c"+minusVnCNum;
+				}
+				else{
+					voTotal[i][voTableArray[4]+1] = "r"+vnRNum;
+				}
+				
 			}
-			else if(vsChecker.indexOf("r0") != -1){//
+			else if(vsCheck.indexOf("r0") != -1){
 				continue;
 			}
-			else if(vsChecker.indexOf("c0") != -1){// 
-				for(var j=0; j<voTableArray[2]; j++){ // focus td까지 검토
-					var checker = voTotal[i][j];
+			else if(vsCheck.indexOf("c0") != -1){
+				for(var a=0; a<voTableArray[2]; a++){
+					var vsInCheck = voTotal[i][a];
 					
-					if(checker.indexOf(":") != -1){ // 문제있음
-						var vsCheck = checker.split(":");
-						var vsRNum = vsCheck[0];
-						var vsCNum = vsCheck[1];
-							vsRNum = vsRNum.replace("r","");
-							vsCNum = vsRNum.replace("c","");
-						var	vnCNum = parseInt(vsCNum);
-						var vnRNum = parseInt(vsRNum);
+					if(vsInCheck.indexOf(":") != -1){
 						
-						if(vnCNum + j - 1 >= voTableArray[4]){
-							var minVnCNum = vnCNum-1;
-							voTotal[i][j] = vnRNum+":c"+minVnCNum;
-							
-							for(var m=i; m<i+vnRNum; m++){
-								for(var n=j; n<j+vnCNum; n++){
-									if(m==i && n==j){
-										continue;
-									}
-									else{
-										voTotal[m][n] = "1";
-									}
-								}
-							}
-							
-						}
 					}
-					else if(checker.indexOf("r0") != -1){
+					else if(vsInCheck.indexOf("r0") != -1){
 						continue;
 					}
-					else if(checker.indexOf("c0") != -1){
+					else if(vsInCheck.indexOf("c0") != -1){
 						continue;
 					}
-					else if(checker.indexOf("r") != -1){
+					else if(vsInCheck.indexOf("r") != -1){
 						continue;
 					}
-					else if(checker.indexOf("c") != -1){
-						var vsCheck = checker.replace("c","");
-						var vnCNum = parseInt(vsCheck);
-						if(j + vnCNum - 1 >= voTableArray[4]){
-							if(vnCNum == 2){
-								voTotal[i][j] = "1";
-								voTotal[i][j+1] = "1";
+					else if(vsInCheck.indexOf("c") != -1){
+						var vsCNum = vsInCheck.replace("c","");
+						var vnCNum = parseInt(vsCNum);
+						var minusVnCNum = vnCNum - 1;
+						
+							if(vnCNum+a-1 >= voTableArray[4]){
+								voTotal[i][a] = "c"+minusVnCNum;
+								voTotal[i][voTableArray[4]]="d";
+								break;
 							}
-							else if(vnCNum != 2){
-								var minusVnCNum = vnCNum - 1;
-								voTotal[i][j] = "c"+minusVnCNum;
-								for(var k=j; k<j+vnCNum; k++){ // 전부 1로 변환
-								if(k == j){
-									continue;
-									}
-								else{
-									voTotal[i][k]="c0";
-									}
-								}
-								
+							else{
+								continue;
 							}
-							break;
-						}
-						else{
-							continue;
-						}
-							
-					
+						
 					}
-					else if(checker.indexOf("1") != -1){
+					else if(vsInCheck.indexOf("1") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("d") != -1){
 						continue;
 					}
 				}
 			}
-			else if(vsChecker.indexOf("c") != -1){//
-				var checker = vsChecker.replace("c","");
-				var vnCNum = parseInt(checker);
-				if(vnCNum == 2){
-					voTotal[i][voTableArray[4]] = "1";
+			else if(vsCheck.indexOf("r") != -1){
+				var vsRNum = vsCheck.replace("r","");
+				var vnRNum = parseInt(vsRNum);
+				
+				for(var a=i; a<i+vnRNum; a++){
+					voTotal[a][voTableArray[4]] = "d";
+				}
+				
+			}
+			else if(vsCheck.indexOf("c") != -1){
+				var vsCNum = vsCheck.replace("c","");
+				var vnCNum = parseInt(vsCNum);
+				var minusVnCNum = vnCNum - 1;
+		
+				voTotal[i][voTableArray[4]]="d";
+				
+				if(minusVnCNum >1){
+					voTotal[i][voTableArray[4]+1]="c"+minusVnCNum;
+				}
+				else{
 					voTotal[i][voTableArray[4]+1] = "1";
 				}
-				else if(vnCNum != 2){
-					var minVnCNum = vnCNum - 1;
-					voTotal[i][voTableArray[4]] = "c"+minVnCNum;
-					
-					for(var k=voTableArray[4]; k<voTableArray[4]+vnCNum; k++){
-						if(k == voTableArray[4]){continue}
-						else{
-							voTotal[i][k] ="1";
-						}
-					}
-				}
+				
 			}
-			else if(vsChecker.indexOf("r") != -1){//
+			else if(vsCheck.indexOf("1") != -1){
+				voTotal[i][voTableArray[4]] = "d";
+			}
+			else if(vsCheck.indexOf("d") != -1){
 				continue;
 			}
-			else if(vsChecker.indexOf("1") != -1){
-				continue;
-			}
-			
 			
 		}
 		
+	
 		tableEdit.Vector(voTableArray[0], voTotal);
 		
 		for(var i=0; i<voTableArray[1]; i++){
 			$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+voTableArray[4]+"]").remove();
-		}
+		
 		
 		tableEdit.trReset(voTableArray[0]);
 		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
-	}
-	fn_saveClone();
+		
+		}
+}
 }
 
+/*
+ * colSpanDelete : 단칸 셀 지정으로 행 / 열 삭제
+ * 
+ * @parameter
+ * 	- check : 행 or 열
+ *  - FocusCol : focus cell의 colSpan
+ * */
 tableEdit.colSpanDelete = function(check , FocusCol){
+	
+	debugger;
 	
 	var focusCol = parseInt(FocusCol);
 	
@@ -1192,113 +1415,144 @@ tableEdit.colSpanDelete = function(check , FocusCol){
 	
 	voTotal = tableEdit.SpanInfo(voTableArray);
 	
-	if(check == 1){// 행 => colSpan 보유한 행 삭제 인디			
-	
-		for(var i=0; i<voTableArray[2]; i++){ // 모든 td
-					
-			var vsChecker = voTotal[voTableArray[3]][i]; // focus tr Line td
-					
-			if(vsChecker.indexOf(":") != -1){ //
-				
-				var checker = vsChecker.split(":");
-				var vsRNum = checker[0];
-				var vsCNum = checker[1];
+	if(check == 1){ // colSpan 있는 행
+		
+		for(var i=0; i<voTableArray[2]; i++){
+			var vsCheck = voTotal[voTableArray[3]][i];
+			
+			if(vsCheck.indexOf(":") != -1){
+				var vsInCheck = vsCheck.split(":");
+				var vsRNum = vsInCheck[0];
+				var vsCNum = vsInCheck[1];
 					vsRNum = vsRNum.replace("r","");
-					vsCNum = vsRNum.replace("c","");
+					vsCNum = vsCNum.replace("c","");
 				var	vnCNum = parseInt(vsCNum);
 				var vnRNum = parseInt(vsRNum);
 				
-				for(var j=voTableArray[3]; j<voTableArray[3]+vnRNum; j++){
-					for(var n=i; n<i+vnCNum; n++){
-						voTotal[j][n] = "1";
-					}
+				var minusVnRNum = vnRNum - 1;
+				
+				for(var a=voTableArray[3]; a<voTableArray[3]+vnRNum; a++){
+					for(var b=i; b<i+vnCNum; b++){
+						if(a == voTableArray[3]){
+							voTotal[a][b]="d";
+						}
+						else if(a == voTableArray[3]+1 && b==i){
+							voTotal[a][b] = "r"+minusVnRNum+":"+"c"+vnCNum;
+						}
+						else if(a == voTableArray[3]+1){
+							voTotal[a][b] = "c0";
+						}
+						else{
+							voTotal[a][b] = "r0";
+						}
+					}					
 				}
+			}
+			else if(vsCheck.indexOf("r0") != -1){
+				for(var a=0; a<voTableArray[1]; a++){
+					var vsInCheck = voTotal[a][i];
 					
-			}
-			else if(vsChecker.indexOf("c0") != -1){ //
-				continue;
-			}
-			else if(vsChecker.indexOf("r0") != -1){ //
-						
-				for(var k=0; k<voTableArray[1]; k++){
-							
-					var vsRowChecker = voTotal[k][i];
-							
-					if(vsRowChecker.indexOf("r0") != -1){
-						continue;
-					}
-					else if(vsRowChecker.indexOf(":") != -1){
-						var checker = vsChecker.split(":");
-						var vsRNum = checker[0];
-						var vsCNum = checker[1];
+					if(vsInCheck.indexOf(":") != -1){
+						var vsInInCheck = vsInCheck.split(":");
+						var vsRNum = vsInInCheck[0];
+						var vsCNum = vsInInCheck[1];
 							vsRNum = vsRNum.replace("r","");
-							vsCNum = vsRNum.replace("c","");
+							vsCNum = vsCNum.replace("c","");
 						var	vnCNum = parseInt(vsCNum);
 						var vnRNum = parseInt(vsRNum);
-				
-						if(vnRNum + k -1 >= voTableArray[3]){
-									
-							if(vnRNum == 2){
-								voTotal[k][i] = vsRNum;
+						var minusVnRNum = vnRNum -1;
+						
+						
+							if(vnRNum+a-1 >= voTableArray[3]){
+								voTotal[a][i] = "r"+minusVnRNum+":"+"c"+vnCNum;
+								
+								for(var b=i; b<i+vnCNum; b++){
+									voTotal[voTableArray[3]][b] = "d";
+								}
+								
 								break;
 							}
 							else{
-								vnRNum = vnRNum-1;
-										
-								voTotal[k][i] = "r"+vnRNum+":"+"c"+vnCNum;
-								break;
+								continue;
 							}
-								
-						}
-								
+						
+						
 					}
-					else if(vsRowChecker.indexOf("r") != -1){
-						var vsRNum = vsRowChecker.replace("r","");
+					else if(vsInCheck.indexOf("r0") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("c0") != -1){
+						continue;					
+					}
+					else if(vsInCheck.indexOf("r") != -1){
+						var vsRNum = vsInCheck.replace("r","");
 						var vnRNum = parseInt(vsRNum);
-						// 값이 focus tr 넘어가지 않도록
-						if(vnRNum + k -1 >= voTableArray[3]){
-							if(vnRNum == 2){
-								voTotal[k][i] = "1";
-								voTotal[k+1][i] = "1";
+						var minusVnRNum = vnRNum - 1;
+						
+						
+							if(vnRNum+a >= voTableArray[3]){
+								voTotal[a][i] = "r"+minusVnRNum;
+								voTotal[voTableArray[3]][i] = "d";
 								break;
 							}
 							else{
-								vnRNum = vnRNum-1;
-								voTotal[k][i] = "r"+vnRNum;
-								break;
+								continue;
 							}
-						}
+						
 					}
-				}
-					
-				}
-				else if(vsChecker.indexOf("c") != -1){ //
-					continue;
-				}
-				else if(vsChecker.indexOf("r") != -1){ //
-					var vsRNum = vsChecker.replace("r","");
-					var vnRNum = parseInt(vsRNum);
-					if(vnRNum == 2){
-						voTotal[voTableArray[3]][i] = "1";
-						voTotal[voTableArray[3]+1][i] = "1";
+					else if(vsInCheck.indexOf("c") != -1){
+						continue;
 					}
-					else if(vnRNum >= 2){
-						var minusRNum = vnRNum-1;
-						voTotal[voTableArray[3]][i] = "r"+minusRNum;
-						for(var k=voTableArray[3]+1; k<voTableArray[3]+vnRNum; k++){
-							if( k == voTableArray[3]){ continue; }
-							else{
-								voTotal[k][voTableArray[4]]="1";
-							}
-							
-						}
+					else if(vsInCheck.indexOf("1") != -1){
+						continue;
 					}
-				}
-				else if(vsChecker.indexOf("1") != -1){ //
-					continue;
+					else if(vsInCheck.indexOf("d") != -1){
+						continue;
+					}
 				}
 			}
-						
+			else if(vsCheck.indexOf("c0") != -1){
+				continue;			
+			}
+			else if(vsCheck.indexOf("r") != -1){
+				var vsRNum = vsCheck.replace("r","");
+				var vnRNum = parseInt(vsRNum);
+				var minusVnRNum = vnRNum - 1;
+				
+				if(minusVnRNum > 1){
+					for(var a=voTableArray[3]; a<voTableArray[3]+vnRNum; a++){
+						if(a == voTableArray[3]){
+							voTotal[a][i] = "d";
+						}
+						else if(a == voTableArray[3]+1){
+							voTotal[a][i] = "r"+minusVnRNum;
+						}
+						else{
+							voTotal[a][i] = "r0";
+						}
+					}
+				}
+				else{
+					voTotal[voTableArray[3]][i] = "d";
+					voTotal[voTableArray[3]+1][i] = "1";
+				}
+			}
+			else if(vsCheck.indexOf("c") != -1){
+				var vsCNum = vsCheck.replace("c","");
+				var vnCNum = parseInt(vsCNum);
+				
+				for(var a=i; a<i+vnCNum; a++){
+					voTotal[voTableArray[3]][a] = "d";
+				}
+			}
+			else if(vsCheck.indexOf("1") != -1){
+				voTotal[voTableArray[3]][i] = "d";
+			}
+			else if(vsCheck.indexOf("d") != -1){
+				continue;
+			}
+			
+		}
 		
 		tableEdit.Vector(voTableArray[0], voTotal);
 		
@@ -1307,74 +1561,143 @@ tableEdit.colSpanDelete = function(check , FocusCol){
 		tableEdit.trReset(voTableArray[0]);
 		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
 		
-		
 	}
-	else if(check == 2){ // 열   /////다시체크하기 .... 반복문 0부터 시작인데 0찍으면안댐..
-		
+	else if(check == 2){ // colSpan 있는 열
 		
 		for(var i=0; i<voTableArray[1]; i++){
-			
 			for(var j=voTableArray[4]; j<voTableArray[4]+focusCol; j++){
+				var vsCheck = voTotal[i][j];
 				
-				var checker = voTotal[i][j];
-				
-				if(checker.indexOf(":") != -1){// 1
-					var checkSpan = vsInCheck.split(":");
-					var vsRNum = checkSpan[0];
-					var vsCNum = checkSpan[1];
+				if(vsCheck.indexOf(":") != -1){
+					var vsInCheck = vsCheck.split(":");
+					var vsRNum = vsInCheck[0];
+					var vsCNum = vsInCheck[1];
 						vsRNum = vsRNum.replace("r","");
 						vsCNum = vsCNum.replace("c","");
+					var	vnCNum = parseInt(vsCNum);
 					var vnRNum = parseInt(vsRNum);
-					var vnCNum = parseInt(vsCNum);
+					/* 들어오는 것 부터 확인한 후 
+					 * 나가는지 들어와서 멈추는지 확인해야함. */
 					
-					var count = 0;
-					var fixer = 0;
-					
-					for(var m=i; m<i+vnRNum; m++){
-						for(var n=j; n<j+vnCNum; n++){
-							if(m == i){
-								if(n > voTableArray[4]+focusCol-1){
-									count+=1;
-									if(fixer ==0){
-										fixer = n;
+					if(j+vnCNum-1 > voTableArray[4]+focusCol-1){ // inout
+						var count = 0;
+						var fixerC = 0;
+						var fixerR = 0;
+						for(var a=i; a<i+vnRNum; a++){
+							for(var b=j; b<j+vnCNum; b++){
+								if(b > voTableArray[4]+focusCol-1){
+									count += 1;
+									if(fixerC == 0 && fixerR == 0){
+										fixerC = b;
+										fixerR = a;
 									}
 								}
-								else if(n <= voTableArray[4]+focusCol-1){
-									voTotal[m][n]="d";
-								}
 							}
-							else{
-								if(n > voTableArray[4]+focusCol-1){
-									continue;
-								}
-								else if(n < voTableArray[4]+focusCol-1){
-									voTotal[m][n] ="d";
-								}
+						}
+						
+						var total = count/vnRNum;
+						
+						if(total>1){
+							voTotal[fixerR][fixerC] = "r"+vnRNum+":"+"c"+total;
+						}
+						else{
+							voTotal[fixerR][fixerC] = "r"+vnRNum;
+						}
+						
+					}
+					else if(j+vnCNum-1 <= voTableArray[4]+focusCol-1){
+						for(var a=i; a<i+vnRNum; a++){
+							for(var b=j; b<j+vnCNum; b++){
+								voTotal[a][b]="d";
 							}
 						}
 					}
 					
 					
-					
 				}
-				else if(checker.indexOf("r0") != -1){// 1
-					voTotal[i][j]="d";
+				else if(vsCheck.indexOf("r0") != -1){
+					continue;
 				}
-				else if(checker.indexOf("c0") != -1){// 1
-					
-					//----- c0 start -------
-					for(var m=0; m<voTableArray[2]; m++){//2 td all
-						
-						var vsInCheck = voTotal[i][m];
+				else if(vsCheck.indexOf("c0") != -1){
+					for(var a=0; a<voTableArray[2]; a++){
+						var vsInCheck = voTotal[i][a];
 						
 						if(vsInCheck.indexOf(":") != -1){
-							var checkSpan = vsInCheck.split(":");
-							var vsRNum = checkSpan[0];
-							var vsCNum = checkSpan[1];
+							var vsInInCheck = vsInCheck.split(":");
+							var vsRNum = vsInInCheck[0];
+							var vsCNum = vsInInCheck[1];
 								vsRNum = vsRNum.replace("r","");
 								vsCNum = vsCNum.replace("c","");
+							var	vnCNum = parseInt(vsCNum);
 							var vnRNum = parseInt(vsRNum);
-							var vnCNum = parseInt(vsCNum);
+							/* 들어오는 것 부터 확인한 후 
+							 * 나가는지 들어와서 멈추는지 확인해야함. */
+							
+							
+							if(a+vnCNum-1 >= voTableArray[4]){ // in
+								if(a+vnCNum-1 > voTableArray[4]+focusCol-1){ // inout
+									var count = 0;
+									var fixer = 0;
+									
+									for(var m=i; m<i+vnRNum; m++){
+										for(var n=a; n<a+vnCNum; n++){
+											if(n < voTableArray[4]){
+												count += 1;
+												if(fixer == 0){
+													fixer = m;
+												}
+											}
+											else if(n >= voTableArray[4] && n <= voTableArray[4]+focusCol-1){
+												voTotal[m][n]="d";
+											}
+											else if(n > voTableArray[4]+focusCol-1){
+												count += 1;
+											}
+										}
+									}
+									
+									var total = count/vnRNum;
+									
+									if(total>1){
+										voTotal[fixer][a] = "r"+vnRNum+":"+"c"+total;
+									}
+									else{
+										voTotal[fixer][a] = "r"+vnRNum;
+									}
+									
+								}
+								else if(a+vnCNum-1 <= voTableArray[4]+focusCol-1){ // in end
+									var count = 0;
+									var fixer = 0;
+									
+									for(var m=i; m<i+vnRNum; m++){
+										for(var n=a; n<a+vnCNum; n++){
+											if(n < voTableArray[4]){
+												count += 1;
+												if(fixer == 0){
+													fixer = m;
+												}
+											}
+											else if(n >= voTableArray[4] && n <= voTableArray[4]+focusCol-1){
+												voTotal[m][n]="d";
+											}
+										}
+									}
+									
+									var total = count/vnRNum;
+									
+									if(total>1){
+										voTotal[fixer][a] = "r"+vnRNum+":"+"c"+total;
+									}
+									else{
+										voTotal[fixer][a] = "r"+vnRNum;
+									}
+							}
+							
+							}
+							else{
+								continue;
+							}
 							
 							
 							
@@ -1383,7 +1706,7 @@ tableEdit.colSpanDelete = function(check , FocusCol){
 							continue;
 						}
 						else if(vsInCheck.indexOf("c0") != -1){
-							continue;				
+							continue;
 						}
 						else if(vsInCheck.indexOf("r") != -1){
 							continue;
@@ -1392,34 +1715,83 @@ tableEdit.colSpanDelete = function(check , FocusCol){
 							var vsCNum = vsInCheck.replace("c","");
 							var vnCNum = parseInt(vsCNum);
 							
-							if(m+vnCNum-1 < voTableArray[4]){
-								continue;
-							}
-							else if(m+vnCNum-1 >= voTableArray[4]){
-								var count =0;
-								for(var k=m; k<m+vnCNum; k++){
-									if(k >= voTableArray[4]){
-										count += 1;
-										voTotal[i][k] = "d";
-									}
-									else{
-										continue;
-									}
-								}
-								
-								var total = vnCNum - count;
-								
-								if(total == 1){
-									voTotal[i][m] = "1";
-								}
-								else if(total > 1){
-									voTotal[i][m] = "c"+total;
-								}
-								
+							var vnStub = 0;
 							
+							if(voTableArray[4] == 0){
+								vnStub = voTableArray[4]+focusCol;
+							}
+							else{
+								vnStub = voTableArray[4]+focusCol-1;
 							}
 							
-							
+								if(a+vnCNum-1 >= voTableArray[4]){ // 범위 진입
+									if(a+vnCNum-1 <= vnStub){ // 범위 내
+										var count = 0;
+										var fixer = 0;
+										for(var b=a; b<a+vnCNum; b++){
+											if(b < voTableArray[4]){
+												count += 1;
+												if(fixer == 0){
+													fixer = a;
+												}
+											}
+											else if(voTableArray[4] <= b && b <= vnStub){
+												voTotal[i][b]="d";
+												
+											}	
+										}
+										
+										if(count>1){
+											voTotal[i][fixer] = "c"+count; 
+										}
+										else{
+											voTotal[i][fixer] = "1";
+										}
+										
+									}
+									else if(a+vnCNum-1 > vnStub){ // 범위 외
+										var beforeCount = 0;
+										var afterCount = 0;
+										var beforeFixer = 0;
+										var afterFixer = 0;
+										
+										for(var b=a; b<a+vnCNum; b++){
+											if(b < voTableArray[4]){
+												beforeCount += 1;
+												if(beforeFixer == 0){
+													beforeFixer = b;
+												}
+											}
+											else if(voTableArray[4] <= b && b<= vnStub){
+												voTotal[i][b]="d";
+											}
+											else if(b > vnStub){
+												afterCount += 1;
+												if(afterFixer == 0){
+													afterFixer = b;
+												}
+											}
+										}
+										
+										if(beforeCount>1){
+											voTotal[i][beforeFixer] = "c"+beforeCount;
+										}
+										else{
+											voTotal[i][beforeFixer] = "1";
+										}
+										
+										if(afterCount>1){
+											voTotal[i][afterFixer] = "c"+afterCount;
+										}
+										else{
+											voTotal[i][afterFixer] = "1";
+										}
+										
+								}
+								else{
+									continue;
+								}
+							}
 						}
 						else if(vsInCheck.indexOf("1") != -1){
 							continue;
@@ -1428,68 +1800,47 @@ tableEdit.colSpanDelete = function(check , FocusCol){
 							continue;
 						}
 					}
-					
-					
-					
-					//----- c0 end -------
 				}
-				else if(checker.indexOf("r") != -1){// 1
-					voTotal[i][j] = "d";
+				else if(vsCheck.indexOf("r") != -1){
+					var vsRNum = vsCheck.replace("r","");
+					var vnRNum = parseInt(vsRNum);
+					
+					for(var a=i; a<i+vnRNum; a++){
+						voTotal[a][j] = "d";
+					}
 				}
-				else if(checker.indexOf("c") != -1){// 1
-					var vsCNum = checker.replace("c","");
+				else if(vsCheck.indexOf("c") != -1){
+					var vsCNum = vsCheck.replace("c","");
 					var vnCNum = parseInt(vsCNum);
 					
-					if(j+vnCNum-1 <= voTableArray[4]+focusCol-1){
-						
-						for(var k=j; k<j+vnCNum; k++){
-							
-							voTotal[i][k]="d";
-						}
-					}
-					else if(j+vnCNum-1 > voTableArray[4]+focusCol-1){
 						var count = 0;
 						var fixer = 0;
-						for(var k=j; k<j+vnCNum; k++){
-							if(k <= voTableArray[4]+focusCol-1){
-								voTotal[i][k] = "d";
+						
+						for(var a=j; a<j+vnCNum; a++){
+							if(a <= voTableArray[4]+focusCol-1){
+								voTotal[i][a]="d";
 							}
-							else if(k > voTableArray[4]+focusCol-1){
+							else{
 								count += 1;
 								if(fixer == 0){
-									fixer = k;
+									fixer = a;
 								}
 							}
 						}
 						
-						if(count == 1){
+						if(count>1){
+							voTotal[i][fixer] = "c"+count;
+						}
+						else{
 							voTotal[i][fixer] = "1";
 						}
-						else if(count > 1){
-							
-							for(var k=fixer; k<count; k++){
-								if(k==fixer){
-									voTotal[i][fixer] = "c"+count;
-								}
-								else{
-									voTotal[i][k]="c0";
-								}
-							}
-							
-						}
-						
-						
-					}
-					
 				}
-				else if(checker.indexOf("1") != -1){// 1
+				else if(vsCheck.indexOf("1") != -1){
 					voTotal[i][j] = "d";
 				}
-				else if(checker.indexOf("d") != -1){// 1
+				else if(vsCheck.indexOf("d") != -1){
 					continue;
 				}
-				
-				
 			}
 		}
 		
@@ -1506,15 +1857,22 @@ tableEdit.colSpanDelete = function(check , FocusCol){
 		tableEdit.trReset(voTableArray[0]);
 		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
 		
-	}
-	
-	fn_saveClone();
+	} //check == 2 end
 }
 
 
-tableEdit.rowSpanDelete = function(check, focusRow){
-
-	 
+/*
+ * rowSpanDelete = rowSpan보유 셀 선택 후 삭제 시 행과 열을 삭제
+ * 
+ * 
+ * 
+ * 
+ * */
+tableEdit.rowSpanDelete = function(check, FocusRow){
+	
+	debugger; 
+	
+	var focusRow = parseInt(FocusRow);
 	
 	var voTableArray = tableEdit.startInfo();
 	
@@ -1527,110 +1885,277 @@ tableEdit.rowSpanDelete = function(check, focusRow){
 	
 	if(check == 1){ // 행
 		
-		/*
-		 * rowSpan 만큼 td 전부 검사해서 col / row 변동사항 입력
-		 * */
-		
-		for(var i=voTableArray[3]; i<voTableArray[3]+focusRow; i++){ // focus rowSpan 전부 
+		for(var i=voTableArray[3]; i<voTableArray[3]+focusRow; i++){ //tr rowSpan까지
 			for(var j=0; j<voTableArray[2]; j++){ // td 전체
+				var vsCheck = voTotal[i][j];
 				
-				var check = voTotal[i][j];
-				
-				if(check.indexOf(":") != -1){
+				if(vsCheck.indexOf(":") != -1){
+					var vsInCheck = vsCheck.split(":");
+					var vsRNum = vsInCheck[0];
+					var vsCNum = vsInCheck[1];
+						vsRNum = vsRNum.replace("r","");
+						vsCNum = vsCNum.replace("c","");
+					var vnRNum = parseInt(vsRNum);
+					var vnCNum = parseInt(vsCNum);
+					var count = 0;
+					var fixer = 0;
+					
+					/* 범위 */
+					for(var a=i; a<i+vnRNum; a++){
+						for(var b=j; b<j+vnCNum; b++){
+							if(a >= voTableArray[3] && a <= voTableArray[3]+focusRow-1){
+								voTotal[a][b]="d";
+							}
+							else if(a > voTableArray[3]+focusRow-1){
+								voTotal[a][b]="r0";
+								count += 1;
+								if(fixer == 0){
+									fixer = a;
+								}
+							}
+						}
+					}
+					
+					var total = count/vnCNum;
+					
+					if(total>1){
+						voTotal[fixer][j]="r"+total+":"+"c"+vnCNum;
+					}
+					else{
+						voTotal[fixer][j]="c"+vnCNum;
+					}
+	
 					
 				}
-				else if(check.indexOf("r0") != -1){ // r0을 보게되면 위에서 아래로 훑어서 확인
-					
-					for(var m=0; m<voTableArray[1]; m++){ // 전체 tr 확인
+				else if(vsCheck.indexOf("r0") != -1){
+					for(var a=0; a<voTableArray[1]; a++){
+						var vsInCheck = voTotal[a][j];
 						
-						var inCheck = voTotal[m][j];
-						
-						if(inCheck.indexOf(":") != -1){
+						if(vsInCheck.indexOf(":") != -1){
+							var vsInInCheck = vsInCheck.split(":");
+							var vsRNum = vsInInCheck[0];
+							var vsCNum = vsInInCheck[1];
+								vsRNum = vsRNum.replace("r","");
+								vsCNum = vsCNum.replace("c","");
+							var vnRNum = parseInt(vsRNum);
+							var vnCNum = parseInt(vsCNum);
+							var count = 0;
+							
+								if(a+vnRNum-1 >= voTableArray[3]){
+									for(var b=a; b<a+vnRNum; b++){
+										if(b >= voTableArray[3]){
+											for(var c=j; c<j+vnCNum; c++){
+												voTotal[b][c]="d";
+												count += 1;
+											}
+										}
+									}
+									
+									var total = count/vnRNum;
+									
+									if(total>1){
+										voTotal[a][j]="r"+total+":"+"c"+vnCNum;
+									}
+									else{
+										voTotal[a][j]="c"+vnCNum;
+									}
+								}
+							
 							
 						}
-						else if(inCheck.indexOf("r0") != -1){
+						else if(vsInCheck.indexOf("r0") != -1){
 							continue;
 						}
-						else if(inCheck.indexOf("c0") != -1){
-							continue;						
+						else if(vsInCheck.indexOf("c0") != -1){
+							continue;
 						}
-						else if(inCheck.indexOf("r") != -1){
-							var vsRNum = inCheck.replace("r","");
+						else if(vsInCheck.indexOf("r") != -1){
+							var vsRNum = vsInCheck.replace("r","");
 							var vnRNum = parseInt(vsRNum);
-							var count = 0;
-							if(m+vnRNum-1 > i){
-								continue;
-							}
-							else if(m+vnRNum-1 <= i){ // rowSpan 만큼 삭제하는 범위에 들어오면
-								for(var n=m; n<m+vnRNum; n++){ // m에서 vnRNum 만큼 반복
-									if(n >= i){
-										count += 1;  
-										voTotal[n][j] = "d";
+							
+								if(a+vnRNum-1 >= voTableArray[3]){
+									if(a+vnRNum-1 > voTableArray[3]+focusRow-1){ // 범위 초과
+										var beforeCount = 0;
+										var afterCount = 0;
+										var beforeFixer = 0;
+										var afterFixer = 0;
+										
+										for(var b=a; b<a+vnRNum; b++){
+											if(b < voTableArray[3]){
+												beforeCount += 1;
+												if(beforeFixer == 0){
+													beforeFixer = b;
+												}
+											}
+											else if(b >= voTableArray[3] && b <= voTableArray[3]+focusRow-1){
+												voTotal[b][j] = "d";
+											}
+											else if(b > voTableArray[3]+focusRow-1){
+												afterCount += 1;
+												if(afterFixer == 0){
+													afterFixer = b;
+												}
+											}
+										}
+										
+										if(beforeCount > 1){
+											voTotal[beforeFixer][j]="r"+beforeCount;
+										}
+										else{
+											voTotal[beforeFixer][j]="1";
+										}
+										if(afterCount > 1){
+											voTotal[afterFixer][j]="r"+afterCount;
+										}
+										else{
+											voTotal[afterFixer][j]="1";
+										}
+										
+										
 									}
-									else if(n < i){
-										continue;
+									else if(a+vnRNum-1 <= voTableArray[3]+focusRow-1){ // 범위 내
+										var count = 0;
+										var fixer = 0;
+										
+										for(var b=a; b<a+vnRNum; b++){
+											if(b < voTableArray[3]){
+												count += 1;
+												if(fixer == 0){
+													fixer = b;
+												}
+											}
+											else if(b >= voTableArray[3] && b <= voTableArray[3]+focusRow-1){
+												voTotal[b][j]="d";
+											}
+										}
+										
+										if(count>1){
+											voTotal[fixer][j]="r"+count;
+										}
+										else{
+											voTotal[fixer][j]="1";
+										}
+										
+									}
+								}
+								else{
+									continue;
+								}
+							
+							
+						}
+						else if(vsInCheck.indexOf("c") != -1){
+							continue;
+						}
+						else if(vsInCheck.indexOf("1") != -1){
+							continue;
+						}
+						else if(vsInCheck.indexOf("d") != -1){
+							continue;
+						}
+						
+					}
+				}
+				else if(vsCheck.indexOf("c0") != -1){
+					continue;
+				}
+				else if(vsCheck.indexOf("r") != -1){
+					var vsRNum = vsCheck.replace("r","");
+					var vnRNum = parseInt(vsRNum);
+					
+					if(i == 0){
+						if(i+vnRNum > voTableArray[3]+focusRow-1){ // 범위 초과
+							for(var a=i; a<i+vnRNum; a++){
+								var count = 0;
+								var fixer = 0;
+								for(var a=i; a<i+vnRNum; a++){
+									if(a <= voTableArray[3]+focusRow-1){
+										voTotal[a][j]="d";
+									}
+									else if(a > voTableArray[3]+focusRow-1){
+										count += 1;
+										if(fixer == 0){
+											fixer = a;
+										}
 									}
 								}
 								
-							var minusRNum = vnRNum - count;
-							
-							if(minusRNum == 1){
-								voTotal[m][j] = "1";
+								if(count > 1){
+									voTotal[fixer][j] = "r"+count;
+								}
+								else{
+									voTotal[fixer][j] = "1";
+								}
 							}
-							else if(minusRNum >= 2){
-								voTotal[m][j] = "r"+minusRNum;
+						}
+						else if(i+vnRNum <= voTableArray[3]+focusRow-1){ // 범위 내
+							for(var a=i; a<i+vnRNum; a++){
+								voTotal[a][j]="d";
 							}
+						}
+					}
+					else if(i != 0){
+						if(i+vnRNum-1 > voTableArray[3]+focusRow-1){ // 범위 초과
+							for(var a=i; a<i+vnRNum; a++){
+								var count = 0;
+								var fixer = 0;
+								for(var a=i; a<i+vnRNum; a++){
+									if(a <= voTableArray[3]+focusRow-1){
+										voTotal[a][j]="d";
+									}
+									else if(a > voTableArray[3]+focusRow-1){
+										count += 1;
+										if(fixer == 0){
+											fixer = a;
+										}
+									}
+								}
 								
+								if(count > 1){
+									voTotal[fixer][j] = "r"+count;
+								}
+								else{
+									voTotal[fixer][j] = "1";
+								}
 							}
-							
 						}
-						else if(inCheck.indexOf("c") != -1){
-							continue;
+						else if(i+vnRNum-1 <= voTableArray[3]+focusRow-1){ // 범위 내
+							for(var a=i; a<i+vnRNum; a++){
+								voTotal[a][j]="d";
+							}
 						}
-						else if(inCheck.indexOf("1") != -1){
-							continue;
-						}
-						else if(inCheck.indexOf("d") != -1){
-							continue;
-						}
-						
 					}
-				}
-				else if(check.indexOf("c0") != -1){//
-					voTotal[i][j]="d";
-				}
-				else if(check.indexOf("r") != -1){//
-					var vsRNum = check.replace("r","");
-					var vnRNum = parseInt(vsRNum);
 					
-					for(var m=i; m<i+vnRNum; m++){
-						voTotal[m][j]="d";
+					
+					
+					
+				}
+				else if(vsCheck.indexOf("c") != -1){
+					var vsCNum = vsCheck.replace("c","");
+					var vnCnum = parseInt(vsCNum);
+					
+					for(var a=j; a<j+vnCNum; a++){
+						voTotal[i][a] = "d";
 					}
 					
 				}
-				else if(check.indexOf("c") != -1){//
-					var vsCNum = check.replace("c","");		
-					var vnCNum = parseInt(vsCNum);
-					for(var m=j; m<j+vnCNum; m++){
-						voTotal[i][m]="d";
-					}
-				}
-				else if(check.indexOf("1") != -1){//
+				else if(vsCheck.indexOf("1") != -1){
 					voTotal[i][j] = "d";
 				}
-				else if(check.indexOf("d") != -1){//
+				else if(vsCheck.indexOf("d") != -1){
 					continue;
 				}
 				
 			}
 		}
 		
+		console.log(voTotal);
+		
 		tableEdit.Vector(voTableArray[0], voTotal);
 		
-		for(var i=voTableArray[3]; i<voTableArray[3]+focusRow; i++){
-			for(var j=0; j<voTableArray[2]; j++){
-				$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").remove();
-			}
+		for(var a=voTableArray[3]; a<voTableArray[3]+focusRow; a++){
+				$("#"+voTableArray[0]+"> tbody > tr[row="+a+"]").remove();
+			
 		}
 		
 		tableEdit.trReset(voTableArray[0]);
@@ -1639,86 +2164,210 @@ tableEdit.rowSpanDelete = function(check, focusRow){
 		
 	}
 	else if(check == 2){ // 열
-		
+	
 		for(var i=0; i<voTableArray[1]; i++){
+			var vsCheck = voTotal[i][voTableArray[4]];
 			
-			var vsChecker = voTotal[i][voTableArray[4]];
-			
-			if(vsChecker.indexOf(":") != -1){//
-				var checker = vsChecker.split(":");
-				var vsRNum = checker[0];
-				var vsCNum = checker[1];
+			if(vsCheck.indexOf(":") != -1){
+				var vsInCheck = vsCheck.split(":");
+				var vsRNum = vsInCheck[0];
+				var vsCNum = vsInCheck[1];
 					vsRNum = vsRNum.replace("r","");
-					vsCNum = vsRNum.replace("c","");
-				var	vnCNum = parseInt(vsCNum);
+					vsCNum = vsCNum.replace("c","");
 				var vnRNum = parseInt(vsRNum);
-				///////////////보류
-
-			}
-			else if(vsChecker.indexOf("r0") != -1){//
-				continue;
-			}
-			else if(vsChecker.indexOf("c0") != -1){//
-				for(var j=0; j<voTableArray[2]; j++){ // focus td까지 검토
-					var checker = voTotal[i][j];
-					
-					if(checker.indexOf(":") != -1){
-						
-					}
-					else if(checker.indexOf("r0") != -1){
-						continue;
-					}
-					else if(checker.indexOf("c0") != -1){
-						continue;
-					}
-					else if(checker.indexOf("r") != -1){
-						continue;
-					}
-					else if(checker.indexOf("c") != -1){
-						var vsCheck = checker.replace("c","");
-						var vnCNum = parseInt(vsCheck);
-						if(j+vnCNum-1 >= voTableArray[4]){
-							if(vnCNum == 2){
-								voTotal[i][j] = "1";
-								voTotal[i][j+1] = "1";
-							}
-							else if(vnCNum != 2){
-								vnCNum -= 1;
-								voTotal[i][j] = "c"+vnCNum;
-							}
-							
-						}						
-					}
-					else if(checker.indexOf("1") != -1){
-						continue;
-					}
-				}	
-			}
-			else if(vsChecker.indexOf("r") != -1){//
-				continue;
-			}
-			else if(vsChecker.indexOf("c") != -1){//
-				var checker = vsChecker.replace("c","");
-				var vnCNum = parseInt(check);
-				if(vnCNum == 2){
-					voTotal[i][j]= "1";
-					voTotal[i][j+1] = "1";
-				}
-				else if(vmCNum != 2){
-					var minVnCNum = vnCNum - 1;
-					voTotal[i][j] = "c"+minVnCNum;
-					
-					for(var k=j; k<j+vnCNum; k++){
-						if(k == j){continue}
+				var vnCNum = parseInt(vsCNum);
+				var count = 0;
+				var fixer = 0;
+				var fixercount = 0;
+				for(var m=i; m<i+vnRNum; m++){
+					for(var n=voTableArray[4]; n<voTableArray[4]+vnCNum; n++){
+						if(n == voTableArray[4]){
+							voTotal[m][n] = "d";
+						}
 						else{
-							voTotal[i][k] ="1";
+							count += 1;
+							if(fixercount == 0){
+								fixer = m;
+								fixercount = 1;
+							}
 						}
 					}
 				}
+				
+				var total = count/vnRNum;
+				
+				if(total>1){
+					voTotal[fixer][voTableArray[4]+1] = "r"+vnRNum+":"+"c"+total;
+				}
+				else{
+					voTotal[fixer][voTableArray[4]+1] = "r"+vnRNum;
+				}
+				
+				console.log(voTotal);
+				
 			}
-			else if(vsChecker.indexOf("1") != -1){//
+			else if(vsCheck.indexOf("r0") != -1){
 				continue;
+			}			
+			else if(vsCheck.indexOf("c0") != -1){
+				for(var a=0; a<voTableArray[2]; a++){
+					var vsInCheck = voTotal[i][a];
+					
+					if(vsInCheck.indexOf(":") != -1){
+						var vsInInCheck = vsInCheck.split(":");
+						var vsRNum = vsInInCheck[0];
+						var vsCNum = vsInInCheck[1];
+							vsRNum = vsRNum.replace("r","");
+							vsCNum = vsCNum.replace("c","");
+						var vnRNum = parseInt(vsRNum);
+						var vnCNum = parseInt(vsCNum);
+						
+						if(a+vnCNum-1 >= voTableArray[4]){ // in
+							
+							if(a+vnCNum-1 > voTableArray[4]){
+								var count = 0;
+								for(var m=i; m<i+vnRNum; m++){
+									for(var n=a; n<a+vnCNum; n++){
+										if(n < voTableArray[4]){
+											count += 1;
+										}
+										else if(n == voTableArray[4]){
+											voTotal[m][n] ="d";
+										}
+										else{
+											count += 1;
+										}
+									}
+								}
+								
+								var total = count/vnRNum;
+								
+								if(total>1){
+									voTotal[i][a]="r"+vnRNum+":"+"c"+total;
+								}
+								else{
+									voTotal[i][a] = "r"+vnRNum;
+								}
+								
+							}
+							else if(a+vnCNum-1 == voTableArray[4]){
+								var count = 0;
+								for(var m=i; m<i+vnRNum; m++){
+									for(var n=a; n<a+vnCNum; n++){
+										if(n == voTableArray[4]){
+											voTotal[m][n] = "d";
+										}
+										else{
+											count += 1;
+										}
+									}
+								}
+								
+								var total = count/vnRNum;
+								
+								if(total>1){
+									voTotal[i][a]="r"+vnRNum+":"+"c"+total;
+								}
+								else{
+									voTotal[i][a] = "r"+vnRNum;
+								}
+							}
+							
+						}
+						else{
+							continue;
+						}
+						
+						
+						
+						
+					}
+					else if(vsInCheck.indexOf("r0") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("c0") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("r") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("c") != -1){
+						var vsCNum = vsInCheck.replace("c","");
+						var vnCNum = parseInt(vsCNum);
+						var minusVnCNum = vnCNum -1;
+						
+						
+							if(a+vnCNum-1 >= voTableArray[4]){
+								voTotal[i][a] = "c"+minusVnCNum;
+								voTotal[i][voTableArray[4]] = "d";
+							}
+							else{
+								continue;
+							}
+						
+						
+						
+					}
+					else if(vsInCheck.indexOf("1") != -1){
+						continue;
+					}
+					else if(vsInCheck.indexOf("d") != -1){
+						continue;
+					}
+				}
 			}
+			else if(vsCheck.indexOf("r") != -1){
+				var vsRNum = vsCheck.replace("r","");
+				var vnRNum = parseInt(vsRNum);
+				
+				for(var b=i; b<i+vnRNum; b++){
+					voTotal[b][voTableArray[4]]="d";
+				}
+				
+			}
+			else if(vsCheck.indexOf("c") != -1){
+				var vsCNum = vsCheck.replace("c","");
+				var vnCNum = parseInt(vsCNum);
+				
+				var minusVnCNum = vnCNum -1;
+				
+				if(minusVnCNum > 1){
+					for(var b=voTableArray[4]; b<voTableArray[4]+vnCNum; b++){
+						if(b == voTableArray[4]){
+							voTotal[i][b] = "d";
+						}
+						else if(b == voTableArray[4]+1){
+							voTotal[i][b]="c"+minusVnCNum;
+						}
+						else{
+							voTotal[i][b]="c0";
+						}
+					}
+				}
+				else{
+					for(var b=voTableArray[4]; b<voTableArray[4]+vnCNum; b++){
+						if(b == voTableArray[4]){
+							voTotal[i][b] = "d";
+						}
+						else{
+							voTotal[i][b] = "1";
+						}
+					}
+				}
+				
+			
+				
+			}
+			else if(vsCheck.indexOf("1") != -1){
+				voTotal[i][voTableArray[4]] = "d";
+			}
+			else if(vsCheck.indexOf("d") != -1){
+				continue;
+			}	
+			
+			console.log(voTotal);
+
+			
 		}
 		
 		tableEdit.Vector(voTableArray[0], voTotal);
@@ -1731,21 +2380,129 @@ tableEdit.rowSpanDelete = function(check, focusRow){
 		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
 		fn_saveClone();
 	}
-
-}
-
-
-tableEdit.SpanDelete = function(check, focusCol, focusRow){
-		
-	
-	
-	
 }
 
 
 
+tableEdit.dragColDelete = function(){
+	
+	debugger;
+	
+	var voTableArray = tableEdit.startInfo();
+	
+	var voTotal = new Array();
+	for(var i=0; i<voTableArray[1]; i++){
+		voTotal[i] = new Array();
+	}
+	
+	voTotal = tableEdit.SpanInfo(voTableArray);	
+	
+	var voFocusTotal = new Array();
+	for(var i=0; i<voTableArray[1]; i++){
+		voFocusTotal[i] = new Array();
+	}
+	
+	for(var i=0; i<voTableArray[1]; i++){
+		for(var j=0; j<voTableArray[2]; j++){
+			voFocusTotal[i][j] = $("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").attr("tablefocus");
+		}
+	}
+	
+	for(var i=0; i<voTableArray[1]; i++){
+		for(var j=0; j<voTableArray[2]; j++){
+			var vsCheck = voFocusTotal[i][j];
+			
+			if(vsCheck == "true"){
+				voTotal[i][j]="d";
+			}
+			else{
+				continue;
+			}
+		}
+	}
+	
+	tableEdit.Vector(voTableArray[0], voTotal);
+	
+	for(var i=0; i<voTableArray[1]; i++){
+		for(var j=0; j<voTableArray[2]; j++){
+			var vsTotalCheck = voTotal[i][j];
+			
+			if(vsTotalCheck.indexOf("d") != -1){
+				$("#"+voTableArray[0]+"> tbody > tr[row="+i+"]").remove();
+			}
+			else{
+				continue;
+			}
+		}
+	}	
+	
+	
+	tableEdit.trReset(voTableArray[0]);
+	tableEdit.tdReset(voTableArray[0],voTableArray[1]);
+	fn_saveClone();
+	
+}
 
-
+tableEdit.dragRowDelete = function(){
+	
+	debugger;
+	
+	var voTableArray = tableEdit.startInfo();
+	
+	var voTotal = new Array();
+	for(var i=0; i<voTableArray[1]; i++){
+		voTotal[i] = new Array();
+	}
+	
+	voTotal = tableEdit.SpanInfo(voTableArray);	
+	
+	var voFocusTotal = new Array();
+	for(var i=0; i<voTableArray[1]; i++){
+		voFocusTotal[i] = new Array();
+	}
+	
+	for(var i=0; i<voTableArray[1]; i++){
+		for(var j=0; j<voTableArray[2]; j++){
+			voFocusTotal[i][j] = $("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").attr("tablefocus");
+		}
+	}
+	
+	for(var i=0; i<voTableArray[1]; i++){
+		for(var j=0; j<voTableArray[2]; j++){
+			var vsCheck = voFocusTotal[i][j];
+			
+			if(vsCheck == "true"){
+				voTotal[i][j]="d";
+			}
+			else{
+				continue;
+			}
+		}
+	}
+	
+	tableEdit.Vector(voTableArray[0], voTotal);
+	
+	for(var i=0; i<voTableArray[1]; i++){
+		for(var j=0; j<voTableArray[2]; j++){
+			var vsTotalCheck = voTotal[i][j];
+			
+			if(vsTotalCheck.indexOf("d") != -1){
+				for(var m=0; m<voTableArray[1]; m++){
+					$("#"+voTableArray[0]+"> tbody > tr[row="+m+"] > td[shell="+j+"]").remove();
+				}
+			}
+			else{
+				continue;
+			}
+		}
+	}	
+	
+	
+	tableEdit.trReset(voTableArray[0]);
+	tableEdit.tdReset(voTableArray[0],voTableArray[1]);
+	fn_saveClone();
+	
+}
 
 
 /*
@@ -2207,6 +2964,10 @@ tableEdit.Divide = function(){
 			}
  	 }
 }
+
+
+
+
 
 
 

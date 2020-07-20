@@ -29,15 +29,51 @@ public class ${viewId}Service
 	
 	<#list devSource as item>
 	
-	
+	<#if item.CRUD_DVS == "r">
 	/**
-	 * ${item.WRK_ID}
+	 * ${item.WRK_ID}Select
 	 */
-	public List<Map<String,Object>> ${item.WRK_ID}(Map<String, Object> paramMap) throws Exception {
+	public List<Map<String,Object>> ${item.WRK_ID}Select(Map<String, Object> paramMap) throws Exception {
 	
-		return getSqlSession().selectList("${viewId}Sql.${item.WRK_ID}", paramMap);
+		return getSqlSession().selectList("${viewId}.${item.WRK_ID}Select", paramMap);
 		
 	}
+	</#if>
+	
+	<#if item.CRUD_DVS == "c">
+	/**
+	 * ${item.WRK_ID}Insert
+	 */
+	public void ${item.WRK_ID}Insert(Map<String, Object> paramMap) throws Exception {
+	
+		getSqlSession().insert("${viewId}.${item.WRK_ID}Insert", paramMap);
+		
+	}
+	</#if>
+	
+	<#if item.CRUD_DVS == "u">
+	/**
+	 * ${item.WRK_ID}Update
+	 */
+	public void ${item.WRK_ID}Update(Map<String, Object> paramMap) throws Exception {
+	
+		getSqlSession().update("${viewId}.${item.WRK_ID}Update", paramMap);
+		
+	}
+	</#if>
+	
+	<#if item.CRUD_DVS == "d">
+	/**
+	 * ${item.WRK_ID}Delete
+	 */
+	public void ${item.WRK_ID}Delete(Map<String, Object> paramMap) throws Exception {
+	
+		getSqlSession().delete("${viewId}.${item.WRK_ID}Delete", paramMap);
+		
+	}
+	</#if>
+	
+	
 	
 	
 	</#list>

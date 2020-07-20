@@ -7,7 +7,7 @@
 	    	/* view010101P01.retrieveWrkList */
 	    	
 			SELECT VIEW_ID
-			     , SOURCE
+			     , HTML_SOURCE
 			FROM ROBOT01
 			WHERE USER_ID = #{userId}
 			<if test='viewId != "" and viewId != null'>
@@ -24,7 +24,7 @@
 	    	/* view010101P01.retrieveWrkHistryList */
 	    	
 			SELECT VIEW_ID
-				 , SOURCE
+				 , HTML_SOURCE
 			     , DATE_FORMAT(MAKE_DTTM,'%Y-%m-%d %H:%i:%s') AS	MAKE_DTTM
 			FROM ROBOT02
 			WHERE USER_ID = #{userId}
@@ -45,6 +45,7 @@
 				 , QUERY
 				 , FROM_MAP
 				 , TO_MAP
+				 , CRUD_DVS
 			FROM ROBOT03
 			WHERE USER_ID = #{userId}
 			<if test='viewId != "" and viewId != null'>

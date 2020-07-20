@@ -61,15 +61,6 @@ public class View010101Controller {
 	}
 	
 	/**
-	 * 소스 만들기를 실행한다.
-	 */
-	@RequestMapping(value = "/creationSource.do", produces = "application/text; charset=utf8" )
-	public void creationSource(@RequestParam Map<String, Object> param, SessionStatus status) throws Exception {
-		Application.creation(param);
-	}
-	
-	
-	/**
 	 * 불러오기전 새션확인
 	 */
 	@RequestMapping(value = "/userIdSessionYn.do", produces = "application/text; charset=utf8" )
@@ -97,10 +88,9 @@ public class View010101Controller {
 		paramMap.put("urlDvs", urlDvs);
 		
 		paramMap.put("viewId", paramMap.get("businessNm"));
-		paramMap.put("source", paramMap.get("html"));
+		paramMap.put("HTML_SOURCE", paramMap.get("html"));
 		
 		paramMap = Application.creationHTML(paramMap);
-		
 		
 		
 		// ROBOT01 INSERT
@@ -109,6 +99,8 @@ public class View010101Controller {
 		view010101service.registViewDrawWrkHistry(paramMap);
 		// ROBOT03 INSERT
 		view010101service.registDevSource(paramMap);
+		
+		
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		

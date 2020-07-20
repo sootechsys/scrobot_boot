@@ -1,6 +1,6 @@
 {
 	"overwrite" : true,
-	"targets" : ["html","controller", "service","jsp"],
+	"targets" : ["html","controller", "service","jsp","sql"],
 	
 	
 	"packagePath" : "sourceFileGenerator",

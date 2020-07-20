@@ -143,7 +143,7 @@ fn_wrkHistryDbClickCallBack = function(param){
 			}
 		}
 
-		var vsSource = voViewHistryList[vnFocusRow].SOURCE;
+		var vsSource = voViewHistryList[vnFocusRow].HTML_SOURCE;
 		$("#creationTable").empty();
 
 		$("#creationTable").append(vsSource);

@@ -191,7 +191,6 @@ robot.confirm = function(msg, btn1, btn2, param, callBack){
 }
 
 
-
 /* openPop - 팝업을 오픈한다.
  * info : header헤더에 표시될 내용(string)
  * url : 팝업에 표시될 url내용(String)

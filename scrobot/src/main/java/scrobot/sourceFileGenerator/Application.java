@@ -35,30 +35,7 @@ import freemarker.template.TemplateNotFoundException;
  * 
  */
 public class Application {
-	
-	
-	/**
-	 * @param args
-	 * @throws IOException 
-	 * @throws TemplateException 
-	 * @throws UnsupportedFlavorException 
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
-	 */
-	public static void creation(Map<String,Object> paramMap) throws IOException, TemplateException, UnsupportedFlavorException, ClassNotFoundException, SQLException {
-		Utils.log(Thread.currentThread().getStackTrace(), ">>");
-		
-		//
-		Map<String,Object> configMap = loadConfigJson(paramMap);
-				
 
-		//
-		processAll(configMap);
-		
-		//
-		Utils.log(Thread.currentThread().getStackTrace(), "<<");
-		
-	}
 	
 	/**
 	 * @param args
@@ -70,11 +47,10 @@ public class Application {
 	 */
 	public static Map<String,Object> creationHTML(Map<String,Object> paramMap) throws IOException, TemplateException, UnsupportedFlavorException, ClassNotFoundException, SQLException {
 		
-		Map<String,Object> configMap = loadConfigJsonHTML(paramMap);
+		paramMap = loadConfigJsonHTML(paramMap);
+		paramMap = processAll(paramMap);
 
-		processAll(configMap);
-		
-		return configMap;
+		return paramMap;
 		
 	}
 
@@ -120,66 +96,6 @@ public class Application {
 		Utils.log(Thread.currentThread().getStackTrace(), "<<", cfg);
 		return cfg;
 	}
-	
-
-
-	
-	/**
-	 * 환경 파일 로드
-	 * 실행 파일과 같은 경로의 app.json파일 로드
-	 * @return
-	 * @throws JsonSyntaxException
-	 * @throws JsonIOException
-	 * @throws FileNotFoundException
-	 */
-	@SuppressWarnings("unchecked")
-	private static Map<String,Object> loadConfigJson(Map<String,Object> paramMap) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
-		URL url = Application.class.getProtectionDomain().getCodeSource().getLocation();
-		Path path = Paths.get(url.toString().replaceAll("classes", "").replaceAll("file:/", ""));
-		String filename = "app.json";
-
-		Map<String,Object> map = new Gson().fromJson(new FileReader(path.resolve(filename).toFile()), Map.class);
-		
-		//현재 시간
-		map.put("now", Utils.getNow());
-		map.put("templatePath", path.toString().replaceAll("WEB-INF", "template"));
-		map.put("businessNm", paramMap.get("businessNm"));
-		
-		List<Map<String,Object>> datas = new ArrayList();
-		Map<String,Object> viewInfo = new HashMap();
-		
-		Set key = paramMap.keySet();
-		
-		for (Iterator iterator = key.iterator(); iterator.hasNext();) {
-            String keyName = (String) iterator.next();
-            String valueName = (String) paramMap.get(keyName);
-
-		}
-
-		
-		if(paramMap.get("value0") == null){
-			paramMap.put("value0", "sootech");
-			paramMap.put("label0", "systems");
-		}
-		if(paramMap.get("drag1") == null){
-			paramMap.put("drag1", "sootech");
-			paramMap.put("drag2", "systems");
-		}
-		viewInfo.put("businessNm", paramMap.get("value0"));
-		viewInfo.put("kor", paramMap.get("label0"));
-		viewInfo.put("comment", paramMap.get("label0"));
-		viewInfo.put("drag1", paramMap.get("drag1"));
-		
-		datas.add(viewInfo);
-		
-		
-		map.put("datas", datas);
-		
-		//
-		Utils.log(Thread.currentThread().getStackTrace(), "<<", map);
-		return map;
-	}
-	
 	
 	/**
 	 * 환경 파일 로드
@@ -243,16 +159,15 @@ public class Application {
 	 * @throws TemplateException
 	 * @throws UnsupportedFlavorException 
 	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
 	 */
-	private static void processAll(Map<String, Object> configMap) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException, UnsupportedFlavorException, ClassNotFoundException, SQLException {
+	public static Map<String,Object> processAll(Map<String, Object> paramMap) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException, UnsupportedFlavorException, ClassNotFoundException, SQLException {
 
 		//
-		Configuration cfg = createConfiguration(configMap);
+		Configuration cfg = createConfiguration(paramMap);
 		
 
 		//
-		new FileGenerator().generate(cfg, configMap);
+		return new FileGenerator().generate(cfg, paramMap);
 		
 	}
 

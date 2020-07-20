@@ -12,14 +12,22 @@
 				AND VIEW_ID = #{viewId}
 			WHEN MATCHED THEN
 				UPDATE SET CHNG_HISTRY_DTTM = SYSDATE
-				         , SOURCE = #{source}
+				         , HTML_SOURCE = #{HTML_SOURCE}
+				         , CONTROLLER_SOURCE = #{CONTROLLER_SOURCE}
+				         , SERVICE_SOURCE = #{SERVICE_SOURCE}
+				         , JSP_SOURCE = #{JSP_SOURCE}
+				         , SQL_SOURCE = #{SQL_SOURCE}
 		    WHEN NOT MATCHED THEN
 		    	INSERT VALUES (
 					#{userId}
 				  , #{viewId}
 				  , SYSDATE
 				  , NULL
-				  , #{source})
+				  , #{HTML_SOURCE}
+				  , #{CONTROLLER_SOURCE}
+				  , #{SERVICE_SOURCE}
+				  , #{JSP_SOURCE}
+				  , #{SQL_SOURCE})
 
 	</insert>
 	
@@ -32,12 +40,20 @@
 				  ( USER_ID
 				  , VIEW_ID
 				  , MAKE_DTTM
-				  , SOURCE)
+				  , HTML_SOURCE
+				  , CONTROLLER_SOURCE
+				  , SERVICE_SOURCE
+				  , JSP_SOURCE
+				  , SQL_SOURCE)
 			VALUES (
 					#{userId}
 				  , #{viewId}
 				  , SYSDATE
-				  , #{source})
+				  , #{HTML_SOURCE}
+				  , #{CONTROLLER_SOURCE}
+				  , #{SERVICE_SOURCE}
+				  , #{JSP_SOURCE}
+				  , #{SQL_SOURCE})
 
 	</insert>
 	
@@ -56,6 +72,7 @@
 				UPDATE SET QUERY = #{QUERY}
 				     , TO_MAP = #{TO_MAP}
 				     , FROM_MAP = #{FROM_MAP}
+				     , CRUD_DVS = #{CRUD_DVS}
 				     
 			WHEN NOT MATCHED THEN
 			
@@ -66,6 +83,7 @@
 				  , #{QUERY}
 				  , #{FROM_MAP}
 				  , #{TO_MAP}
+				  , #{CRUD_DVS}
 				  , SYSDATE)
 
 	</insert>

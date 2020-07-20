@@ -26,11 +26,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style>
 
-</style>
+  </style>
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <script type="text/javaScript" language="javascript" defer="defer">
-
-
 
 </script>
 </head>
@@ -43,9 +41,10 @@
 
 	<form:form id="creationForm" name="creationForm" onsubmit ="return false;">
 		<div id="div_creationForm">
-			<div id="creationTable" onclick="fn_creationClick()">
-			</div>
+			<div id="creationTable" > <!-- onclick="fn_creationClick()" -->
+	
 			
+			</div>
 		</div>
 	</form:form>
 

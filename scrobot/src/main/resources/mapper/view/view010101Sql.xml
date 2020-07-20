@@ -10,15 +10,27 @@
 				  ( USER_ID
 				  , VIEW_ID
 				  , MAKE_DTTM 
-				  , SOURCE)
+				  , HTML_SOURCE
+				  , CONTROLLER_SOURCE
+				  , SERVICE_SOURCE
+				  , JSP_SOURCE
+				  , SQL_SOURCE)
 			VALUES (
 					#{userId}
 				  , #{viewId}
 				  , SYSDATE
 				  , SYSDATE
-				  , #{source})
+				  , #{HTML_SOURCE}
+				  , #{CONTROLLER_SOURCE}
+				  , #{SERVICE_SOURCE}
+				  , #{JSP_SOURCE}
+				  , #{SQL_SOURCE})
 		    ON DUPLICATE KEY UPDATE
-		       SOURCE = #{source}
+		       HTML_SOURCE = #{HTML_SOURCE}
+		    AND CONTROLLER_SOURCE = #{CONTROLLER_SOURCE}
+			AND SERVICE_SOURCE = #{SERVICE_SOURCE}
+			AND JSP_SOURCE = #{JSP_SOURCE}
+			AND SQL_SOURCE = #{SQL_SOURCE}
 		    AND CHNG_HISTRY_DTTM = SYSDATE
 
 	</insert>
@@ -32,12 +44,21 @@
 				  ( USER_ID
 				  , VIEW_ID
 				  , MAKE_DTTM
-				  , SOURCE)
+				  , HTML_SOURCE
+				  , CONTROLLER_SOURCE
+				  , SERVICE_SOURCE
+				  , JSP_SOURCE
+				  , SQL_SOURCE)
 			VALUES (
 					#{userId}
 				  , #{viewId}
 				  , SYSDATE()
-				  , #{source})
+				  , #{HTML_SOURCE}
+				  , #{CONTROLLER_SOURCE}
+				  , #{SERVICE_SOURCE}
+				  , #{JSP_SOURCE}
+				  , #{SQL_SOURCE}
+				  )
 
 	</insert>
 	
@@ -54,6 +75,7 @@
 				  , QUERY
 				  , FROM_MAP
 				  , TO_MAP
+				  , CRUD_DVS
 				  , MAKE_DTTM)
 			VALUES (
 					#{userId}
@@ -62,11 +84,13 @@
 				  , #{QUERY}
 				  , #{FROM_MAP}
 				  , #{TO_MAP}
+				  , #{CRUD_DVS}
 				  , SYSDATE())
 		    ON DUPLICATE KEY UPDATE
 		       QUERY = #{QUERY}
 		    AND TO_MAP = #{TO_MAP}
 		    AND FROM_MAP = #{FROM_MAP}
+		    AND CRUD_DVS = #{CRUD_DVS}
 					
 
 	</insert>

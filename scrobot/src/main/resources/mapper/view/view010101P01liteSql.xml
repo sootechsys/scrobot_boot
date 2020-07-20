@@ -7,7 +7,7 @@
 	    	/* view010101P01lite.retrieveWrkHistryList */
 	    	
 			SELECT VIEW_ID
-				 , SOURCE
+				 , HTML_SOURCE
 			     , TO_CHAR(MAKE_DTTM, 'YYYY-MM-DD HH24:MI:SS') AS MAKE_DTTM
 			FROM ROBOT02
 			WHERE USER_ID = #{userId}

@@ -14,7 +14,7 @@
 }
 
 .rowDeleteTd{
-	border-bottom: 1px solid white !important;
+	border: 1px solid white !important;
 }
 
 .rowDelete:hover{
@@ -23,8 +23,6 @@
 
 </style>
 
-
-<script src="https://code.jquery.com/jquery-2.2.1.js"></script>
 <script type="text/javaScript" language="javascript" defer="defer">
 
 $(document).ready(function(){
@@ -39,11 +37,19 @@ $(document).ready(function(){
 		vsSource += "\n <td><textarea class=\"query\" rows=\"5\"></textarea></td>";
 		vsSource += "\n <td><input class=\"fromMap\" type=\"text\"></input></td>";
 		vsSource += "\n <td><input class=\"toMap\" type=\"text\"></input></td>";
+		vsSource += "\n <td><select class=\"crudDvs\">";
+		vsSource += "\n  <option value=\"r\" label=\"select\"></option>";
+		vsSource += "\n  <option value=\"c\" label=\"insert\"></option>";
+		vsSource += "\n  <option value=\"u\" label=\"update\"></option>";
+		vsSource += "\n  <option value=\"d\" label=\"delete\"></option>";
+		vsSource += "\n </select></td>";
 		vsSource += "\n <td class=\"rowDeleteTd\">";
 		vsSource += "\n  <img onclick=\"fn_queryRowDelete(this)\"";
 		vsSource += "class=\"rowDelete\" width=\"20\" src=\"<c:url value='/images/object/img_subtraction.png'/>\"/>";
 		vsSource += "\n </td>";
 		vsSource += "\n</tr>";
+		
+		$("#queryList tbody").append(vsSource);
 	} else {
 		
 		for(var i=0; i<voMapInfo.length; i++){
@@ -52,17 +58,30 @@ $(document).ready(function(){
 			vsSource += "\n <td><textarea class=\"query\" rows=\"5\" >"+voMapInfo[i].QUERY+"</textarea></td>";
 			vsSource += "\n <td><input class=\"fromMap\" type=\"text\" value=\""+voMapInfo[i].FROM_MAP+"\"></input></td>";
 			vsSource += "\n <td><input class=\"toMap\" type=\"text\" value=\""+voMapInfo[i].TO_MAP+"\"></input></td>";
+			vsSource += "\n <td><select class=\"crudDvs\">";
+			vsSource += "\n  <option value=\"r\" label=\"select\"></option>";
+			vsSource += "\n  <option value=\"c\" label=\"insert\"></option>";
+			vsSource += "\n  <option value=\"u\" label=\"update\"></option>";
+			vsSource += "\n  <option value=\"d\" label=\"delete\"></option>";
+			vsSource += "\n </select></td>";
 			vsSource += "\n <td class=\"rowDeleteTd\">";
 			vsSource += "\n  <img onclick=\"fn_queryRowDelete(this)\"";
 			vsSource += "class=\"rowDelete\" width=\"20\" src=\"<c:url value='/images/object/img_subtraction.png'/>\"/>";
 			vsSource += "\n </td>";
 			vsSource += "\n</tr>";
 		}
+		
+		debugger;
+		$("#queryList tbody").append(vsSource);
+		for(var i=0; i<voMapInfo.length; i++){
+			$(".crudDvs").eq(i).val(voMapInfo[i].CRUD_DVS).prop("selected",true);
+		}
+		
 	}
 	
 	
 	
-	$("#queryList tbody").append(vsSource);
+	
 	
 })
 	
@@ -87,6 +106,12 @@ fn_queryRowAdd = function(){
 	vsSource += "\n <td><textarea class=\"query\" rows=\"5\"></textarea></td>";
 	vsSource += "\n <td><input class=\"fromMap\" type=\"text\"></input></td>";
 	vsSource += "\n <td><input class=\"toMap\" type=\"text\"></input></td>";
+	vsSource += "\n <td><select class=\"crudDvs\">";
+	vsSource += "\n  <option value=\"r\" label=\"select\"></option>";
+	vsSource += "\n  <option value=\"c\" label=\"insert\"></option>";
+	vsSource += "\n  <option value=\"u\" label=\"update\"></option>";
+	vsSource += "\n  <option value=\"d\" label=\"delete\"></option>";
+	vsSource += "\n </select></td>";
 	vsSource += "\n <td class=\"rowDeleteTd\">";
 	vsSource += "\n  <img onclick=\"fn_queryRowDelete(this)\"";
 	vsSource += "class=\"rowDelete\" width=\"20\" src=\"<c:url value='/images/object/img_subtraction.png'/>\"/>";
@@ -101,7 +126,7 @@ fn_queryRowAdd = function(){
  * event : 적용 클릭
  * desc : 쿼리 및 업무를 저장한다.
  **************************************/
-fn_btnSaveClick = function(){
+fn_btnSaveClick = function(){debugger;
 
 	var voDataList = [];
 	 
@@ -110,12 +135,13 @@ fn_btnSaveClick = function(){
 	
 	for (var i=0; i<vnCount; i++){
 		var voTrInfo = voTrList.eq(i);
+		
 		var vjData = {
 				"WRK_ID" : voTrInfo.find(".wrkId").val(),
 				"QUERY" : voTrInfo.find(".query").val(),
 				"FROM_MAP" : voTrInfo.find(".fromMap").val(),
 				"TO_MAP" : voTrInfo.find(".toMap").val(),
-				
+				"CRUD_DVS" : voTrInfo.find(".crudDvs").val()
 		}
 		
 		voDataList.push(vjData);
@@ -142,14 +168,16 @@ fn_btnSaveClick = function(){
  				<col width="250px"/>
  				<col width="150px"/>
  				<col width="150px"/>
+ 				<col width="150px"/>
  				<col width="50px"/>
  			</colgroup>
  			<thead>
  				<tr>
- 					<th>업무명</th>
+ 					<th>업무ID</th>
  					<th>쿼리</th>
- 					<th>from</th>
- 					<th>to</th>
+ 					<th>FROM DATA</th>
+ 					<th>TO DATA</th>
+ 					<th>CRUD</th>
  				</tr>
  			</thead>
  			<tbody>

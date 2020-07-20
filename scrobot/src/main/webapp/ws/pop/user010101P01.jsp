@@ -39,7 +39,7 @@
                 data: vjLoginInfo,
                 success: function(data){
                     if(data == "Y"){
-                    	robot.alert("로그인 되었습니다.","","","fn_retrieveLoginAlertCallBack")
+                    	robot.alert("로그인 되었습니다.","","","callBack.fn_retrieveLoginAlertCallBack")
                     } else{
                     	robot.alert("ID 또는 비밀번호를 확인하시기 바랍니다.")
                     }
