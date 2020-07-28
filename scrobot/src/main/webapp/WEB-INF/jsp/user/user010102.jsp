@@ -83,7 +83,7 @@
         			</tr>
         			<tr>
         				<td class="tbtd_caption">비밀번호</td>
-        				<td class="tbtd_content"><input type="text" name="pass" id="pass"></td>
+        				<td class="tbtd_content"><input type="password" name="pass" id="pass"></td>
         			</tr>
 
         		</table>

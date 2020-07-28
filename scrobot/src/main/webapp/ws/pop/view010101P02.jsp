@@ -71,7 +71,7 @@ $(document).ready(function(){
 			vsSource += "\n</tr>";
 		}
 		
-		debugger;
+		
 		$("#queryList tbody").append(vsSource);
 		for(var i=0; i<voMapInfo.length; i++){
 			$(".crudDvs").eq(i).val(voMapInfo[i].CRUD_DVS).prop("selected",true);
@@ -126,7 +126,7 @@ fn_queryRowAdd = function(){
  * event : 적용 클릭
  * desc : 쿼리 및 업무를 저장한다.
  **************************************/
-fn_btnSaveClick = function(){debugger;
+fn_btnSaveClick = function(){
 
 	var voDataList = [];
 	 

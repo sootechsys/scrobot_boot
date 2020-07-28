@@ -141,7 +141,7 @@ dblclick.fn_tdDbClick = function(param) {
    
 
 dblclick.fn_buttonOnDblClick = function(param){ //button
-	robot.prompt("버튼명입력","버튼명을 입력하시오",["버튼명"],"","","callBack.fn_buttonOnDblClickCallBack");
+	robot.prompt("버튼명입력","버튼명을 입력하시오",[{"버튼명":param.value}],"","","callBack.fn_buttonOnDblClickCallBack");
 
 	voPromptObject = param;
 	}

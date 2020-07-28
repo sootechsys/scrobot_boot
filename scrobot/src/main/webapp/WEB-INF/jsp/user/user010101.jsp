@@ -25,6 +25,66 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>userPage</title>
     <link type="text/css" rel="stylesheet" href="<c:url value='/css/sample.css'/>"/>
+    
+    
+    <style>
+   
+   
+#div_login{
+	width:350px;
+	background: white;
+	padding: 30px 30px 10px 30px;
+	box-shadow:  0px 0px 10px 3px grey;
+}
+
+#div_login_title{
+	margin-bottom: 20px;
+	border-bottom: 2px solid #C4CFED;
+	position:relative;
+	
+}
+
+#span_login_title{
+	display:inline-block;
+	font-size: 13pt;
+	font-weight: 900;
+	margin-bottom: 20px;
+	
+}
+
+#tbl_login_table{
+	font-size: 1.4em;
+	font-weight: bold;
+	text-align: left;
+}
+
+#tbl_login_table td{
+	height:40px;
+}
+
+#tbl_login_table input{
+	border: 1px solid #6486DF;
+	height:30px;
+	width:210px;
+}
+
+#tbl_login_table img{
+	border: 1px solid #6486DF;
+	cursor:pointer;
+}
+
+#div_login_table{
+	position:relative;
+}
+
+#div_login_button{
+	position:relative;
+	text-align: right;
+	margin:10px 5px 10px 0px;
+}
+   
+    </style>
+    
     <script src="https://code.jquery.com/jquery-2.2.1.js"></script>
     <script type="text/javascript" src="./js/scrobot.js" ></script> 
     <script type="text/javaScript" language="javascript" defer="defer">
@@ -39,7 +99,7 @@
                 data: vjLoginInfo,
                 success: function(data){
                     if(data == "Y"){
-                    	window.location.href = "/viewEdit.do";
+                    	window.location.href = "/main.do";
                     } else{
                     	robot.alert("ID 또는 비밀번호를 확인하시기 바랍니다.")
                     }
@@ -57,50 +117,41 @@
     </script>
 </head>
 
-<body style="text-align:center; margin:0 auto; display:inline; ">
+<body style="text-align:center; margin:0 auto; display:inline; background:#f7f7f7 ">
     <form:form id="loginForm" name="loginForm" method="post">
-        <div id="content_pop" style="position:absolute; left:50%; transform:translateX(-50%); top:30%">
+        <div id="div_login" style="position:absolute; left:45%; transform:translateX(-50%); top:30%">
         	<!-- 타이틀 -->
-        	<div id="title">
-        		<ul>
-        			<li><img src="<c:url value='/images/egovframework/example/title_dot.gif'/>" alt=""/>로그인</li>
-        		</ul>
+        	<div id="div_login_title" style="text-align: left;">
+        		<span id="span_login_title">Log-in</span>
         	</div>
         	<!-- // 타이틀 -->
 
-        	<div id="table">
-        		<table width="100%" border="1" cellpadding="0" cellspacing="0" style="bordercolor:#D3E2EC; bordercolordark:#FFFFFF; BORDER-TOP:#C2D0DB 2px solid; BORDER-LEFT:#ffffff 1px solid; BORDER-RIGHT:#ffffff 1px solid; BORDER-BOTTOM:#C2D0DB 1px solid; border-collapse: collapse;">
+        	<div id="div_login_table">
+        		<table id="tbl_login_table" width="100%" cellpadding="0" cellspacing="0">
         			<colgroup>
-        				<col width="100"/>
-        				<col width="100"/>
+        				<col width="30"/>
+        				<col width="90"/>
+        				<col width="80"/>
         			</colgroup>
         			<tr>
-        				<td class="tbtd_caption">ID</td>
-        				<td class="tbtd_content"><input type="text" name ="id" id="id"></text></td>
+        				<td>ID</td>
+        				<td><input type="text" name ="id" id="id"></text></td>
+        				<td rowspan="2"><img src="<c:url value='/images/cmmn/btn_login.png'/>" onclick="fn_retrieveLogin();"/>
+                      </span></td>
         			</tr>
         			<tr>
-        				<td class="tbtd_caption">비밀번호</td>
-        				<td class="tbtd_content"><input type="text" name="pass" id="pass"></td>
+        				<td>PW</td>
+        				<td><input type="password" name="pass" id="pass"></td>
         			</tr>
 
         		</table>
         	</div>
         	<!-- /List -->
-        	<div id="sysbtn">
-        	  <ul>
-        	      <li>
-        	          <span class="btn_blue_l">
-        	              <a href="/moveJoinForm.do">회원가입</a>
-                          <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-                      </span>
-                  </li>
-                  <li>
-        	          <span class="btn_blue_l">
-        	              <a href="javascript:fn_retrieveLogin();">로그인</a>
-                          <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-                      </span>
-                  </li>
-              </ul>
+        	<div id="div_login_button">
+        	  <span>
+        	     <a href="/moveJoinForm.do" style="color:blue;">회원가입</a>
+              </span>
+                  
         	</div>
         </div>
     </form:form>

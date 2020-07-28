@@ -23,30 +23,27 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>edit</title>
-
 <style>
 
-  </style>
+#div_main img{
+	cursor:pointer;
+	margin-left: 20px;
+	border: 1px solid #2B7DA5;
+	border-radius: 5%;
+}
+
+</style>
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <script type="text/javaScript" language="javascript" defer="defer">
 
 </script>
 </head>
 
-<body id="LblockBody" onselectstart="return false">
-	<div id="view010101">
-		<jsp:include page="../cmm/scrobotheader.jsp" />
-		<jsp:include page="../cmm/scrobotleft.jsp" flush="false"/>
-
-
-
-	<form:form id="creationForm" name="creationForm" onsubmit ="return false;">
-		<div id="div_creationForm">
-			<div id="creationTable" > <!-- onclick="fn_creationClick()" -->
-	
-			
-			</div>
-		</div>
-	</form:form>
+<body>
+	<div id="div_main" style="position:absolute; left:45%; transform:translateX(-50%); top:30%">
+		<img src="<c:url value='/images/cmmn/creationPrj.png'/>" onclick="location.href='/createPrj.do'"/>
+		<img src="<c:url value='/images/cmmn/viewEdit.png'/>" onclick="location.href='/viewEdit.do'"/>
+		<img src="<c:url value='/images/cmmn/devFile.png'/>"  onclick="location.href='/devFile.do'"/>
 	</div>
 	
 

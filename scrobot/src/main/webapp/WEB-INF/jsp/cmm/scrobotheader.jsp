@@ -33,6 +33,7 @@
 		position:fixed;
 		width:100%;
 		background: linear-gradient( to bottom, #dce1e7, #c7cad1 );
+		top:0px;
 	}
 	
 	.nav-item {
@@ -120,6 +121,7 @@
 <script type="text/javascript" src="./js/focusOut.js" ></script> 
 <script type="text/javascript" src="./js/onclick.js" ></script> 
 <script type="text/javascript" src="./js/outline.js" ></script> 
+<script type="text/javascript" src="./js/colResizable.min.js" ></script>
 <script type="text/javascript" src="./js/scrobot.js" ></script> 
 <script type="text/javascript" src="./js/table.js" ></script> 
 <script src ="./js/colResizable-1.6.js"></script>
@@ -271,11 +273,11 @@ fn_tdMouseUp = function(e){
 
 fn_tdMouseOver = function(e){
 	if(vsMouseDownYn == "Y"){
-		var vnRow = $(e.parentElement).attr("row");
-		var vnCol = $(e).attr("shell");
+		var vnRow = Number($(e.parentElement).attr("row"));
+		var vnCol = Number($(e).attr("shell"));
 		
-		var vnStartRow = vsMouseDownInfo.row;
-		var vnStartCol = vsMouseDownInfo.col;
+		var vnStartRow = Number(vsMouseDownInfo.row);
+		var vnStartCol = Number(vsMouseDownInfo.col);
 		var vnChange = 0;
 		
 		focusOut.All();	
@@ -297,9 +299,9 @@ fn_tdMouseOver = function(e){
 				
 				var vsTableID = $(e).parent().parent().parent().attr("id");
 				
-				if($("#"+vsTableID+" [row="+i+"] [shell="+j+"]").css("display") == "none"){
+				/* if($("#"+vsTableID+" [row="+i+"] [shell="+j+"]").css("display") == "none"){
 					continue;
-				}
+				} */
 				$("#"+vsTableID+" [row="+i+"] [shell="+j+"]").attr("tableFocus","false");
 				$("#"+vsTableID+" [row="+i+"] [shell="+j+"]").attr("tableFocus","true");
 			}

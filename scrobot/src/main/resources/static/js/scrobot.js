@@ -19,8 +19,15 @@ robot.prompt = function(header, msg, ele, btn1, btn2, callBack){
 	}
 	var vsSource = "<h3>"+msg+"</h3><br><br>";
 	for(var i=0; i<ele.length; i++){
-		vsSource += "<span>"+ele[i]+" : "+"</span>";
-		vsSource += "<input class=\"prompt_input\" type=\"text\"></input><br><br>";
+		if(typeof(ele[i]) =="string"){
+			vsSource += "<span>"+ele[i]+" : "+"</span>";
+			vsSource += "<input class=\"prompt_input\" type=\"text\"></input><br><br>";
+		} else if(typeof(ele[i]) =="object"){
+			var key = Object.keys(ele[i])[0];
+			vsSource += "<span>"+key+" : "+"</span>";
+			vsSource += "<input class=\"prompt_input\" type=\"text\" value=\""+ele[i][key]+"\"></input><br><br>";
+		}
+		
 	}
 	
 	vsSource += "<br>"
@@ -467,6 +474,36 @@ robot.objectForRecursion = function(info,vjParam){
 	return info;
 }
 
+
+robot.sysdate = function(param){
+	var d = new Date();
+	var year = d.getFullYear();
+	var month = d.getMonth()+1;
+	var date = d.getDate();
+	var hours = d.getHours();
+	var minutes = d.getMinutes();
+	var seconds = d.getSeconds();
+	var milsec = d.getMilliseconds();
+	
+	month = robot.sysdateSetting(month);
+	date = robot.sysdateSetting(date);
+	hours = robot.sysdateSetting(hours);
+	minutes = robot.sysdateSetting(minutes);
+	seconds = robot.sysdateSetting(month);
+	
+	if(param == null){
+		param = "";
+	}
+	return param+year+month+date+hours+minutes+seconds+milsec;
+}
+
+robot.sysdateSetting = function(param){
+	if(String(param).length == 1){
+		return "0"+param;
+	} else {
+		return param;
+	}
+}
 
 
 

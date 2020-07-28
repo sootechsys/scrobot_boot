@@ -39,8 +39,9 @@ import scrobot.EgovAbstractMapper;
  *  Copyright (C) by MOPAS All right reserved.
  */
 
-@Repository("view010101Service")
-public class View010101Service extends EgovAbstractMapper {
+@Repository("view010102Service")
+public class View010102Service extends EgovAbstractMapper {
+	
 	
 	/**
 	 * 
@@ -48,13 +49,8 @@ public class View010101Service extends EgovAbstractMapper {
 	 * @return 등록 결과
 	 * @exception Exception
 	 */
-	public void registViewDrawWrk(Map<String, Object> param) throws Exception {
-		if(param.get("urlDvs").equals("JAR")) {
-			insert("view010101lite.insertViewDrawWrk", param);
-		} else {
-			insert("view010101.insertViewDrawWrk", param);
-		}
-	    
+	public void savePrj(Map<String, Object> param) throws Exception {
+		insert("view010102.insertPrj", param);
 	}
 	
 	/**
@@ -63,13 +59,8 @@ public class View010101Service extends EgovAbstractMapper {
 	 * @return 등록 결과
 	 * @exception Exception
 	 */
-	public void registViewDrawWrkHistry(Map<String, Object> param) throws Exception {
-		if(param.get("urlDvs").equals("JAR")) {
-			insert("view010101lite.insertViewDrawWrkHistry", param);
-		} else {
-			insert("view010101.insertViewDrawWrkHistry", param);
-		}
-	    
+	public void registMenu(Map<String, Object> param) throws Exception {
+		insert("view010102.insertMenu", param);
 	}
 	
 	/**
@@ -78,39 +69,20 @@ public class View010101Service extends EgovAbstractMapper {
 	 * @return 등록 결과
 	 * @exception Exception
 	 */
-	public void registDevSource(Map<String, Object> param) throws Exception {
-		
-		List<Map<String, Object>> devSourceList = (List<Map<String, Object>>) param.get("devSource");
-		
-		if(devSourceList.size() == 0) {
-			return;
-		}
-		
-		String key [] = new String[devSourceList.size()];
-		
-		for(int i=0; i<devSourceList.size(); i++) {
-			
-			
-			Map<String, Object> map = devSourceList.get(i);
-			
-			map.put("userId",param.get("userId"));
-			map.put("viewId",param.get("viewId"));
-			
-			if(param.get("urlDvs").equals("JAR")) {
-				insert("view010101lite.insertDevSource", map);
-			} else {
-				insert("view010101.insertDevSource", map);
-			}
-			
-			key[i] = map.get("WRK_ID").toString();
-			
-		}
-		
-		param.put("deleteKey", key);
-		
-		delete("view010101lite.deleteDevSource", param);
-	    
+	public void deleteMenu(Map<String, Object> param) throws Exception {
+		insert("view010102.deleteMenu", param);
 	}
+	
+	/**
+	 * 
+	 * @param vo - 등록할 정보가 담긴 SampleVO
+	 * @return 등록 결과
+	 * @exception Exception
+	 */
+	public List<Map<String,Object>> retrieveMenuList(Map<String, Object> param) throws Exception {
+		return selectList("view010102.retrieveMenuList", param);
+	}
+
 
 	
 

@@ -48,15 +48,24 @@ public class View010101Controller {
 	 * 화면그리기 화면을 조회한다.
 	 */
 	@RequestMapping(value = "/viewEdit.do", method = RequestMethod.GET, produces = "application/text; charset=utf8" )
-	public String main(HttpServletRequest request) throws Exception {
+	public ModelAndView main(HttpServletRequest request) throws Exception {
 		
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		
+		
+		
 		if(userId != null) {
-			return "view/view010101";
+			
+			mav.addObject("viewDvs","viewEdit");
+			mav.setViewName("view/view0101");
 		} else {
-			return "forward:/";
+			mav.setViewName("user/user010101");
 		}
+		
+		return mav;
 		
 	}
 	

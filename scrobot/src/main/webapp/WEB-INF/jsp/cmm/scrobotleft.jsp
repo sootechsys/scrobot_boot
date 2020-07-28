@@ -89,7 +89,7 @@
 
 
 
-#div_propertyTable{
+.div_propertyTable{
 	position:relative;
 	margin-top:100px;
 	background-color: #bbc2d5;
@@ -98,13 +98,13 @@
 	
 }
 
-#div_propertyTable h4{
+.div_propertyTable h4{
 	position:relative;
 	padding-top:10px;
 }
 
 
-#propertyTable{
+.propertyTable{
 	display:block;
 	width:90%; 
 	align: center;
@@ -114,22 +114,26 @@
 	overflow:auto;
 }
 
-#propertyTable tr:not(:nth-child(6)){
+.propertyTable tr:not(:nth-child(6)){
 	border-bottom:1px solid black;
 }
 
 
-#propertyTable tr td:first-child{
+.propertyTable tr td:first-child{
 	border-right:1px solid black;
 }
 
-#propertyTable tr td{
+.propertyTable tr td{
 	padding-left:5px;
 }
 
 
-#propertyTable input{
+.propertyTable input{
 	border:none;
+}
+
+.propertyTable select{
+	width:100px;
 }
 
 .ibx_property{
@@ -429,7 +433,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="" onclick="queryCreation();">
+					<td class="" onclick="createCompo.queryCreation();">
 						<img src="<c:url value='/images/object/icon_table.png'/>" title="테이블생성"/>
 					</td>
 				</tr>
@@ -480,10 +484,29 @@
 				</tr>
 			</table>
 		</div>
-		
-		<div id="div_propertyTable">
+<!-- 		
+		<div id="div_submissionTable" class="div_propertyTable">
 			<h4>◎ Property</h4>
-			<table id="propertyTable">
+			<table id="submissionTable" class="propertyTable">
+				<tbody>
+					<tr>
+						<td>SUBMISSION</td>
+						<td>
+							<select id="WRK_ID">
+
+							</select>
+						</td>
+					</tr>
+				</tbody>
+				
+			</table>
+
+		</div> -->
+		
+		
+		<div id="div_propertyTable" class="div_propertyTable">
+			<h4>◎ Property</h4>
+			<table id="propertyTable" class="propertyTable">
 				<tbody>
 					<tr>
 						<td>id</td>
@@ -523,23 +546,7 @@
 		</div>
 		
 		
-		<div id="div_submissionTable">
-			<h4>◎ Property</h4>
-			<table id="submissionTable">
-				<tbody>
-					<tr>
-						<td>SUBMISSION</td>
-						<td>
-							<select id="WRK_ID">
-
-							</select>
-						</td>
-					</tr>
-				</tbody>
-				
-			</table>
-
-		</div>
+		
 		
 	</div>
 

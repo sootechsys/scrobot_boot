@@ -23,7 +23,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>edit</title>
-
 <style>
 
   </style>
@@ -32,23 +31,11 @@
 </script>
 </head>
 
-<body id="LblockBody" onselectstart="return false">
-	<div id="view010101">
-		<jsp:include page="../cmm/scrobotheader.jsp" />
-		<jsp:include page="../cmm/scrobotleft.jsp" flush="false"/>
-
-
-
-	<form:form id="creationForm" name="creationForm" onsubmit ="return false;">
-		<div id="div_creationForm">
-			<div id="creationTable" > <!-- onclick="fn_creationClick()" -->
-	
-			
-			</div>
-		</div>
-	</form:form>
+<body>
+	<div id="view010102">
+		<jsp:include page="../cmm/creationPrj_header.jsp" />
+		<jsp:include page="../cmm/creationPrjLeft.jsp" />
 	</div>
 	
-
 </body>
 </html>

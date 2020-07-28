@@ -20,11 +20,9 @@ fn_makeCheckBox = function(){
 
 fn_updateBox = function(){
 	debugger;
-	var node = $("#node").val();
+	var nodeId = $("#node").val();
 	
-	$("#"+node).remove();
-	
-	callBack.boxUpdateCallBack("checkbox");
+	callBack.boxUpdateCallBack("checkbox",nodeId);
 } 
 
 $(document).ready(function(){

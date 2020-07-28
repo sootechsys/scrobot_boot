@@ -97,7 +97,7 @@ public class User010101Controller {
 		  
 		  String userId = (String) session.getAttribute("userId");
 		  if(userId != null) {
-			  return "forward:/viewEdit.do";
+			  return "cmm/main";
 		  } else {
 			  return "user/user010101";
 		  }
@@ -111,9 +111,9 @@ public class User010101Controller {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/test.do", method = RequestMethod.GET, produces = "application/text; charset=utf8" )
+	@RequestMapping(value = "/main.do", method = RequestMethod.GET, produces = "application/text; charset=utf8" )
 	public String mainTest(HttpServletRequest request) throws Exception {
-		  return "user/testDetail";
+		  return "cmm/main";
 	}
 	
 	

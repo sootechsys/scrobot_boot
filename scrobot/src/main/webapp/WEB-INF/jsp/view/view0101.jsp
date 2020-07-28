@@ -23,31 +23,37 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>edit</title>
-
 <style>
 
   </style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">  
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <script type="text/javaScript" language="javascript" defer="defer">
 
 </script>
 </head>
 
-<body id="LblockBody" onselectstart="return false">
-	<div id="view010101">
-		<jsp:include page="../cmm/scrobotheader.jsp" />
-		<jsp:include page="../cmm/scrobotleft.jsp" flush="false"/>
-
-
-
-	<form:form id="creationForm" name="creationForm" onsubmit ="return false;">
-		<div id="div_creationForm">
-			<div id="creationTable" > <!-- onclick="fn_creationClick()" -->
-	
+<body>
+	<jsp:include page="../cmm/scrobotRight.jsp" />
+	<jsp:include page="../view/view010101.jsp" />
+	<jsp:include page="../view/view010102.jsp" />
+	<jsp:include page="../view/view010103.jsp" />
+	<c:choose>
+		<c:when test="${viewDvs eq 'viewEdit'}">
 			
-			</div>
-		</div>
-	</form:form>
-	</div>
+		</c:when>
+		<c:when test="${viewDvs eq 'creationPrj'}">
+			
+		</c:when>
+		<c:when test="${viewDvs eq 'devFile'}">
+			
+		</c:when>
+	
+	</c:choose>
+
+
+
+	
 	
 
 </body>
