@@ -210,11 +210,15 @@
 		
 	  
 }
-	
+  
+
+  
+  
+  
   /**********************************
   수정  프로세스 
   ***********************************/
-  infoUpdate = function(){
+  infoUpdate = function(){ debugger;
   	var vsCompoId = $("#ibx_propertyTable_id").val();
   	var vsCompoClass = $("#ibx_propertyTable_class").val();
   	var vsCompoName = $("#ibx_propertyTable_name").val();
@@ -398,10 +402,8 @@
   		
   	}		
   }//검색 프로세스 end
-
-
-
-	
+  
+  
 </script>
 
 </head>

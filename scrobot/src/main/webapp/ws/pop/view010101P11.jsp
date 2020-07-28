@@ -20,10 +20,9 @@ fn_makeRadioBox = function(){
 
 fn_updateBox = function(){
 	
-	var node = $("#node").val();
+	var nodeId = $("#node").val();
 	
-	$("#"+node).remove();
-	callBack.boxUpdateCallBack("radio");
+	callBack.boxUpdateCallBack("radio",nodeId);
 } 
 
 $(document).ready(function(){

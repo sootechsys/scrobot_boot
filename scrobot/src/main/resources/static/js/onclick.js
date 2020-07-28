@@ -13,7 +13,7 @@ onclick.focus = function(param,e){
 	
 	if(param != 1){ //shift 눌리지 않음
 		//
-		if(vsCompoDvs == "td"){
+		if(vsCompoDvs == "td"){debugger;
 			vsMouseDownYn = "N";
 			var vitdCount = $("td[tableFocus=true]").length;
 			if(vitdCount == 0){
@@ -28,20 +28,6 @@ onclick.focus = function(param,e){
 			}
 				
 			
-		}
-		else if(vsCompoDvs == "portlet-header"){
-			
-			if($(e.target).attr("focus") == "true"){
-				
-				$(e.target).attr("focus","false"); 
-				$(e.target).attr("mainFocus","false"); 
-				
-			} else if($(e.target).attr("focus") == "false"){
-				focusOut.All();
-				$(e.target).attr("focus","true"); 
-				$(e.target).attr("mainFocus","true");
-				
-			}
 		}
 		else if(vsCompoDvs == "div_content"){
 		
@@ -105,6 +91,17 @@ onclick.focus = function(param,e){
 			vbTitleDragCheck = false;
 			
 			
+		
+		}
+		else if(vsCompoDvs == "div_table"){
+			
+			if($(e.target).attr("focus") == "true"){
+				$(e.target).attr("focus","false"); 
+				
+			} else if($(e.target).attr("focus") == "false"){
+				focusOut.All();
+				$(e.target).attr("focus","true"); 
+			}
 		}
 		else if(vsCompoDvs == "div_checkbox"){
 			if($(e.target).attr("focus") == "true"){
@@ -113,49 +110,24 @@ onclick.focus = function(param,e){
 			} else if($(e.target).attr("focus") == "false"){
 				focusOut.All();
 				$(e.target).attr("focus","true"); 
-
-				
 			}
-		}else if(vsCompoDvs == "div_checkbox_sub"){
+		}
+		else if(vsCompoDvs == "div_radio"){
 			if($(e.target).attr("focus") == "true"){
 				$(e.target).attr("focus","false"); 
 				
 			} else if($(e.target).attr("focus") == "false"){
 				focusOut.All();
 				$(e.target).attr("focus","true"); 
-
-				
 			}
-		}else if(vsCompoDvs == "div_checkbox_content"){
+		}
+		else if(vsCompoDvs == "portlet-header"){
 			if($(e.target).attr("focus") == "true"){
 				$(e.target).attr("focus","false"); 
 				
 			} else if($(e.target).attr("focus") == "false"){
 				focusOut.All();
 				$(e.target).attr("focus","true"); 
-
-				
-			}
-		}else if(vsCompoDvs == "div_radio"){
-			if($(e.target).attr("focus") == "true"){
-				$(e.target).attr("focus","false"); 
-				
-			} else if($(e.target).attr("focus") == "false"){
-				focusOut.All();
-				$(e.target).attr("focus","true"); 
-
-				
-			}
-		}else if(vsCompoDvs == "div_table"){
-			
-			if($(e.target).attr("focus") == "true"){
-				$(e.target).attr("focus","false"); 
-				
-			} else if($(e.target).attr("focus") == "false"){
-				focusOut.All();
-				$(e.target).attr("focus","true"); 
-
-				
 			}
 		}
 		
@@ -694,14 +666,7 @@ onclick.draw = function(tagName, param){
 
 	}
 	else if(tagName == "checkbox" || tagName =="radio"){
-		
-		debugger;
-		
-		var vsSource = "";
-		
 		var vnGroupCount = 0;
-		
-		//var stubCount = 0;
 		
 		if(tagName == "checkbox"){
 			vnGroupCount  = vnCheckGroupCount;
@@ -726,9 +691,6 @@ onclick.draw = function(tagName, param){
 	
 		var totalArray = new Array();	
 		var tableLength = $("#propertyTablePop > tbody > tr").length;
-	
-		var maxNum = 0;
-		var totalLength = 0;
 		
 		for(var i=0; i<=tableLength; i++){
 			var total = new Object();
@@ -742,91 +704,30 @@ onclick.draw = function(tagName, param){
 				labelLength = label.length;
 				total.value = value;
 				total.label = label;
-				total.labelLength = 40 + labelLength*10; // 각각 labelLength의 크기를 width 형식에 맞게 만든것.
+				total.labelLength = 50 + labelLength*10; // 각각 labelLength의 크기를 width 형식에 맞게 만든것.
 				
 				if(maxNum < labelLength){
 					maxNum = labelLength;
 				}
 				
-				totalLength += 40+labelLength*10;
+				totalLength += 70+labelLength*20;
 				//totalWidth += labelLength*10;
 			}
 			totalArray.push(total);
 		}
 		
 		var vsSource = "";
-		
-		vsSource += " <div id=\"div_"+tagName+""+vnGroupCount+"\" compoDvs=\"div_"+tagName+"\" class=\"div_"+tagName+"\" focus=false ";
-		
-		if(!focusOut.tableYn()){
-			vsSource += " style=\" top:"+onclick.fn_creationPosition()+"px; margin: 10px 0px 0px 10px; background-color:transparent; width:"+totalLength+"px; \"";
-		}
-		else{
-			vsSource += " style=\"position:relative; background-color:transparent; width:"+totalLength+"px; \"";
+		for(var i=0; i<totalArray.length; i++){
+			vsSource += "<div id=\"div_"+tagName+vnCheckCount+"\" compoDvs=\"div_"+tagName+"\" class=\"div_"+tagName+"\" focus=false style=\"position:relative;\" ondblclick=\"ondblclick.fn_BoxOnDblClick(this)\" \" >";
+			vsSource += "<input type=\""+tagName+"\" name=\""+vnGroupCount+"\" value=\""+totalArray[i].value+"\" label=\""+totalarray[i].label+"\"> ";
+			vsSource += "<label for=\""+totalArray[i].value+"\">"+totalArray[i].label+"</label>";
 		}
 		
-		vsSource += " ondblclick=\"dblclick.fn_BoxOnDblClick(this)\" >";
 		
-		if(direction == width){ // 한칸당 div1개
-			for(var i=0; i<=tableLength; i++){
-				if(i == 0){
-					continue;
-				}
-				else{
-					vsSource += "<div class=\"div_"+tagName+"_sub\" focus=false  style=\"width:"+totalArray[i].labelLength+"px; float:left;\" focus=false compoDvs=\"portlet-header\">";
-					vsSource += "<div class=\"portlet-header\">";
-					vsSource += "<input type=\""+tagName+"\" compoDvs=\""+tagName+"\"";
-					vsSource += " name=\"name"+vnGroupCount+"\" value=\""+totalArray[i].value+"\" label=\""+totalArray[i].label+"\" >"+totalArray[i].label+"</input>";
-					vsSource += "</div>";
-					vsSource += "</div>";
-				}
-			
-			}
-		}
-		else if(direction == height){ // div 첫칸에 몰빵  . 나머지div는 생성
-			for(var i=0; i<=tableLength; i++){
-				vsSource += "<div class=\"div_"+tagName+"_sub\">";
-				
-				if(i == 0){
-					for(var j=0; j<=tableLength; j++){
-						if(j == 0){ continue; }
-						else{
-							vsSource += "<div class=\"portlet-header\" style=\"\" focus=false  compoDvs=\"portlet-header\" >";
-							vsSource += "<input type=\""+tagName+"\" compoDvs=\""+tagName+"\"";
-							vsSource += " name=\"name"+vnGroupCount+"\" value=\""+totalArray[j].value+"\" label=\""+totalArray[j].label+"\" >"+totalArray[j].label+"</input>";	
-							vsSource += "</div>";
-						} 
-					}
-				}
-				
-				vsSource += "</div>";
-			}
-		}
-	
-		vsSource += "</div>";
-	
-		$("td[tableFocus=true]").css("text-align","left");
 		
-		if(!focusOut.tableYn()){
-			// div도 포커스가 없다면
-			if(!focusOut.divYn()){
-				$("#creationTable").append(vsSource);
-				onclick.fn_setformSize();
-			} else{
-				$("[compoDvs=div_content][mainfocus=true]").append(vsSource);
-				onclick.fn_setDivContentSize();
-			}
-			
-		// 포커스가 있다면 포커스잡힌 td에 생성
-		} else{
-			$("td[tableFocus=true]").append(vsSource);
-		}
 		
-		vnCheckGroupCount++;
 		
-		var div_popCount = ($(".div_pop").length)-1;
-		$("#div_pop"+div_popCount).remove();
-	
+		
 	}
 	
 	fn_saveClone();
@@ -834,7 +735,164 @@ onclick.draw = function(tagName, param){
 }
 
 
+onclick.redraw = function(compo,param){
+	debugger;
+	if(compo == "radio" || compo == "checkbox"){
+		
+		var BoxId = param; // 데이터를 삽입해야하는 박스 div
+		
+		var vnBoxId =0;
+		
+		if(BoxId.indexOf("radio") != -1){
+		vnBoxId = parseInt(BoxId.replace("div_radio",""));
+		}
+		else if(BoxId.indexOf("checkbox") != -1){
+		vnBoxId = parseInt(BoxId.replace("div_checkbox",""));
+		}
+		
+		var totalArray = new Array();	
+		
+		var propertyTablePopLength = $("#propertyTablePop > tbody > tr").length;
+		var checkboxLength = $($("#"+BoxId).children().children().children().children("input")).length;
+		
+		var totalLength = 0;
+		var maxNum = 0;
+		for(var i=0; i<=propertyTablePopLength; i++){
+			var total = new Object();
+			
+			if(i==0){continue;}
+			else{
+				var value = $("#propertyTablePop > tbody > tr:nth-child("+i+") > td:nth-child(1) > input[name=value]").val();
+				var label = $("#propertyTablePop > tbody > tr:nth-child("+i+") > td:nth-child(2) > input[name=label]").val();
+				var labelLength = label.length;
+				total.value = value;
+				total.label = label;
+				total.labelLength = 50 + labelLength*10; // 각각 labelLength의 크기를 width 형식에 맞게 만든것.
+				
+				if(maxNum < labelLength){
+					maxNum = labelLength;
+				}
+				totalLength += 70+labelLength*20;
+			}
+			totalArray.push(total);
+		}
+		
+		
+		if(propertyTablePopLength == checkboxLength){ //추가사항 없을때
+			for(var i=0; i<propertyTablePopLength; i++){
+				$($("#"+BoxId).children().children().children().children().eq(i)).attr("value",totalArray[i].value);
+				$($("#"+BoxId).children().children().children().children().eq(i)).attr("label",totalArray[i].label);
+				$($("#"+BoxId).children().children().children().children("label").eq(i)).text(totalArray[i].label);
+			}			
+		}
+		else if(propertyTablePopLength > checkboxLength){ // 추가사항 있을 때
+			var vsSource = "";
+			for(var i=0; i<checkboxLength; i++){
+				$($("#"+BoxId).children().children().children().children().eq(i)).attr("value",totalArray[i].value);
+				$($("#"+BoxId).children().children().children().children().eq(i)).attr("label",totalArray[i].label);
+				$($("#"+BoxId).children().children().children().children("label").eq(i)).text(totalArray[i].label);
+			}
+			for(var i=checkboxLength; i<propertyTablePopLength; i++){
+				vsSource += "<div class=\"column\" focus=false  style=\"width:"+totalArray[i].labelLength+"px; float:left; background-color:white;\" focus=false compoDvs=\"column\">";
+				vsSource += "<div class=\"portlet\" style=\"background-color:transparent; width:"+totalArray[i].labelLength+"px;  border:none; \" focus=false  compoDvs=\"portlet\" >";
+				vsSource += "<div class=\"portlet-header\"  style=\" background-color:transparent; width:"+totalArray[i].labelLength+"px; float:left; background-color:transparent;\"  >";
+				vsSource += "<input type=\""+compo+"\"";
+				vsSource += " name=\"name"+vnBoxId+"\" value=\""+totalArray[i].value+"\" label=\""+totalArray[i].label+"\" ><label for=\""+totalArray[i].value+"\" >"+totalArray[i].label+"</label>";
+				vsSource += "</div>";
+				vsSource += "</div>";
+				vsSource += "</div>";
+			}
+			$($("#"+BoxId).children(".column").last()).after(vsSource);
+			
+			var div_popCount = ($(".div_pop").length)-1;
+			$("#div_pop"+div_popCount).remove();
+		}
+		else if(propertyTablePopLength < checkboxLength){ // 삭제사항 있을 때.
+			var vnCheckCount = checkboxLength - propertyTablePopLength;
+			
+			for(var i=0; i<vnCheckCount; i++){
+				$($("#"+BoxId).children(".column").last()).remove();
+				$($("#"+BoxId).children().children().children().children().eq(i)).attr("value",totalArray[i].value);
+				$($("#"+BoxId).children().children().children().children().eq(i)).attr("label",totalArray[i].label);
+				$($("#"+BoxId).children().children().children().children("label").eq(i)).text(totalArray[i].label);
+			}
+		}
+		
+		var div_popCount = ($(".div_pop").length)-1;
+		$("#div_pop"+div_popCount).remove();
+		onclick.fn_setDivContentSize();
+		onclick.fn_setformSize();
+	}
+	else if(compo == "select"){
+		
+		var BoxId = param;
+		
+		var value;
+		var label;
+		
+		var totalArray = new Array();	
+		var tableLength = $("#propertyTablePop > tbody > tr").length;
+		
+		for(var i=0; i<=tableLength; i++){
+			var total = new Object();
+			if(i == 0){ continue; }
+			else{
+				var total = new Object();
 
+				value = $("#propertyTablePop > tbody > tr:nth-child("+i+") > td:nth-child(1) > input").val();
+				label = $("#propertyTablePop > tbody > tr:nth-child("+i+") > td:nth-child(2) > input").val();
+				total.value = value;
+				total.label = label;
+		
+				totalArray.push(total);
+			}
+			
+		}
+		
+		var vnSelectBoxChildrenLength = $("#"+BoxId).children().length;
+		
+		if(tableLength == vnSelectBoxChildrenLength){ // select 옵션 추가삭제 없이 변경만
+			
+			for(var i=0; i<tableLength; i++){
+				$($("#"+BoxId).children().eq(i)).attr("value",totalArray[i].value);
+				$($("#"+BoxId).children().eq(i)).attr("label",totalArray[i].label);
+				$("#"+BoxId).children().eq(i).text(totalArray[i].label);
+			}
+			
+		}
+		else if(vnSelectBoxChildrenLength < tableLength){ // select option 추가 
+			for(var i=0; i<vnSelectBoxChildrenLength; i++){
+				$($("#"+BoxId).children().children().children().children().eq(i)).attr("value",totalArray[i].value);
+				$($("#"+BoxId).children().children().children().children().eq(i)).attr("label",totalArray[i].label);
+				$($("#"+BoxId).children().children().children().children("label").eq(i)).text(totalArray[i].label);
+			}
+			var vsSource = "";
+			for(var i=vnSelectBoxChildrenLength; i<tableLength; i++){
+				vsSource +="<option value=\""+totalArray[i].value+"\" label=\""+totalArray[i].label+"\" >"+totalArray[i].label+"</option>";
+			}
+			
+			$("#"+BoxId).children().last().after(vsSource);
+			
+		}
+		else if(tableLength < vnSelectBoxChildrenLength){ // select option 삭제
+			var vnOptionCount = vnSelectBoxChildrenLength - tableLength;
+			
+			for(var i=0; i<vnOptionCount; i++){
+				$($("#"+BoxId).children().last()).remove();
+				$($("#"+BoxId).children().eq(i)).attr("value",totalArray[i].value);
+				$($("#"+BoxId).children().eq(i)).attr("label",totalArray[i].label);
+				$($("#"+BoxId).children().eq(i)).text(totalArray[i].label);
+			}
+		}
+		
+		var div_popCount = ($(".div_pop").length)-1;
+		$("#div_pop"+div_popCount).remove();
+		onclick.fn_setDivContentSize();
+		onclick.fn_setformSize();
+	}
+		
+		
+}
 
 
 

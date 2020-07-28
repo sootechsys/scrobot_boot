@@ -38,7 +38,7 @@ dblclick.fn_SelectBoxOnDblClick = function(param){ //select
 
 }
 
-dblclick.fn_BoxOnDblClick = function(param){ //select
+dblclick.fn_BoxOnDblClick = function(param){ debugger;
 	var vnBoxLength = param.childElementCount-3;
 	var vsBoxDivId = param.id;
 	var vnBoxCount;
@@ -56,16 +56,29 @@ dblclick.fn_BoxOnDblClick = function(param){ //select
 	}
 
 	var totalArray = new Array();	
-	
+/*	
 	for(var i=1; i<=vnBoxLength; i++){
 		var total = new Object();
-		var value = $("#"+vsBoxDivId+" > input[name=name"+vnBoxCount+"]:nth-child("+i+")").val();
-		var label = $("#"+vsBoxDivId+" > input[name=name"+vnBoxCount+"]:nth-child("+i+")").attr("label");
+		var value = $(".portlet-header > input[cost="+i+"]").val();
+		var label = $(".portlet-header > input[cost="+i+"]").attr("label");
 		
 		total.value = value;
 		total.label = label;
 		
 		totalArray.push(total);
+	}*/
+	
+	var checkboxObjects = $("#"+vsBoxDivId).children().children().children().children("input");
+	
+	for(var i=0; i<checkboxObjects.length; i++){
+			var total = new Object();
+			var label = $(checkboxObjects[i]).attr("label");
+			var value = checkboxObjects[i].value;
+			
+			total.value = value;
+			total.label = label;
+			
+			totalArray.push(total);		
 	}
 	
 	

@@ -299,7 +299,7 @@ td[tableFocus="true"]{
 
 /* -----------------------checkbox */
 [compoDvs="div_checkbox"]{
-	width:150px;
+	/*width:150px;*/
 	position:absolute;
 }
 
@@ -313,53 +313,60 @@ td[tableFocus="true"]{
 	width:130px;
 }
 
-
-[focus="true"]{
-	border: 3px solid grey;
-}
-
-/* -----------------------checkbox */
-[compoDvs="div_checkbox_sub"]{
-	width:150px;
+[compoDvs="div_radio"]{
+	/*width:150px;*/
 	position:absolute;
-	float:left;
 }
 
-[compoDvs="div_checkbox_sub"]:hover{
+[compoDvs="div_radio"]:hover{
 	cursor:move;
 }
 
-[compoDvs="div_checkbox_sub"]{
+[compoDvs="div_radio"]{
 	text-align:left;
 	margin: 10px 10px 10px 10px;
 	width:130px;
 }
 
-
 [focus="true"]{
 	border: 3px solid grey;
 }
 
-/* -----------------------checkbox */
-[compoDvs="div_checkbox_content"]{
-	width:150px;
-	position:absolute;
-}
-
-[compoDvs="div_checkbox_content"]:hover{
-	cursor:move;
-}
-
-[compoDvs="div_checkbox_content"]{
-	text-align:left;
-	margin: 10px 10px 10px 10px;
-	width:130px;
+.div_checkbox{
+	background-color:white;
 }
 
 
-[focus="true"]{
-	border: 3px solid grey;
-}
+.column {
+    width: 200px;
+    float: left;
+    padding-bottom: 20px;
+    padding-right: 10px;
+  }
+  .portlet {
+    margin: 0 1em 1em 0;
+    padding: 0.3em;
+   
+  }
+  .portlet-header {
+    padding: 0.2em 0.3em;
+    margin-bottom: 0.5em;
+    position: relative;
+  }
+  .portlet-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -8px;
+  }
+  .portlet-content {
+    padding: 0.4em;
+  }
+  .portlet-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 50px;
+  }
 
 
 .ui-resizable-helper { border: 2px dotted #00F; }
@@ -445,26 +452,6 @@ tr[focus=true]{
 }
 
 
-/*   body {
-    min-width: 520px;
-  } */
-  /* 
-  .div_checkbox {
-    width: 170px;
-    float: left;
-    padding-bottom: 5px;
-  } */
-  .div_checkbox_sub {
-    margin: 0 1em 1em 0;
-    padding: 0.3em;
-  }
-
-  .portlet-placeholder {
-    border: 1px dotted black;
-    margin: 0 1em 1em 0;
-    height: 50px;
-  }
-  
 
 /* sortable css **/
 #sortable { list-style-type: none; margin: 0; padding: 0; }

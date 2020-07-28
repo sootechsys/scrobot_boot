@@ -492,7 +492,7 @@ tableEdit.addUp = function(){
 		
 	}
 	
-fn_saveClone();
+/* fn_saveClone(); */
 
 } // addUp end
 
@@ -671,7 +671,7 @@ tableEdit.addDown = function(){
 		
 	}
 		
-	fn_saveClone();
+	/* fn_saveClone(); */
 }
 
 
@@ -700,9 +700,12 @@ tableEdit.addLeft = function(){
 	
 	if(voTableArray[4] == 0){
 		for(var i=0; i<voTableArray[1]; i++){
-			$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td:first").before(vsBuffer);
+			$($("#"+voTableArray[0]+" > tbody > tr[row="+i+"] > td").eq(0)).before(vsBuffer);
 		}
-		tableEdit.trReset(voTableArray[0]);
+		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
+		var voTableArray2 = tableEdit.startInfo(voTableArray[0]);
+		tableEdit.Vector(voTableArray2[0],voTotal);
+		tableEdit.tdReset(voTableArray2[0],voTableArray2[1]);;
 	}
 	else if(voTableArray[4] != 0){
 		
@@ -865,7 +868,7 @@ tableEdit.addLeft = function(){
 		tableEdit.tdReset(voTableArray2[0],voTableArray2[1]);	
 	}
 	
-fn_saveClone();
+/* fn_saveClone(); */
 
 }
 	
@@ -894,7 +897,10 @@ tableEdit.addRight = function(){
 		for(var i=0; i<voTableArray[1]; i++){
 			$("#"+voTableArray[0]+"> tbody > tr[row="+i+"] > td:last").after(vsBuffer);
 		}
-		tableEdit.trReset(voTableArray[0]);
+		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
+		var voTableArray2 = tableEdit.startInfo(voTableArray[0]);
+		tableEdit.Vector(voTableArray2[0],voTotal);
+		tableEdit.tdReset(voTableArray2[0],voTableArray2[1]);
 	}
 	else if(voTableArray[4] != voTableArray[2]-1){
 		
@@ -1063,7 +1069,7 @@ tableEdit.addRight = function(){
 		
 		tableEdit.tdReset(voTableArray2[0],voTableArray2[1]);
 	}
-	fn_saveClone();
+	/* fn_saveClone(); */
 	
 }
 
@@ -1312,6 +1318,23 @@ tableEdit.oneDelete = function(check){
 					var vsInCheck = voTotal[i][a];
 					
 					if(vsInCheck.indexOf(":") != -1){
+						var voCheck = vsInCheck.split(":");
+						var vsRNum = voCheck[0];
+						var vsCNum = voCheck[1];
+						var vnRNum = parseInt(vsRNum.replace("r",""));
+						var vnCNum = parseInt(vsCNum.replace("c",""));
+						var vnCNumMin = vnCNum-1;
+						
+						if(vnCNum + a -1 >= voTableArray[4]){
+							voTotal[i][a] = "r"+vnRNum+":"+"c"+vnCNumMin;
+							for(var b=i; b<i+vnRNum; b++){
+								voTotal[b][voTableArray[4]] = "d";
+							}
+							break;
+						}
+						else {
+							continue;
+						}
 						
 					}
 					else if(vsInCheck.indexOf("r0") != -1){
@@ -1870,7 +1893,7 @@ tableEdit.colSpanDelete = function(check , FocusCol){
  * */
 tableEdit.rowSpanDelete = function(check, FocusRow){
 	
-	debugger; 
+	
 	
 	var focusRow = parseInt(FocusRow);
 	
@@ -1882,7 +1905,7 @@ tableEdit.rowSpanDelete = function(check, FocusRow){
 	}
 	
 	voTotal = tableEdit.SpanInfo(voTableArray);	
-	
+	debugger; 
 	if(check == 1){ // 행
 		
 		for(var i=voTableArray[3]; i<voTableArray[3]+focusRow; i++){ //tr rowSpan까지
@@ -2160,7 +2183,7 @@ tableEdit.rowSpanDelete = function(check, FocusRow){
 		
 		tableEdit.trReset(voTableArray[0]);
 		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
-		fn_saveClone();
+		/* fn_saveClone(); */
 		
 	}
 	else if(check == 2){ // 열
@@ -2378,7 +2401,7 @@ tableEdit.rowSpanDelete = function(check, FocusRow){
 		
 		tableEdit.trReset(voTableArray[0]);
 		tableEdit.tdReset(voTableArray[0],voTableArray[1]);
-		fn_saveClone();
+		/* fn_saveClone(); */
 	}
 }
 
@@ -2439,7 +2462,7 @@ tableEdit.dragColDelete = function(){
 	
 	tableEdit.trReset(voTableArray[0]);
 	tableEdit.tdReset(voTableArray[0],voTableArray[1]);
-	fn_saveClone();
+	/* fn_saveClone(); */
 	
 }
 
@@ -2500,7 +2523,7 @@ tableEdit.dragRowDelete = function(){
 	
 	tableEdit.trReset(voTableArray[0]);
 	tableEdit.tdReset(voTableArray[0],voTableArray[1]);
-	fn_saveClone();
+	/* fn_saveClone(); */
 	
 }
 
@@ -2544,6 +2567,8 @@ tableEdit.Merge = function(){
 	
 	var vnInputRowSpan = 0; // final rowSpan
 	var vnInputColSpan = 0; // final colSpan
+	
+	debugger;
 	
 	for(var i=0; i<voTableArray[1]; i++){
 		for(var j=0; j<voTableArray[2]; j++){
@@ -2771,6 +2796,9 @@ tableEdit.Divide = function(){
  		 }
  	 }
  	 else if(vnfocusShellCol == 0 && vnfocusShellRow == 0){ 
+ 		 
+ 		 alert("단일 셀 지정 분할은 준비되지 않은 기능입니다");
+ 		 
  		 //단일셀 분할
  		/* 1. 분할셀이 단일일때
 		  * 2. after해서 한줄 추가
@@ -2784,7 +2812,7 @@ tableEdit.Divide = function(){
 		
 		  * */
  		 	// 2번
-			var vsBuffer = "";
+/*			var vsBuffer = "";
 				vsBuffer += "\n  <td class=\"td\"";
 				vsBuffer += "shell = \""+voTableArray[4]+"\"";
 				vsBuffer += "style=\"height:30px; cursor:pointer\" tableFocus=false ";
@@ -2961,7 +2989,7 @@ tableEdit.Divide = function(){
 						$("#"+voTableArrayStart2[0]+"> tbody > tr[row="+i+"] > td[shell="+j+"]").attr("rowspan",viStup1);
 					}
 				}
-			}
+			}*/
  	 }
 }
 

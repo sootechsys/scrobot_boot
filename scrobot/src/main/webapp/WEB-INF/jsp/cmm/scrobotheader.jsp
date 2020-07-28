@@ -116,6 +116,9 @@
 <script type="text/javascript" src="./js/boxEdit.js" ></script> 
 <script type="text/javascript" src="./js/callBack.js" ></script> 
 <script type="text/javascript" src="./js/creationComponent.js" ></script> 
+<!-- <script type="text/javascript" src="./js/jquery-1.7.1.min.js" ></script>  -->
+<!-- <script type="text/javascript" src="./js/colResizable-1.6.js" ></script> -->
+<script type="text/javascript" src="./js/colResizable.min.js" ></script>
 <script type="text/javascript" src="./js/dblclick.js" ></script> 
 <script type="text/javascript" src="./js/focusOut.js" ></script> 
 <script type="text/javascript" src="./js/onclick.js" ></script> 
@@ -123,8 +126,8 @@
 <script type="text/javascript" src="./js/scrobot.js" ></script> 
 <script type="text/javascript" src="./js/table.js" ></script> 
 <!-- <script type="text/javascript" src="./js/sootechsys.js" ></script>  -->
-<script src ="./js/colResizable-1.6.js"></script>
-<script src ="./js/colResizable-1.6.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javaScript">
 
 
@@ -161,7 +164,10 @@ vnCloneIndex = 0;
 
 var shiftHold = 0;
 
+
 $(document).ready(function(){
+
+
 
 	$("#li_rollback").hover(function(){
 		 if($("#li_rollback img").css("opacity") == "1"){
@@ -264,7 +270,7 @@ fn_tdMouseDown = function(e){
 	vsMouseDownInfo.col = $(e).attr("shell");
 }
 	
-fn_tdMouseUp = function(e){
+fn_tdMouseUp = function(e){debugger;
 	
 		vsMouseDownYn = "N";
 		
@@ -272,11 +278,11 @@ fn_tdMouseUp = function(e){
 
 fn_tdMouseOver = function(e){
 	if(vsMouseDownYn == "Y"){
-		var vnRow = $(e.parentElement).attr("row");
-		var vnCol = $(e).attr("shell");
+		var vnRow = Number($(e.parentElement).attr("row"));
+		var vnCol = Number($(e).attr("shell"));
 		
-		var vnStartRow = vsMouseDownInfo.row;
-		var vnStartCol = vsMouseDownInfo.col;
+		var vnStartRow = Number(vsMouseDownInfo.row);
+		var vnStartCol = Number(vsMouseDownInfo.col);
 		var vnChange = 0;
 		
 		focusOut.All();	
@@ -298,9 +304,9 @@ fn_tdMouseOver = function(e){
 				
 				var vsTableID = $(e).parent().parent().parent().attr("id");
 				
-				if($("#"+vsTableID+" [row="+i+"] [shell="+j+"]").css("display") == "none"){
+				/* if($("#"+vsTableID+" [row="+i+"] [shell="+j+"]").css("display") == "none"){
 					continue;
-				}
+				} */
 				$("#"+vsTableID+" [row="+i+"] [shell="+j+"]").attr("tableFocus","false");
 				$("#"+vsTableID+" [row="+i+"] [shell="+j+"]").attr("tableFocus","true");
 			}
@@ -638,6 +644,11 @@ fn_logoutCallBack = function(param){
 		window.location.href = "/logout.do";
 	}
 }
+
+
+
+
+
 
 
 

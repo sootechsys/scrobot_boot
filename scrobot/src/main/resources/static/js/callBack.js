@@ -8,8 +8,8 @@ callBack.boxCreationCallBack = function(param){
 }
 
 /* box수정 CallBack */
-callBack.boxUpdateCallBack = function(param){
-	onclick.draw(param);
+callBack.boxUpdateCallBack = function(compo,param){
+	onclick.redraw(compo,param);
 }
 
 /* select박스 그리기 CallBack */
@@ -17,8 +17,8 @@ callBack.selectboxCreationCallBack = function(param){
 	onclick.draw("select");
 }
 /* select박스 수정 CallBack */
-callBack.selectUpdateCallBack = function(param){
-	onclick.draw(param);
+callBack.selectUpdateCallBack = function(compo,param){
+	onclick.redraw(compo,param);
 }
 
 /* 테이블그리기 CallBack */

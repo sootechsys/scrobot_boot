@@ -20,9 +20,7 @@ fn_makeSelectBox = function(){
 
 fn_updateSelectBox = function(){
 	var node = $("#node").val();
-	
-	$("#"+node).remove();
-	callBack.selectUpdateCallBack("select");
+	callBack.selectUpdateCallBack("select",node);
 } 
 
 
